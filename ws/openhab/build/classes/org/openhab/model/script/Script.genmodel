@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/org.openhab.model.script/src-gen" editDirectory="/org.openhab.model.script.edit/src"
+    editorDirectory="/org.openhab.model.script.editor/src" modelPluginID="org.openhab.model.script"
+    forceOverwrite="true" modelName="Script" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="org.openhab.model.script.edit"
+    editorPluginID="org.openhab.model.script.editor" runtimeVersion="2.8" usedGenPackages="../../../../../../org.eclipse.xtext.xbase/model/Xbase.genmodel#//xbase">
+  <genPackages prefix="Script" basePackage="org.openhab.model.script" disposableProviderFactory="true"
+      ecorePackage="Script.ecore#/">
+    <genClasses ecoreClass="Script.ecore#//Script"/>
+  </genPackages>
+</genmodel:GenModel>

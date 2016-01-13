@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rules" nsURI="http://www.openhab.org/model/rule/Rules" nsPrefix="rules">
+  <eClassifiers xsi:type="ecore:EClass" name="RuleModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
+        eType="#//Import" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+        eType="ecore:EClass ../../../../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+        eType="#//Rule" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Import">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rule">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eventtrigger" upperBound="-1"
+        eType="#//EventTrigger" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="script" eType="ecore:EClass ../../../../../../org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventTrigger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommandEventTrigger" eSuperTypes="#//EventTrigger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="item" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="command" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UpdateEventTrigger" eSuperTypes="#//EventTrigger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="item" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChangedEventTrigger" eSuperTypes="#//EventTrigger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="item" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oldState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newState" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimerTrigger" eSuperTypes="#//EventTrigger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cron" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemTrigger" eSuperTypes="#//EventTrigger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemOnStartupTrigger" eSuperTypes="#//SystemTrigger"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SystemOnShutdownTrigger" eSuperTypes="#//SystemTrigger"/>
+</ecore:EPackage>
