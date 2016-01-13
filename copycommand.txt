@@ -1,0 +1,6 @@
+xcopy D:\Home_Auto\raspberry\Latest\openHAB_Installer\openhab-master\bundles\persistence\org.openhab.persistence.sense\src\main\java /E
+
+
+xcopy D:\Home_Auto\raspberry\Latest\openHAB_Installer\openhab-master\bundles\persistence\org.openhab.persistence.mysql\src\main\java /E
+
+xcopy D:\Home_Auto\raspberry\Latest\openHAB_Installer\openhab-master\bundles\persistence\org.openhab.persistence.mysql\java /E
