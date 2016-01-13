@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.xml.type.internal.DataValue.URI.MalformedURIException"/>
+<fullyQualifiedTypeName name="com.openhab.core.dto.CloudMasterData"/>
+<fullyQualifiedTypeName name="org.openhab.model.script.internal.engine.ItemRegistryProvider"/>
+<fullyQualifiedTypeName name="java.lang.Throwable"/>
+</qualifiedTypeNameHistroy>
