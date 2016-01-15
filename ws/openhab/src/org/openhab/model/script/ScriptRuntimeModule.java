@@ -17,12 +17,7 @@ import org.eclipse.xtext.xbase.scoping.featurecalls.StaticImplicitMethodsFeature
 import org.openhab.core.scriptengine.Script;
 import org.openhab.model.script.internal.engine.ScriptImpl;
 import org.openhab.model.script.interpreter.ScriptInterpreter;
-import org.openhab.model.script.jvmmodel.ScriptIdentifiableSimpleNameProvider;
-import org.openhab.model.script.scoping.ActionClassLoader;
-import org.openhab.model.script.scoping.ActionClasspathBasedTypeScopeProvider;
-import org.openhab.model.script.scoping.ActionClasspathTypeProviderFactory;
 import org.openhab.model.script.scoping.ScriptExtensionClassNameProvider;
-import org.openhab.model.script.scoping.ScriptScopeProvider;
 import org.openhab.model.script.scoping.StateAndCommandProvider;
 
 /**
@@ -36,7 +31,8 @@ public class ScriptRuntimeModule extends org.openhab.model.script.AbstractScript
 	}
 	
 	public Class<? extends IdentifiableSimpleNameProvider> bindIdentifiableSimpleNameProvider() {
-		return ScriptIdentifiableSimpleNameProvider.class;
+		//return ScriptIdentifiableSimpleNameProvider.class;
+		return null;
 	}
 
 	public Class<? extends Script> bindScript() {

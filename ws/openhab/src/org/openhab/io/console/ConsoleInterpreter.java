@@ -24,7 +24,6 @@ import org.openhab.core.types.Command;
 import org.openhab.core.types.State;
 import org.openhab.core.types.TypeParser;
 import org.openhab.io.console.internal.ConsoleActivator;
-import org.openhab.io.multimedia.actions.Audio;
 
 import com.google.common.base.Joiner;
 
@@ -256,7 +255,7 @@ public class ConsoleInterpreter {
 			msg.append(" ");
 		}
 		try {
-			Audio.say(msg.toString());
+			//Audio.say(msg.toString());
 			console.println("Said: " + msg);
 		} catch(NoClassDefFoundError e) {
 			// The dependency to the Audio class is optional, so we have to handle the case that it is not there

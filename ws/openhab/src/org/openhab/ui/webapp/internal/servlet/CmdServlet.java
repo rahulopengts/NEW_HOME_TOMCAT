@@ -42,6 +42,8 @@ import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openhab.core.cache.AppCacheFactory;
+import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constant.CloudHomeAutoConstants;
 import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.dto.EventObject;
@@ -106,6 +108,12 @@ public class CmdServlet extends BaseServlet {
 		if(FolderObserver.CLOUD_MODE){
 			try{
 				
+				String siteName	=	(String)CloudSessionManager.getAttribute(CloudSessionManager.getSession((HttpServletRequest)req, (HttpServletResponse)res),CloudSessionManager.SITEMAPNAME );
+				System.out.println("\n CmdServlet->service->sitename->"+siteName);
+				
+//				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+//				cache.getIntoCache(sitemapName, masterData);
+
 				persistenceManager	=	(PersistenceManager)CloudSessionManager.getAttribute(CloudSessionManager.getSession((HttpServletRequest)req, (HttpServletResponse)res), CloudSessionManager.PERSISTENCEMANAGER);
 				ruleEngine	=	(RuleEngine)CloudSessionManager.getAttribute(CloudSessionManager.getSession((HttpServletRequest)req, (HttpServletResponse)res), CloudSessionManager.RULEENGINE);
 				cloudItemRegistry	=	validateAndGetItemRegistry((HttpServletRequest)req,(HttpServletResponse)res,cloudModelRepository);

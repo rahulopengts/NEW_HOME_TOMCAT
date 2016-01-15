@@ -17,6 +17,8 @@ public class CloudSessionManager {
 	public static final String PERSISTENCEMANAGER		=	"PERSISTENCEMANAGER";
 	
 	public static final String RULEENGINE		=	"RULEENGINE";
+	public static final String SITEMAPNAME	=	"SITEMAPNAME";
+	public static final String CLOUDMASTERDATA	=	"CLOUDMASTERDATA";
 	
 	public static HttpSession getSession(HttpServletRequest	request,HttpServletResponse response) throws  CloudException{
 		HttpSession session	=	null;

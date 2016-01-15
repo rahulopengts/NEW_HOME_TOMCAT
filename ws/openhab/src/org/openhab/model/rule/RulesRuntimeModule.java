@@ -16,7 +16,6 @@ import org.eclipse.xtext.xbase.featurecalls.IdentifiableSimpleNameProvider;
 import org.eclipse.xtext.xbase.scoping.featurecalls.StaticImplicitMethodsFeatureForTypeProvider.ExtensionClassNameProvider;
 import org.openhab.model.rule.scoping.RuleExtensionClassNameProvider;
 import org.openhab.model.rule.scoping.RulesScopeProvider;
-import org.openhab.model.script.jvmmodel.ScriptIdentifiableSimpleNameProvider;
 import org.openhab.model.script.scoping.ActionClassLoader;
 import org.openhab.model.script.scoping.ActionClasspathBasedTypeScopeProvider;
 import org.openhab.model.script.scoping.ActionClasspathTypeProviderFactory;
@@ -30,7 +29,8 @@ import org.openhab.model.script.scoping.StateAndCommandProvider;
 public class RulesRuntimeModule extends org.openhab.model.rule.AbstractRulesRuntimeModule {
 
 	public Class<? extends IdentifiableSimpleNameProvider> bindIdentifiableSimpleNameProvider() {
-		return ScriptIdentifiableSimpleNameProvider.class;
+		//return ScriptIdentifiableSimpleNameProvider.class;
+		return null;
 	}
 	
 	public Class<? extends ExtensionClassNameProvider> bindExtensionClassNameProvider() {

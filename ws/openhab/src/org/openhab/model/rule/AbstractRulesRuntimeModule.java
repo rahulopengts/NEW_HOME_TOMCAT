@@ -266,7 +266,8 @@ public abstract class AbstractRulesRuntimeModule extends DefaultRuntimeModule {
 
 	// contributed by org.eclipse.xtext.generator.xbase.XbaseGeneratorFragment
 	public Class<? extends org.eclipse.xtext.xbase.jvmmodel.IJvmModelInferrer> bindIJvmModelInferrer() {
-		return org.openhab.model.rule.jvmmodel.RulesJvmModelInferrer.class;
+		//return org.openhab.model.rule.jvmmodel.RulesJvmModelInferrer.class;
+		return null;
 	}
 
 }

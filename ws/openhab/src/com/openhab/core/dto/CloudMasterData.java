@@ -5,9 +5,27 @@ import java.util.EventObject;
 import org.openhab.core.items.ItemRegistry;
 import org.openhab.core.types.Command;
 import org.openhab.model.core.ModelRepository;
+import org.openhab.model.sitemap.SitemapProvider;
+import org.openhab.ui.webapp.internal.render.PageRenderer;
 
 public class CloudMasterData implements ICloudMasterData{
+	private SitemapProvider	siteMapProvider	=	null;
+	private PageRenderer	pageRenderer	=	null;
+	
+	public PageRenderer getPageRenderer() {
+		return pageRenderer;
+	}
+	public void setPageRenderer(PageRenderer pageRenderer) {
+		this.pageRenderer = pageRenderer;
+	}
+	public SitemapProvider getSiteMapProvider() {
+		return siteMapProvider;
+	}
+	public void setSiteMapProvider(SitemapProvider siteMapProvider) {
+		this.siteMapProvider = siteMapProvider;
+	}
 	private ItemRegistry	itemRegistry	=	null;
+	
 	public ItemRegistry getItemRegistry() {
 		return itemRegistry;
 	}

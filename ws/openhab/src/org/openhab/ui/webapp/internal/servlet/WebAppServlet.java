@@ -90,6 +90,8 @@ import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openhab.core.cache.AppCacheFactory;
+import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constant.CloudHomeAutoConstants;
 import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.messaging.mqtt.MessageBrokerService;
@@ -116,40 +118,40 @@ public class WebAppServlet extends BaseServlet {
 	/** the name of the servlet to be used in the URL */
 	public static final String SERVLET_NAME = "openhab.app";
 		
-	private PageRenderer renderer;
+	//private PageRenderer renderer;
 	
 	//CloudChange
-	private PageRenderer cloudRenderer;
+	//private PageRenderer cloudRenderer;
 
 	private EventPublisher	cloudEventPublisher	=	null;
-	private ModelRepository modelRepository	=	null;
+	//private ModelRepository modelRepository	=	null;
 	
 	//CloudChange
 	private MessageBrokerService messageBrokerService	=	null;
 	
-	protected SitemapProvider sitemapProvider;
+	//protected SitemapProvider sitemapProvider;
 	//CloudChange
-	protected SitemapProvider cloudSitemapProvider;
+	//protected SitemapProvider cloudSitemapProvider;
 	
-	private void setModelRepository(ModelRepository modelRepository){
-		this.modelRepository	=	modelRepository;
-	}
+//	private void setModelRepository(ModelRepository modelRepository){
+//		this.modelRepository	=	modelRepository;
+//	}
+//
+//	private void unsetModelRepository(ModelRepository modelRepository){
+//		this.modelRepository	=	null;
+//	}
 
-	private void unsetModelRepository(ModelRepository modelRepository){
-		this.modelRepository	=	null;
-	}
-
-	public void setSitemapProvider(SitemapProvider sitemapProvider) {
-		this.sitemapProvider = sitemapProvider;
-	}
-
-	public void unsetSitemapProvider(SitemapProvider sitemapProvider) {
-		this.sitemapProvider = null;
-	}
+//	public void setSitemapProvider(SitemapProvider sitemapProvider) {
+//		this.sitemapProvider = sitemapProvider;
+//	}
+//
+//	public void unsetSitemapProvider(SitemapProvider sitemapProvider) {
+//		this.sitemapProvider = null;
+//	}
 	
-	public void setPageRenderer(PageRenderer renderer) {
-		this.renderer = renderer;
-	}
+//	public void setPageRenderer(PageRenderer renderer) {
+//		this.renderer = renderer;
+//	}
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -194,14 +196,21 @@ public class WebAppServlet extends BaseServlet {
 		logger.debug("Servlet request received!");
 		//System.out.println("Servlet request received!");
 		// read request parameters
+		PageRenderer	renderer	=	null;
+		CloudMasterData	masterData	=	null;
+		SitemapProvider	sitemapProvider	=	null;
+		
 		String sitemapName = (String) req.getParameter("sitemap");
 		String widgetId = (String) req.getParameter("w");
 		boolean async = "true".equalsIgnoreCase((String) req.getParameter("__async"));
 		boolean poll = "true".equalsIgnoreCase((String) req.getParameter("poll"));
-
+		
+		
 		if(CloudHomeAutoConstants.CLOUD_MODE){
 		//System.out.println("\n WebAppServler - > service -> PageRendered "+renderer);
-		renderer	=	handleHttpRequest((HttpServletRequest)req, (HttpServletResponse)res,sitemapName);
+		masterData	=	handleHttpRequest((HttpServletRequest)req, (HttpServletResponse)res,sitemapName);
+		sitemapProvider	=	masterData.getSiteMapProvider();
+		renderer	=	masterData.getPageRenderer();
 		//System.out.println("\n WebAppServler - > service -> CloudPageRendered "+cloudRenderer);
 		//renderer	=	cloudRenderer;
 		}
@@ -412,8 +421,22 @@ public class WebAppServlet extends BaseServlet {
 	}
 
 	//CloudChange
-	public PageRenderer handleHttpRequest(HttpServletRequest req,HttpServletResponse res,String sitemapName){
+	public CloudMasterData handleHttpRequest(HttpServletRequest req,HttpServletResponse res,String sitemapName){
+		CloudMasterData	masterData		=	null;
+		PageRenderer	cloudRenderer	=	null;
+		SitemapProvider	cloudSitemapProvider	=	null;
+		
+		
 		try{
+			HttpSession	session	=	CloudSessionManager.getSession(req, res,sitemapName);
+			cloudRenderer	=	(PageRenderer)CloudSessionManager.getAttribute(session,CloudSessionManager.PAGERRENDERER);
+			
+			
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+			masterData	=	(CloudMasterData)cache.getFromCache(sitemapName,null);
+			if(masterData!=null){
+				return masterData;
+			}
 			Dictionary dict = new Hashtable();
 			//String[] s	=	{"10","items"};
 			String s	=	"10,items";
@@ -436,14 +459,14 @@ public class WebAppServlet extends BaseServlet {
 			
 			ModelRepository	localModelRepository	=	null;
 			CloudFolderObserver	cloudFolderObserver	=	null;
-			HttpSession	session	=	CloudSessionManager.getSession(req, res,sitemapName);
-			cloudRenderer	=	(PageRenderer)CloudSessionManager.getAttribute(session,CloudSessionManager.PAGERRENDERER);
 			ItemRegistryImpl	cloudItemRegistry	=	null;//new ItemRegistryImpl();
 			ItemUIRegistryImpl	cloudUIItemRegistry	=	 null;
 			ItemUIProvider cloudItemUIProvider	=	null;
+			
 			//Adding for ScriptStandaloneProvider			
 			StateAndCommandProvider stateAndCommandProvider;
 			ItemRegistryProvider	itemRegistryProvider	=	new ItemRegistryProvider();
+			
 			if(cloudRenderer==null){
 
 				
@@ -457,14 +480,18 @@ public class WebAppServlet extends BaseServlet {
 				RulesStandaloneSetup.doSetup();
 				ScriptStandaloneSetup.doSetup();
 				
-				CloudMasterData	masterData	=	new CloudMasterData();
+				masterData	=	new CloudMasterData();
 				masterData.setItemRegistry(cloudItemRegistry);
 				masterData.setModelRepository(localModelRepository);
+				
 				//masterData.setTopicName(topicName);
 				CloudThreadLocalStorage.setCloudMasterData(masterData);				
 
 				
 				cloudRenderer	=	new PageRenderer();
+				
+				masterData.setPageRenderer(cloudRenderer);
+				
 				cloudFolderObserver	=	new CloudFolderObserver();
 				cloudFolderObserver.setHomeName(sitemapName);
 				
@@ -473,12 +500,14 @@ public class WebAppServlet extends BaseServlet {
 				CloudSessionManager.setAttribute(session, CloudSessionManager.PAGERRENDERER, cloudRenderer);
 				CloudSessionManager.setAttribute(session, CloudSessionManager.MODELREPO, localModelRepository);
 				CloudSessionManager.setAttribute(session, CloudSessionManager.EVENTPUBLISHER, cloudEventPublisher);
+				CloudSessionManager.setAttribute(session, CloudSessionManager.CLOUDMASTERDATA, masterData);
 			} else {
-				return cloudRenderer;
+				masterData	=	(CloudMasterData)CloudSessionManager.getAttribute(session, CloudSessionManager.CLOUDMASTERDATA);
+				return masterData;
 			}
 				
 
-			CloudMasterData	masterData	=	new CloudMasterData();
+			//masterData	=	new CloudMasterData();
 			masterData.setItemRegistry(cloudItemRegistry);
 			masterData.setModelRepository(localModelRepository);
 			//masterData.setTopicName(topicName);
@@ -513,20 +542,26 @@ public class WebAppServlet extends BaseServlet {
 			cloudSitemapProvider	=	new SitemapProviderImpl();
 			
 			cloudSitemapProvider.setModelRepository(localModelRepository);
-			sitemapProvider	=	cloudSitemapProvider;
+			//sitemapProvider	=	cloudSitemapProvider;
+			masterData.setSiteMapProvider(cloudSitemapProvider);
+			
 			CloudSessionManager.setAttribute(session, CloudSessionManager.ITEMREGISTRY, cloudItemRegistry);
 			addPageRenderers(cloudRenderer,cloudUIItemRegistry,localModelRepository);
 	
 			
 			PersistenceManager	persistenceManager	=	initilizeModelWithStoredData(cloudItemRegistry,localModelRepository);
 			CloudSessionManager.setAttribute(session, CloudSessionManager.PERSISTENCEMANAGER, persistenceManager);
+			
+			
+			
 //			RuleEngine ruleEngine	=	initializeRuleEngine(cloudItemRegistry,localModelRepository);
 //			
 //			CloudSessionManager.setAttribute(session, CloudSessionManager.RULEENGINE, ruleEngine);
 			
+			CloudSessionManager.setAttribute(session, CloudSessionManager.SITEMAPNAME, sitemapName);
+			
+			
 			System.out.println("\n WebAppServlet->Thread:"+Thread.currentThread().getId());
-			
-			
 
 			
 		} catch (Throwable e){
@@ -534,7 +569,7 @@ public class WebAppServlet extends BaseServlet {
 			//throw e;
 		}
 
-		return cloudRenderer;
+		return masterData;
 	}
 
 	private RuleEngine initializeRuleEngine(ItemRegistry cloudItemRegistry,ModelRepository localModelRepository){
