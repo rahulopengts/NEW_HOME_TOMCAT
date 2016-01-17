@@ -112,7 +112,7 @@ public class CmdServlet extends BaseServlet {
 				String siteName	=	(String)CloudSessionManager.getAttribute(CloudSessionManager.getSession((HttpServletRequest)req, (HttpServletResponse)res),CloudSessionManager.SITEMAPNAME );
 				System.out.println("\n CmdServlet->service->sitename->"+siteName);
 				
-				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
 				CloudMasterData	masterData	=	(CloudMasterData)cache.getFromCache(siteName, null);
 
 				persistenceManager	=	masterData.getPersistenceManager();//(PersistenceManager)masterData. CloudSessionManager.getAttribute(CloudSessionManager.getSession((HttpServletRequest)req, (HttpServletResponse)res), CloudSessionManager.PERSISTENCEMANAGER);

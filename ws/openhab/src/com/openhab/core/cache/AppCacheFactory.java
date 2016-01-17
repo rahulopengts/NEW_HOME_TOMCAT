@@ -10,27 +10,29 @@ public class AppCacheFactory {
 
 	private static AppCacheFactory	appCacheInstance	=	null;
 	private static Object lock	=	new Object();
-
+	private static IAppCache	cache	=	null;
 
 	private AppCacheFactory() {
 	}
 
 	
-	public static AppCacheFactory getAppCacheInstance() throws CloudException {
+	public static IAppCache getAppCacheInstance(String cacheType) throws CloudException {
 		
 		if(appCacheInstance==null){
 			synchronized (lock) {
 				appCacheInstance	=	new AppCacheFactory();
-				
+				getCacheImpl(cacheType);
 			}
 		}
-		return appCacheInstance;
+		return cache;
 	}
 	
 	
-	public IAppCache getCacheImpl(String cacheType) throws CloudException{
-		IAppCache	cache	=	new JCSCacheImpl();
-		cache.init();
+	private static IAppCache getCacheImpl(String cacheType) throws CloudException{
+		if(cache==null){
+			cache	=	new JCSCacheImpl();
+			cache.init();			
+		}
 		return cache;
 	}
 	

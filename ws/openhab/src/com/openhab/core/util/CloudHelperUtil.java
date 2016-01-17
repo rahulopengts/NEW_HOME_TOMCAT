@@ -17,7 +17,7 @@ public class CloudHelperUtil {
 	public static ItemRegistry retrieveItemRegistry(String siteName) throws CloudException{
 		ItemRegistry	itemRegirtry	=	null;
 		try{
-			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
 			
 			CloudMasterData master	=	(CloudMasterData)cache.getFromCache(siteName, null);
 			if(master==null){
@@ -34,7 +34,7 @@ public class CloudHelperUtil {
 	public static ModelRepository retrieveModelRepRegistry(String siteName) throws CloudException{
 		ModelRepository	modelRepository	=	null;
 		try{
-			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
 			CloudMasterData master	=	(CloudMasterData)cache.getFromCache(siteName, null);
 			if(master==null){
 				CloudExceptionManager.throwException(CloudMessageConstants.CACHE_EXCEPTION, new Exception(), "");
@@ -51,7 +51,7 @@ public class CloudHelperUtil {
 	public static PageRenderer retrievePageRenderer(String siteName) throws CloudException{
 		PageRenderer	pageRenderer	=	null;
 		try{
-			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
 			CloudMasterData master	=	(CloudMasterData)cache.getFromCache(siteName, null);
 			if(master==null){
 				CloudExceptionManager.throwException(CloudMessageConstants.CACHE_EXCEPTION, new Exception(), "");
@@ -68,7 +68,7 @@ public class CloudHelperUtil {
 	public static SitemapProvider retrieveSiteMapProvider(String siteName) throws CloudException{
 		SitemapProvider	sitemapProvider	=	null;
 		try{
-			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
 			CloudMasterData master	=	(CloudMasterData)cache.getFromCache(siteName, null);
 			if(master==null){
 				CloudExceptionManager.throwException(CloudMessageConstants.CACHE_EXCEPTION, new Exception(), "");

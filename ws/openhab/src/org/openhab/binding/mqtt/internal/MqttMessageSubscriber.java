@@ -28,8 +28,14 @@ import org.openhab.core.types.State;
 import org.openhab.core.types.TypeParser;
 import org.openhab.io.transport.mqtt.MqttMessageConsumer;
 import org.openhab.model.item.binding.BindingConfigParseException;
+import org.openhab.ui.webapp.cloud.exception.CloudException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.openhab.core.cache.AppCacheFactory;
+import com.openhab.core.cache.IAppCache;
+import com.openhab.core.dto.CloudMasterData;
+import com.openhab.core.event.handler.EventManager;
 
 /**
  * Message subscriber configuration for items which receive inbound MQTT
@@ -113,9 +119,10 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 
 	@Override
 	public void processMessage(String topic, byte[] message) {
-System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:->"+new String(message));
+		System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:->"+new String(message));
 		try {
-
+			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());
+			
 			if (getTransformationServiceName() != null
 					&& getTransformationService() == null) {
 				logger.debug("Received message before transformation service '{}' was initialized.");
@@ -124,6 +131,8 @@ System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:
 
 			String value = new String(message);
 
+			System.out.println("\n MqttMessageSubscriber->processMessage->value():->"+value);	
+			
 			if (!msgFilterApplies(value)) {
 				logger.debug(
 						"Skipped message '{}' because Message Filter '{}' does not apply.",
@@ -134,26 +143,35 @@ System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:
 			if (getTransformationService() != null) {
 				value = getTransformationService().transform(
 						getTransformationServiceParam(), value);
+				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:->"+value);
 			} else if (getTransformationRule() != null
 					&& !getTransformationRule().equalsIgnoreCase("default")) {
 				value = getTransformationRule();
+				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:->"+value);
 			}
 
 			value = StringUtils.replace(value, "${itemName}", getItemName());
-
+			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:value repalce->"+value);			
 			if (getMessageType().equals(MessageType.COMMAND)) {
-				
+				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());	
 				Command command = getCommand(value);
 				eventPublisher.postCommand(getItemName(), command);
 				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+":command:->"+command.toString());
 			} else {
+//				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
+//				CloudMasterData	master	=	cache.getFromCache("demo", null);
 				
 				State state = getState(value);
+				EventManager manager	=	new EventManager();
+				Command command = getCommand(value);
+				manager.postUpdate(getItemName(), command, "demo");
 				eventPublisher.postUpdate(getItemName(), state);
-				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getState(value)+":command:->"+state.toString());				
+				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+"->State->"+getState(value)+":command:->"+state.toString());				
 			}
 		} catch (Exception e) {
 			logger.error("Error processing MQTT message.", e);
+		} catch (CloudException e){
+			e.printStackTrace();
 		}
 
 	}

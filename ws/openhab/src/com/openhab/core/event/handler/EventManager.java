@@ -32,6 +32,7 @@ import com.openhab.core.event.admin.AdminEventImpl;
 import com.openhab.core.event.dto.DBEventObject;
 import com.openhab.core.event.dto.EventObject;
 import com.openhab.core.event.dto.UIEventObject;
+import com.openhab.core.internal.event.processor.CloudMessageProcHelper;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
 
 public class EventManager	{// implements IEventManager{
@@ -225,59 +226,19 @@ public class EventManager	{// implements IEventManager{
 		dbObject.setTopicName(topicName);
 		IEventHandler	dataEventHandler	=	new DataStoreHandler();
 		admin.dispatchEvent(dbObject, dataEventHandler);
-		
-		
-		
-//	try{
-//		System.out.println("n dispatch-1");
-//		AsyncEventBus asyncEventBus	=	new AsyncEventBus(Executors.newCachedThreadPool());
-//		asyncEventBus.register(new UIEventMessageHandler());
-//		asyncEventBus.post(new EventObject());
-//		System.out.println("n dispatch-2");
-//	} catch (Throwable e){
-//		e.printStackTrace();
-//	}
 	}
 	
 	
-	public void postUpdate(String itemName, Command command,ItemRegistry itemRegistry,ModelRepository modelRepository,PersistenceManager persistenceManager,RuleEngine ruleEngine,EventObject eventObject) throws CloudException {
+	public void postUpdate(String itemName, Command command,String siteName) throws CloudException {	
 		try{
-			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
-			CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache("demo",null);
+			siteName	=	"demo";
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
+			CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache(siteName,null);
+			ItemRegistry	itemRegistry	=	masterData.getItemRegistry();
 			
-		} catch (Exception e){
-			CloudExceptionManager.throwException(CloudMessageConstants.CACHE_EXCEPTION, e, "");
-		}
-		
-//		CloudThreadLocalStorage.setLocalHomeId("RR");
-		System.out.println("\nEventManager->publishData->MasterData->"+Thread.currentThread().getId()+":MasterData:"+CloudThreadLocalStorage.getCloudMasterData());
-		
-		
-		cloudRuleEngine=	ruleEngine;
-		cloudPersistenceManager=	persistenceManager;
-		
-		Map<ItemProvider, Collection<Item>> itemMaps	=	((ItemRegistryImpl)itemRegistry).getItemMap();
-		//ItemRegistry has the map of providers.
-		if(itemMaps!=null && itemMaps.size()==1){
-			System.out.println("\n PublishData->");
-			Set<ItemProvider> genericItemKey	=	itemMaps.keySet();
-			Iterator<ItemProvider> iterate	=	genericItemKey.iterator();
-			
-			//Get the GenericItemProvider
-			GenericItemProvider	genericItemProvider	=	(GenericItemProvider)iterate.next();
-			Collection<Item> items = itemMaps.get(genericItemProvider);
-			if(items!=null){
-				System.out.println("\nEventManager->publishData->items->"+items.size());
-			}
-			//Map<String, BindingConfigReader> bindingConfigReaders = new HashMap<String, BindingConfigReader>();
-			
-			//Every GenericItemProvider has MqttGenericBindingProvider for CloudChange
-			Map<String, BindingConfigReader> bindingConfigReaders = genericItemProvider.getBindingConfigReaders();
-			Set<String> mqttGenericBindingProviderKey	=	bindingConfigReaders.keySet();
-			Iterator<String> iteratebindingProvider	=	mqttGenericBindingProviderKey.iterator();
-			String bindingProvider	=	iteratebindingProvider.next();
-			MqttGenericBindingProvider	mqttGenericBindingProvider	=	 (MqttGenericBindingProvider)bindingConfigReaders.get(bindingProvider);
-			
+			EventObject	eventObject	=	new EventObject();
+			ModelRepository modelRepository	=	masterData.getModelRepository();
+			MqttGenericBindingProvider	mqttGenericBindingProvider	=	CloudMessageProcHelper.getMqttGenericBindingProvider(itemName, command, itemRegistry, modelRepository);
 			Map<String, MqttItemConfig> itemConfigMap	=	mqttGenericBindingProvider.getMqttItemConfigList();
 			MqttItemConfig	itemConfig	=	itemConfigMap.get(itemName);
 			java.util.List<MqttMessagePublisher> pubList	=	itemConfig.getMessagePublishers();
@@ -299,20 +260,21 @@ public class EventManager	{// implements IEventManager{
 			
 			MqttMessagePublisher	publisherTopic	=	pubList.get(commandMessageIndex);
 			
-			
 			System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:0:"+pubList.get(0)+":1:"+pubList.get(1));
 			System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:Size:"+pubList.size());
 			System.out.println("\nEventManager->publishData->MqttMessagePublisher-0->"+p1.getTransformationRule()+"->p2->"+p2.getTransformationRule()+"->MessageType->"+p1.getMessageType());
 			
 			//CoudChange Outbound OFF Command
 			eventObject.setMqttMessageToBePublished(messageToBePublished);
+			eventObject.setItemRegistry(itemRegistry);
+			eventObject.setModelRepository(masterData.getModelRepository());
+			eventObject.setPersistanceManager(masterData.getPersistenceManager());
 			
 			dispatchEvent(itemRegistry,messageToBePublished.getTransformationRule(), publisherTopic.getTopic(),command,itemName,modelRepository,itemConfig,eventObject);
+
 			
-			//MqttGenericBindingProvider->processBindingConfiguration->
-			//context: demo-7-Aug-15.items:->
-			//item:->Node04:->
-			//bindingConfig:>[mosquitto:/raspberry:command:ON:OL1N4L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N4L9N9S1000000000],<[mosquitto:/L1N4L9N9S1:state:default]			
+		} catch (Exception e){
+			CloudExceptionManager.throwException(CloudMessageConstants.CACHE_EXCEPTION, e, "");
 		}
 	}
 

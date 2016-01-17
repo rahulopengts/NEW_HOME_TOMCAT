@@ -217,6 +217,7 @@ public class WebAppServlet extends BaseServlet {
 			masterData = handleHttpRequest((HttpServletRequest) req,
 					(HttpServletResponse) res, sitemapName);
 			sitemapProvider = masterData.getSiteMapProvider();
+			System.out.println("\n WebAppServler - > service -> siteMapName "+sitemapName);
 			renderer = masterData.getPageRenderer();
 			// System.out.println("\n WebAppServler - > service -> CloudPageRendered "+cloudRenderer);
 			// renderer = cloudRenderer;
@@ -467,8 +468,7 @@ public class WebAppServlet extends BaseServlet {
 //			cloudRenderer = (PageRenderer) CloudSessionManager.getAttribute(
 //					session, CloudSessionManager.PAGERRENDERER);
 
-			IAppCache cache = AppCacheFactory.getAppCacheInstance()
-					.getCacheImpl("");
+			IAppCache cache = AppCacheFactory.getAppCacheInstance(sitemapName);
 			masterData = (CloudMasterData) cache
 					.getFromCache(sitemapName, null);
 			if (masterData != null) {
@@ -603,7 +603,7 @@ public class WebAppServlet extends BaseServlet {
 					localModelRepository);
 
 			PersistenceManager persistenceManager = initilizeModelWithStoredData(
-					cloudItemRegistry, localModelRepository);
+					cloudItemRegistry, localModelRepository,sitemapName);
 //			CloudSessionManager.setAttribute(session,
 //					CloudSessionManager.PERSISTENCEMANAGER, persistenceManager);
 
@@ -719,10 +719,10 @@ public class WebAppServlet extends BaseServlet {
 	}
 
 	private PersistenceManager initilizeModelWithStoredData(
-			ItemRegistry cloudItemRegistry, ModelRepository localModelRepository) {
+			ItemRegistry cloudItemRegistry, ModelRepository localModelRepository,String siteMapName) {
 		// This to initialize the stored data into the modelreposotory.
 
-		PersistenceService persistenceService = new RRD4jService();
+		PersistenceService persistenceService = new RRD4jService(siteMapName);
 		RRD4jService rRD4jService = (RRD4jService) persistenceService;
 		rRD4jService.setItemRegistry(cloudItemRegistry);
 		PersistenceManager persistenceManager = new PersistenceManager();

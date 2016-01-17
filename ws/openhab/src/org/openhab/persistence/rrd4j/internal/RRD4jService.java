@@ -58,7 +58,8 @@ public class RRD4jService implements QueryablePersistenceService {
 
 	private static final String DATASOURCE_STATE = "state";
 
-	public final static String DB_FOLDER = getUserPersistenceDataFolder() + File.separator + "rrd4j";
+	//public final static String DB_FOLDER = getUserPersistenceDataFolder() + File.separator + "rrd4j";
+	public String DB_FOLDER = getUserPersistenceDataFolder() + File.separator + "rrd4j";
 	
 	private static final Logger logger = LoggerFactory.getLogger(RRD4jService.class);
 
@@ -66,12 +67,22 @@ public class RRD4jService implements QueryablePersistenceService {
 	
 	protected ItemRegistry itemRegistry;
 	
+	private String siteName	=	null;
+	
 	public void setItemRegistry(ItemRegistry itemRegistry) {
 		this.itemRegistry = itemRegistry;
 	}
 
 	public void unsetItemRegistry(ItemRegistry itemRegistry) {
 		this.itemRegistry = null;
+	}
+
+	public RRD4jService(String siteName){
+		this.siteName	=	siteName;
+	}
+	
+	public RRD4jService(){
+		
 	}
 
 	/**
@@ -228,6 +239,8 @@ public class RRD4jService implements QueryablePersistenceService {
 
 	protected synchronized RrdDb getDB(String alias, ConsolFun function) {
 		RrdDb db = null;
+		System.out.println("\nRRD4jService->getDB->siteName->"+siteName);
+		DB_FOLDER	=	getUserPersistenceDataFolder()+File.separator+siteName+File.separator+"rrd4j";
         File file = new File(DB_FOLDER + File.separator + alias + ".rrd");
     	try {
             if (file.exists()) {
@@ -321,6 +334,9 @@ public class RRD4jService implements QueryablePersistenceService {
 	}
 	
 	static private String getUserPersistenceDataFolder() {
+//		System.out.println("\nRRD4jService->getUserPersistenceDataFolder-"+siteName);
+//		return siteName;
+		
 		String progArg = System.getProperty("smarthome.userdata");
 		if (progArg != null) {
 			return progArg + File.separator + "persistence";
