@@ -19,6 +19,7 @@ import org.openhab.ui.webapp.cloud.exception.CloudException;
 import org.openhab.ui.webapp.cloud.session.CloudSessionManager;
 
 import com.openhab.core.event.dto.EventObject;
+import com.openhab.core.util.CloudHelperUtil;
 
 public class CloudWebAppServletHelper {
 
@@ -29,7 +30,9 @@ public class CloudWebAppServletHelper {
 	 * @param widgets the widgets of the page to observe
 	 */
 	public static boolean waitForChanges(EList<Widget> widgets,HttpServletRequest	request) throws CloudException {
-		ItemRegistry	cloudItemRegistry	=	(ItemRegistry)CloudSessionManager.getAttribute(CloudSessionManager.getSession(request,null), CloudSessionManager.ITEMREGISTRY);
+		//ItemRegistry	cloudItemRegistry	=	(ItemRegistry)CloudSessionManager.getAttribute(CloudSessionManager.getSession(request,null), CloudSessionManager.ITEMREGISTRY);
+		String siteName	=	(String)CloudSessionManager.getAttribute(CloudSessionManager.getSession(request, null), CloudSessionManager.SITEMAPNAME);
+		ItemRegistry	cloudItemRegistry	=	CloudHelperUtil.retrieveItemRegistry(siteName);
 		//System.out.println("\nWebAppServlet->waitForChanges->Adding Listeners Now");
 		long startTime = (new Date()).getTime();
 		boolean timeout = false;

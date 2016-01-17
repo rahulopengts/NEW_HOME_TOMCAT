@@ -90,6 +90,7 @@ import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openhab.core.cache.AbstractAppCache;
 import com.openhab.core.cache.AppCacheFactory;
 import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constant.CloudHomeAutoConstants;
@@ -98,81 +99,85 @@ import com.openhab.core.event.messaging.mqtt.MessageBrokerService;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
 
 /**
- * This is the main servlet for the WebApp UI. 
- * It serves the Html code based on the sitemap model.
+ * This is the main servlet for the WebApp UI. It serves the Html code based on
+ * the sitemap model.
  * 
  * @author Kai Kreuzer
- *
+ * 
  */
 public class WebAppServlet extends BaseServlet {
 
-	//public final static boolean CLOUD_MODE	=	true;
-	
-	private static final Logger logger = LoggerFactory.getLogger(WebAppServlet.class);
+	// public final static boolean CLOUD_MODE = true;
 
-	/** timeout for polling requests in milliseconds; if no state changes during this time, 
-	 *  an empty response is returned.
+	private static final Logger logger = LoggerFactory
+			.getLogger(WebAppServlet.class);
+
+	/**
+	 * timeout for polling requests in milliseconds; if no state changes during
+	 * this time, an empty response is returned.
 	 */
 	public static final long TIMEOUT_IN_MS = 10000L;
 
 	/** the name of the servlet to be used in the URL */
 	public static final String SERVLET_NAME = "openhab.app";
-		
-	//private PageRenderer renderer;
-	
-	//CloudChange
-	//private PageRenderer cloudRenderer;
 
-	private EventPublisher	cloudEventPublisher	=	null;
-	//private ModelRepository modelRepository	=	null;
-	
-	//CloudChange
-	private MessageBrokerService messageBrokerService	=	null;
-	
-	//protected SitemapProvider sitemapProvider;
-	//CloudChange
-	//protected SitemapProvider cloudSitemapProvider;
-	
-//	private void setModelRepository(ModelRepository modelRepository){
-//		this.modelRepository	=	modelRepository;
-//	}
-//
-//	private void unsetModelRepository(ModelRepository modelRepository){
-//		this.modelRepository	=	null;
-//	}
+	// private PageRenderer renderer;
 
-//	public void setSitemapProvider(SitemapProvider sitemapProvider) {
-//		this.sitemapProvider = sitemapProvider;
-//	}
-//
-//	public void unsetSitemapProvider(SitemapProvider sitemapProvider) {
-//		this.sitemapProvider = null;
-//	}
-	
-//	public void setPageRenderer(PageRenderer renderer) {
-//		this.renderer = renderer;
-//	}
-	
+	// CloudChange
+	// private PageRenderer cloudRenderer;
+
+	private EventPublisher cloudEventPublisher = null;
+	// private ModelRepository modelRepository = null;
+
+	// CloudChange
+	private MessageBrokerService messageBrokerService = null;
+
+	// protected SitemapProvider sitemapProvider;
+	// CloudChange
+	// protected SitemapProvider cloudSitemapProvider;
+
+	// private void setModelRepository(ModelRepository modelRepository){
+	// this.modelRepository = modelRepository;
+	// }
+	//
+	// private void unsetModelRepository(ModelRepository modelRepository){
+	// this.modelRepository = null;
+	// }
+
+	// public void setSitemapProvider(SitemapProvider sitemapProvider) {
+	// this.sitemapProvider = sitemapProvider;
+	// }
+	//
+	// public void unsetSitemapProvider(SitemapProvider sitemapProvider) {
+	// this.sitemapProvider = null;
+	// }
+
+	// public void setPageRenderer(PageRenderer renderer) {
+	// this.renderer = renderer;
+	// }
+
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		super.init(config);
-		try{
-		if(FolderObserver.CLOUD_MODE){
-			initializeApp();
-			//cloudEventPublisher	=	
-					
-			System.out.println("\nWebAppServler->Init");
-		}
-		} catch (Throwable e){
+		try {
+			if (FolderObserver.CLOUD_MODE) {
+				initializeApp();
+				// cloudEventPublisher =
+
+				System.out.println("\nWebAppServler->Init");
+			}
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 
-	}	
+	}
+
 	protected void activate() {
-		try {			
+		try {
 			Hashtable<String, String> props = new Hashtable<String, String>();
-			httpService.registerServlet(WEBAPP_ALIAS + SERVLET_NAME, this, props, createHttpContext());
+			httpService.registerServlet(WEBAPP_ALIAS + SERVLET_NAME, this,
+					props, createHttpContext());
 			httpService.registerResources(WEBAPP_ALIAS, "web", null);
 			logger.info("Started Classic UI at " + WEBAPP_ALIAS + SERVLET_NAME);
 		} catch (NamespaceException e) {
@@ -181,133 +186,158 @@ public class WebAppServlet extends BaseServlet {
 			logger.error("Error during servlet startup", e);
 		}
 	}
-	
+
 	protected void deactivate() {
 		httpService.unregister(WEBAPP_ALIAS + SERVLET_NAME);
 		httpService.unregister(WEBAPP_ALIAS);
 		logger.info("Stopped Classic UI");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public void service(ServletRequest req, ServletResponse res)
 			throws ServletException, IOException {
 		logger.debug("Servlet request received!");
-		//System.out.println("Servlet request received!");
+		// System.out.println("Servlet request received!");
 		// read request parameters
-		PageRenderer	renderer	=	null;
-		CloudMasterData	masterData	=	null;
-		SitemapProvider	sitemapProvider	=	null;
-		
+		PageRenderer renderer = null;
+		CloudMasterData masterData = null;
+		SitemapProvider sitemapProvider = null;
+
 		String sitemapName = (String) req.getParameter("sitemap");
 		String widgetId = (String) req.getParameter("w");
-		boolean async = "true".equalsIgnoreCase((String) req.getParameter("__async"));
-		boolean poll = "true".equalsIgnoreCase((String) req.getParameter("poll"));
-		
-		
-		if(CloudHomeAutoConstants.CLOUD_MODE){
-		//System.out.println("\n WebAppServler - > service -> PageRendered "+renderer);
-		masterData	=	handleHttpRequest((HttpServletRequest)req, (HttpServletResponse)res,sitemapName);
-		sitemapProvider	=	masterData.getSiteMapProvider();
-		renderer	=	masterData.getPageRenderer();
-		//System.out.println("\n WebAppServler - > service -> CloudPageRendered "+cloudRenderer);
-		//renderer	=	cloudRenderer;
+		boolean async = "true".equalsIgnoreCase((String) req
+				.getParameter("__async"));
+		boolean poll = "true".equalsIgnoreCase((String) req
+				.getParameter("poll"));
+
+		if (CloudHomeAutoConstants.CLOUD_MODE) {
+			// System.out.println("\n WebAppServler - > service -> PageRendered "+renderer);
+			masterData = handleHttpRequest((HttpServletRequest) req,
+					(HttpServletResponse) res, sitemapName);
+			sitemapProvider = masterData.getSiteMapProvider();
+			renderer = masterData.getPageRenderer();
+			// System.out.println("\n WebAppServler - > service -> CloudPageRendered "+cloudRenderer);
+			// renderer = cloudRenderer;
 		}
-		//System.out.println("\n WebAppServler - > service -> PageRendered "+renderer);
+		// System.out.println("\n WebAppServler - > service -> PageRendered "+renderer);
 		// if there are no parameters, display the "default" sitemap
-		if(sitemapName==null) sitemapName = "default";
-		
+		if (sitemapName == null)
+			sitemapName = "default";
+
 		StringBuilder result = new StringBuilder();
-		
+
 		Sitemap sitemap = sitemapProvider.getSitemap(sitemapName);
-		
-//**************************
-		//System.out.println(" SitemapNameAA"+sitemapName+" Sitemap-- ");//);
-		logger.debug(" async "+async+" poll "+poll);
-		logger.info(" async info "+async+" poll "+poll);
-//**************************		
-		
+
+		// **************************
+		// System.out.println(" SitemapNameAA"+sitemapName+" Sitemap-- ");//);
+		logger.debug(" async " + async + " poll " + poll);
+		logger.info(" async info " + async + " poll " + poll);
+		// **************************
+
 		try {
-			if(sitemap==null) {
-				throw new RenderException("Sitemap '" + sitemapName + "' could not be found");
+			if (sitemap == null) {
+				throw new RenderException("Sitemap '" + sitemapName
+						+ "' could not be found");
 			}
 			logger.debug("reading sitemap {}", sitemap.getName());
-			//System.out.println("\n Sitemap Name : "+sitemap.getName());
-			if(widgetId==null || widgetId.isEmpty() || widgetId.equals("Home")) {
-				// we are at the homepage, so we render the children of the sitemap root node
-				String label = sitemap.getLabel()!=null ? sitemap.getLabel() : sitemapName;
+			// System.out.println("\n Sitemap Name : "+sitemap.getName());
+			if (widgetId == null || widgetId.isEmpty()
+					|| widgetId.equals("Home")) {
+				// we are at the homepage, so we render the children of the
+				// sitemap root node
+				String label = sitemap.getLabel() != null ? sitemap.getLabel()
+						: sitemapName;
 				EList<Widget> children = sitemap.getChildren();
-				int childSize	=	children.size();
-				
-				if(FolderObserver.CLOUD_MODE){
-					if(poll && CloudWebAppServletHelper.waitForChanges(children,(HttpServletRequest)req)==false) {
-						// we have reached the timeout, so we do not return any content as nothing has changed
+				int childSize = children.size();
+
+				if (FolderObserver.CLOUD_MODE) {
+					if (poll
+							&& CloudWebAppServletHelper.waitForChanges(
+									children, (HttpServletRequest) req) == false) {
+						// we have reached the timeout, so we do not return any
+						// content as nothing has changed
 						res.getWriter().append(getTimeoutResponse()).close();
 						return;
 					}
-					
+
 				} else {
-					if(poll && waitForChanges(children)==false) {
-						// we have reached the timeout, so we do not return any content as nothing has changed
+					if (poll && waitForChanges(children) == false) {
+						// we have reached the timeout, so we do not return any
+						// content as nothing has changed
 						res.getWriter().append(getTimeoutResponse()).close();
 						return;
 					}
-					
+
 				}
-				//System.out.println("\n WebAppServler - > service -> request for IF-WidgetId Null");
-				//System.out.println("\n WebAppServler - > sitemap.getChildren()-> "+sitemap.getChildren());
-				StringBuilder testBuilder	=	renderer.processPage("Home", sitemapName, label, sitemap.getChildren(), async);
-				//System.out.println("Chile Size : \n "+ childSize);
+				// System.out.println("\n WebAppServler - > service -> request for IF-WidgetId Null");
+				// System.out.println("\n WebAppServler - > sitemap.getChildren()-> "+sitemap.getChildren());
+				StringBuilder testBuilder = renderer.processPage("Home",
+						sitemapName, label, sitemap.getChildren(), async);
+				// System.out.println("Chile Size : \n "+ childSize);
 				result.append(testBuilder);
-				
-			} else if(!widgetId.equals("Colorpicker")) {
-				// we are on some subpage, so we have to render the children of the widget that has been selected
-				Widget w = renderer.getItemUIRegistry().getWidget(sitemap, widgetId);
-				if(w!=null) {
-					if(!(w instanceof LinkableWidget)) {
-						throw new RenderException("Widget '" + w + "' can not have any content");
+
+			} else if (!widgetId.equals("Colorpicker")) {
+				// we are on some subpage, so we have to render the children of
+				// the widget that has been selected
+				Widget w = renderer.getItemUIRegistry().getWidget(sitemap,
+						widgetId);
+				if (w != null) {
+					if (!(w instanceof LinkableWidget)) {
+						throw new RenderException("Widget '" + w
+								+ "' can not have any content");
 					}
-					EList<Widget> children = renderer.getItemUIRegistry().getChildren((LinkableWidget) w);
-					int childSize	=	children.size();
-					//System.out.println("\n Child Size "+childSize);
-					if(FolderObserver.CLOUD_MODE){
-						if(poll && CloudWebAppServletHelper.waitForChanges(children,(HttpServletRequest)req)==false) {
-							// we have reached the timeout, so we do not return any content as nothing has changed
-							res.getWriter().append(getTimeoutResponse()).close();
-							//System.out.println("\n WebAppServlet->waitforChanges->Nothing Changed:");												
+					EList<Widget> children = renderer.getItemUIRegistry()
+							.getChildren((LinkableWidget) w);
+					int childSize = children.size();
+					// System.out.println("\n Child Size "+childSize);
+					if (FolderObserver.CLOUD_MODE) {
+						if (poll
+								&& CloudWebAppServletHelper.waitForChanges(
+										children, (HttpServletRequest) req) == false) {
+							// we have reached the timeout, so we do not return
+							// any content as nothing has changed
+							res.getWriter().append(getTimeoutResponse())
+									.close();
+							// System.out.println("\n WebAppServlet->waitforChanges->Nothing Changed:");
 							return;
 						}
 					} else {
-						if(poll && waitForChanges(children)==false) {
-							// we have reached the timeout, so we do not return any content as nothing has changed
-							res.getWriter().append(getTimeoutResponse()).close();
-							//System.out.println("\n WebAppServlet->waitforChanges->Nothing Changed:");												
+						if (poll && waitForChanges(children) == false) {
+							// we have reached the timeout, so we do not return
+							// any content as nothing has changed
+							res.getWriter().append(getTimeoutResponse())
+									.close();
+							// System.out.println("\n WebAppServlet->waitforChanges->Nothing Changed:");
 							return;
 						}
-						
+
 					}
-					//System.out.println("\n WebAppServlet->waitforChanges->Changed:");
+					// System.out.println("\n WebAppServlet->waitforChanges->Changed:");
 					String label = renderer.getItemUIRegistry().getLabel(w);
-					if (label==null) label = "undefined";
-					result.append(renderer.processPage(renderer.getItemUIRegistry().getWidgetId(w), sitemapName, label, children, async));
-					//System.out.println("\n WebAppServler - > service -> request for ELSE-WidgetId :"+w.getItem());
+					if (label == null)
+						label = "undefined";
+					result.append(renderer.processPage(renderer
+							.getItemUIRegistry().getWidgetId(w), sitemapName,
+							label, children, async));
+					// System.out.println("\n WebAppServler - > service -> request for ELSE-WidgetId :"+w.getItem());
 				}
-				
+
 			}
-		} catch(RenderException e) {
+		} catch (RenderException e) {
 			e.printStackTrace();
 			throw new ServletException(e.getMessage(), e);
-		} catch (CloudException e){
+		} catch (CloudException e) {
 			e.printStackTrace();
-			throw new ServletException(e.getMessage(), e);			
+			throw new ServletException(e.getMessage(), e);
 		}
-		if(async) {
+		if (async) {
 			res.setContentType("application/xml;charset=UTF-8");
 		} else {
 			res.setContentType("text/html;charset=UTF-8");
 		}
-		System.out.println("Testing : \n "+ result.toString());
+		System.out.println("Testing : \n " + result.toString());
 		res.getWriter().append(result);
 		res.getWriter().close();
 	}
@@ -322,20 +352,22 @@ public class WebAppServlet extends BaseServlet {
 	}
 
 	/**
-	 * This method only returns when a change has occurred to any item on the page to display
+	 * This method only returns when a change has occurred to any item on the
+	 * page to display
 	 * 
-	 * @param widgets the widgets of the page to observe
+	 * @param widgets
+	 *            the widgets of the page to observe
 	 */
 	private boolean waitForChanges(EList<Widget> widgets) {
-		//System.out.println("\nWebAppServlet->waitForChanges->Adding Listeners Now");
+		// System.out.println("\nWebAppServlet->waitForChanges->Adding Listeners Now");
 		long startTime = (new Date()).getTime();
 		boolean timeout = false;
 		BlockingStateChangeListener listener = new BlockingStateChangeListener();
 		// let's get all items for these widgets
 		Set<GenericItem> items = getAllItems(widgets);
-		//System.out.println("\nWebAppServlet->waitForChanges->items.size()"+items.size());
-		for(GenericItem item : items) {	
-			//System.out.println("\nWebAppServlet->waitForChanges->"+items.toString()+"->Listener->"+listener.getClass().getName());
+		// System.out.println("\nWebAppServlet->waitForChanges->items.size()"+items.size());
+		for (GenericItem item : items) {
+			// System.out.println("\nWebAppServlet->waitForChanges->"+items.toString()+"->Listener->"+listener.getClass().getName());
 			item.addStateChangeListener(listener);
 		}
 		do {
@@ -346,8 +378,8 @@ public class WebAppServlet extends BaseServlet {
 				timeout = true;
 				break;
 			}
-		} while(!listener.hasChangeOccurred() && !timeout);
-		for(GenericItem item : items) {
+		} while (!listener.hasChangeOccurred() && !timeout);
+		for (GenericItem item : items) {
 			item.removeStateChangeListener(listener);
 		}
 		return !timeout;
@@ -356,15 +388,16 @@ public class WebAppServlet extends BaseServlet {
 	/**
 	 * Collects all items that are represented by a given list of widgets
 	 * 
-	 * @param widgets the widget list to get the items for
+	 * @param widgets
+	 *            the widget list to get the items for
 	 * @return all items that are represented by the list of widgets
 	 */
 	private Set<GenericItem> getAllItems(EList<Widget> widgets) {
 		Set<GenericItem> items = new HashSet<GenericItem>();
-		if(itemRegistry!=null) {
-			for(Widget widget : widgets) {
+		if (itemRegistry != null) {
+			for (Widget widget : widgets) {
 				String itemName = widget.getItem();
-				if(itemName!=null) {
+				if (itemName != null) {
 					try {
 						Item item = itemRegistry.getItem(itemName);
 						if (item instanceof GenericItem) {
@@ -375,7 +408,7 @@ public class WebAppServlet extends BaseServlet {
 						// ignore
 					}
 				} else {
-					if(widget instanceof Frame) {
+					if (widget instanceof Frame) {
 						items.addAll(getAllItems(((Frame) widget).getChildren()));
 					}
 				}
@@ -385,16 +418,17 @@ public class WebAppServlet extends BaseServlet {
 	}
 
 	/**
-	 * This is a state change listener, which is merely used to determine, if a state
-	 * change has occurred on one of a list of items.
+	 * This is a state change listener, which is merely used to determine, if a
+	 * state change has occurred on one of a list of items.
 	 * 
 	 * @author Kai Kreuzer
-	 *
+	 * 
 	 */
-	private static class BlockingStateChangeListener implements StateChangeListener {
-		
+	private static class BlockingStateChangeListener implements
+			StateChangeListener {
+
 		private boolean changed = false;
-		
+
 		/**
 		 * {@inheritDoc}
 		 */
@@ -417,308 +451,354 @@ public class WebAppServlet extends BaseServlet {
 		public void stateUpdated(Item item, State state) {
 			changed = true;
 		}
-		
+
 	}
 
-	//CloudChange
-	public CloudMasterData handleHttpRequest(HttpServletRequest req,HttpServletResponse res,String sitemapName){
-		CloudMasterData	masterData		=	null;
-		PageRenderer	cloudRenderer	=	null;
-		SitemapProvider	cloudSitemapProvider	=	null;
-		
-		
-		try{
-			HttpSession	session	=	CloudSessionManager.getSession(req, res,sitemapName);
-			cloudRenderer	=	(PageRenderer)CloudSessionManager.getAttribute(session,CloudSessionManager.PAGERRENDERER);
-			
-			
-			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
-			masterData	=	(CloudMasterData)cache.getFromCache(sitemapName,null);
-			if(masterData!=null){
+	// CloudChange
+	public CloudMasterData handleHttpRequest(HttpServletRequest req,
+			HttpServletResponse res, String sitemapName) {
+		CloudMasterData masterData = null;
+		PageRenderer cloudRenderer = null;
+		SitemapProvider cloudSitemapProvider = null;
+
+		try {
+			HttpSession session = CloudSessionManager.getSession(req, res,
+					sitemapName);
+//			cloudRenderer = (PageRenderer) CloudSessionManager.getAttribute(
+//					session, CloudSessionManager.PAGERRENDERER);
+
+			IAppCache cache = AppCacheFactory.getAppCacheInstance()
+					.getCacheImpl("");
+			masterData = (CloudMasterData) cache
+					.getFromCache(sitemapName, null);
+			if (masterData != null) {
+				System.out.println("\n WebAppServlet->handleHttpRequest->Existing Session for site->"+sitemapName);
 				return masterData;
 			}
+			
+			
+			
 			Dictionary dict = new Hashtable();
-			//String[] s	=	{"10","items"};
-			String s	=	"10,items";
-			dict.put("items",s);
-			
-			String s1	=	"10,persist";
-			dict.put("persistence",s1);
-			
-			String s2	=	"10,rules";
-			dict.put("rules",s2);
-			
-			String s3	=	"10,script";
-			dict.put("scripts",s3);
-			
-			String s4	=	",service.pid";
-			dict.put("service.pid",s4);
-			
-			String s5	=	"10,sitemap";
-			dict.put("sitemaps",s5);
-			
-			ModelRepository	localModelRepository	=	null;
-			CloudFolderObserver	cloudFolderObserver	=	null;
-			ItemRegistryImpl	cloudItemRegistry	=	null;//new ItemRegistryImpl();
-			ItemUIRegistryImpl	cloudUIItemRegistry	=	 null;
-			ItemUIProvider cloudItemUIProvider	=	null;
-			
-			//Adding for ScriptStandaloneProvider			
-			StateAndCommandProvider stateAndCommandProvider;
-			ItemRegistryProvider	itemRegistryProvider	=	new ItemRegistryProvider();
-			
-			if(cloudRenderer==null){
+			// String[] s = {"10","items"};
+			String s = "10,items";
+			dict.put("items", s);
 
-				
-				cloudItemRegistry	=	new ItemRegistryImpl();
-				cloudUIItemRegistry	=	 new ItemUIRegistryImpl();	
-				cloudItemUIProvider	=	new GenericItemUIProvider();
-				
+			String s1 = "10,persist";
+			dict.put("persistence", s1);
+
+			String s2 = "10,rules";
+			dict.put("rules", s2);
+
+			String s3 = "10,script";
+			dict.put("scripts", s3);
+
+			String s4 = ",service.pid";
+			dict.put("service.pid", s4);
+
+			String s5 = "10,sitemap";
+			dict.put("sitemaps", s5);
+
+			ModelRepository localModelRepository = null;
+			CloudFolderObserver cloudFolderObserver = null;
+			ItemRegistryImpl cloudItemRegistry = null;// new ItemRegistryImpl();
+			ItemUIRegistryImpl cloudUIItemRegistry = null;
+			ItemUIProvider cloudItemUIProvider = null;
+
+			// Adding for ScriptStandaloneProvider
+			StateAndCommandProvider stateAndCommandProvider;
+			ItemRegistryProvider itemRegistryProvider = new ItemRegistryProvider();
+
+			if (cloudRenderer == null) {
+
+				cloudItemRegistry = new ItemRegistryImpl();
+				cloudUIItemRegistry = new ItemUIRegistryImpl();
+				cloudItemUIProvider = new GenericItemUIProvider();
+
 				SitemapStandaloneSetup.doSetup();
 				ItemsStandaloneSetup.doSetup();
 				PersistenceStandaloneSetup.doSetup();
 				RulesStandaloneSetup.doSetup();
 				ScriptStandaloneSetup.doSetup();
-				
-				masterData	=	new CloudMasterData();
+
+				masterData = new CloudMasterData();
 				masterData.setItemRegistry(cloudItemRegistry);
 				masterData.setModelRepository(localModelRepository);
-				
-				//masterData.setTopicName(topicName);
-				CloudThreadLocalStorage.setCloudMasterData(masterData);				
 
-				
-				cloudRenderer	=	new PageRenderer();
-				
+				// masterData.setTopicName(topicName);
+				CloudThreadLocalStorage.setCloudMasterData(masterData);
+
+				cloudRenderer = new PageRenderer();
+
 				masterData.setPageRenderer(cloudRenderer);
-				
-				cloudFolderObserver	=	new CloudFolderObserver();
+
+				cloudFolderObserver = new CloudFolderObserver();
 				cloudFolderObserver.setHomeName(sitemapName);
-				
+
 				cloudFolderObserver.updated(dict);
-				localModelRepository	=	cloudFolderObserver.getModelRepository();
-				CloudSessionManager.setAttribute(session, CloudSessionManager.PAGERRENDERER, cloudRenderer);
-				CloudSessionManager.setAttribute(session, CloudSessionManager.MODELREPO, localModelRepository);
-				CloudSessionManager.setAttribute(session, CloudSessionManager.EVENTPUBLISHER, cloudEventPublisher);
-				CloudSessionManager.setAttribute(session, CloudSessionManager.CLOUDMASTERDATA, masterData);
+				localModelRepository = cloudFolderObserver.getModelRepository();
+//				CloudSessionManager.setAttribute(session,
+//						CloudSessionManager.PAGERRENDERER, cloudRenderer);
+//				CloudSessionManager.setAttribute(session,
+//						CloudSessionManager.MODELREPO, localModelRepository);
+//				CloudSessionManager
+//						.setAttribute(session,
+//								CloudSessionManager.EVENTPUBLISHER,
+//								cloudEventPublisher);
+				
+//				CloudSessionManager.setAttribute(session,
+//						CloudSessionManager.CLOUDMASTERDATA, masterData);
+				
+				
 			} else {
-				masterData	=	(CloudMasterData)CloudSessionManager.getAttribute(session, CloudSessionManager.CLOUDMASTERDATA);
+//				masterData = (CloudMasterData) CloudSessionManager
+//						.getAttribute(session,
+//								CloudSessionManager.CLOUDMASTERDATA);
+				System.out.println("\n WebAppServlet->handleHttpRequest->Existing Session for site->"+sitemapName);
 				return masterData;
 			}
-				
 
-			//masterData	=	new CloudMasterData();
+			// masterData = new CloudMasterData();
 			masterData.setItemRegistry(cloudItemRegistry);
 			masterData.setModelRepository(localModelRepository);
-			//masterData.setTopicName(topicName);
+			// masterData.setTopicName(topicName);
 			CloudThreadLocalStorage.setCloudMasterData(masterData);
 
-			
 			cloudRenderer.setItemUIRegistry(cloudUIItemRegistry);
-			//ItemRegistryImpl	cloudItemRegistry	=	new ItemRegistryImpl();
-			//ItemUIRegistryImpl	depends on ItemRegistryImpl and ItemUIProvider		
-			//ItemUIProvider cloudItemUIProvider	=	new GenericItemUIProvider();
+			// ItemRegistryImpl cloudItemRegistry = new ItemRegistryImpl();
+			// ItemUIRegistryImpl depends on ItemRegistryImpl and ItemUIProvider
+			// ItemUIProvider cloudItemUIProvider = new GenericItemUIProvider();
 			cloudUIItemRegistry.setItemRegistry(cloudItemRegistry);
-			((GenericItemUIProvider)cloudItemUIProvider).setModelRepository(localModelRepository);
+			((GenericItemUIProvider) cloudItemUIProvider)
+					.setModelRepository(localModelRepository);
 			cloudUIItemRegistry.addItemUIProvider(cloudItemUIProvider);
-			//ItemRegistry Depends on ItemProvider-GenericItemProvider
-			GenericItemProvider	cloudGenericItemProvider	=	new GenericItemProvider();
-			//Depends on ModelRepositoryImpl, ItemFactory,BindingConfigReader		
-			//--MOVED-ModelRepository	localModelRepository1	=	cloudFolderObserver.getModelRepository();
+			// ItemRegistry Depends on ItemProvider-GenericItemProvider
+			GenericItemProvider cloudGenericItemProvider = new GenericItemProvider();
+			// Depends on ModelRepositoryImpl, ItemFactory,BindingConfigReader
+			// --MOVED-ModelRepository localModelRepository1 =
+			// cloudFolderObserver.getModelRepository();
 			localModelRepository.setName("rahul");
-			System.out.println("\nWebAppServlet->ModelRepositoryImpl->this->"+localModelRepository);
-			
+			System.out.println("\nWebAppServlet->ModelRepositoryImpl->this->"
+					+ localModelRepository);
+
 			cloudGenericItemProvider.setModelRepository(localModelRepository);
-			
-			
-			
-			//cloudGenericItemProvider.addItemFactory(factory)
-			ItemFactory	itemFactory	=	new CoreItemFactory();
+
+			// cloudGenericItemProvider.addItemFactory(factory)
+			ItemFactory itemFactory = new CoreItemFactory();
 			cloudGenericItemProvider.addItemFactory(itemFactory);
 			cloudItemRegistry.addItemProvider(cloudGenericItemProvider);
-	
-			intitializeMQTTBinding(cloudGenericItemProvider,localModelRepository);
-			
-			cloudSitemapProvider	=	new SitemapProviderImpl();
-			
-			cloudSitemapProvider.setModelRepository(localModelRepository);
-			//sitemapProvider	=	cloudSitemapProvider;
-			masterData.setSiteMapProvider(cloudSitemapProvider);
-			
-			CloudSessionManager.setAttribute(session, CloudSessionManager.ITEMREGISTRY, cloudItemRegistry);
-			addPageRenderers(cloudRenderer,cloudUIItemRegistry,localModelRepository);
-	
-			
-			PersistenceManager	persistenceManager	=	initilizeModelWithStoredData(cloudItemRegistry,localModelRepository);
-			CloudSessionManager.setAttribute(session, CloudSessionManager.PERSISTENCEMANAGER, persistenceManager);
-			
-			
-			
-//			RuleEngine ruleEngine	=	initializeRuleEngine(cloudItemRegistry,localModelRepository);
-//			
-//			CloudSessionManager.setAttribute(session, CloudSessionManager.RULEENGINE, ruleEngine);
-			
-			CloudSessionManager.setAttribute(session, CloudSessionManager.SITEMAPNAME, sitemapName);
-			
-			
-			System.out.println("\n WebAppServlet->Thread:"+Thread.currentThread().getId());
 
+			intitializeMQTTBinding(cloudGenericItemProvider,
+					localModelRepository);
+
+			cloudSitemapProvider = new SitemapProviderImpl();
+
+			cloudSitemapProvider.setModelRepository(localModelRepository);
+			// sitemapProvider = cloudSitemapProvider;
+			masterData.setSiteMapProvider(cloudSitemapProvider);
+
+//			CloudSessionManager.setAttribute(session,
+//					CloudSessionManager.ITEMREGISTRY, cloudItemRegistry);
 			
-		} catch (Throwable e){
+			addPageRenderers(cloudRenderer, cloudUIItemRegistry,
+					localModelRepository);
+
+			PersistenceManager persistenceManager = initilizeModelWithStoredData(
+					cloudItemRegistry, localModelRepository);
+//			CloudSessionManager.setAttribute(session,
+//					CloudSessionManager.PERSISTENCEMANAGER, persistenceManager);
+
+			// RuleEngine ruleEngine =
+			// initializeRuleEngine(cloudItemRegistry,localModelRepository);
+			//
+			// CloudSessionManager.setAttribute(session,
+			// CloudSessionManager.RULEENGINE, ruleEngine);
+
+			CloudSessionManager.setAttribute(session,
+					CloudSessionManager.SITEMAPNAME, sitemapName);
+
+			//PUT THE OBJECTS INTO CACHE
+			
+			masterData.setItemRegistry(cloudItemRegistry);
+			masterData.setModelRepository(localModelRepository);
+			masterData.setPageRenderer(cloudRenderer);
+			masterData.setSiteMapProvider(cloudSitemapProvider);
+			masterData.setPersistenceManager(persistenceManager);
+			
+			cache.putIntoCache(sitemapName, masterData);
+			System.out.println("\n WebAppServlet->Thread:"
+					+ Thread.currentThread().getId());
+
+		} catch (Throwable e) {
 			e.printStackTrace();
-			//throw e;
+			// throw e;
 		}
 
 		return masterData;
 	}
 
-	private RuleEngine initializeRuleEngine(ItemRegistry cloudItemRegistry,ModelRepository localModelRepository){
-		RuleEngine ruleEngine	=	new RuleEngine();
-		System.out.println("\n CloudEventPublisheImpl->Initialize RuleEngine->2");
+	private RuleEngine initializeRuleEngine(ItemRegistry cloudItemRegistry,
+			ModelRepository localModelRepository) {
+		RuleEngine ruleEngine = new RuleEngine();
+		System.out
+				.println("\n CloudEventPublisheImpl->Initialize RuleEngine->2");
 		ruleEngine.setItemRegistry(cloudItemRegistry);
-		System.out.println("\n CloudEventPublisheImpl->Initialize RuleEngine->3");
-		ScriptEngine	scriptEngine	=	new ScriptEngineImpl();
-		((ScriptEngineImpl)scriptEngine).activate();
-		System.out.println("\n CloudEventPublisheImpl->Initialize RuleEngine->4");
+		System.out
+				.println("\n CloudEventPublisheImpl->Initialize RuleEngine->3");
+		ScriptEngine scriptEngine = new ScriptEngineImpl();
+		((ScriptEngineImpl) scriptEngine).activate();
+		System.out
+				.println("\n CloudEventPublisheImpl->Initialize RuleEngine->4");
 		ruleEngine.setScriptEngine(scriptEngine);
-		System.out.println("\n CloudEventPublisheImpl->Initialize RuleEngine->5");
+		System.out
+				.println("\n CloudEventPublisheImpl->Initialize RuleEngine->5");
 		ruleEngine.setModelRepository(localModelRepository);
-		System.out.println("\n CloudEventPublisheImpl->Initialize RuleEngine->6");
+		System.out
+				.println("\n CloudEventPublisheImpl->Initialize RuleEngine->6");
 		ruleEngine.activate();
 		return ruleEngine;
 	}
-	private void addPageRenderers(PageRenderer cloudRenderer,ItemUIRegistry cloudUIItemRegistry,ModelRepository localModelRepository){
-		 
 
-		 WidgetRenderer	groupRenderer	=	new	GroupRenderer();
-		 groupRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	frameRenderer	=	new	FrameRenderer();
-		 frameRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	switchRenderer	=	new	SwitchRenderer();
-		 switchRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	selectionRenderer	=	new	SelectionRenderer();
-		 selectionRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	listRenderer	=	new	ListRenderer();
-		 listRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	textRenderer	=	new	TextRenderer();
-		 textRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	imageRenderer	=	new	ImageRenderer();
-		 imageRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	sliderRenderer	=	new	SliderRenderer();
-		 sliderRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	chartRenderer	=	new	ChartRenderer();
-		 chartRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	videoRenderer	=	new	VideoRenderer();
-		 videoRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	webviewRenderer	=	new	WebviewRenderer();
-		 webviewRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	setpointRenderer	=	new	SetpointRenderer();
-		 setpointRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 WidgetRenderer	colorpickerRenderer	=	new	ColorpickerRenderer();
-		 colorpickerRenderer.setItemUIRegistry(cloudUIItemRegistry);
-		 
-		 
-		 cloudRenderer.addWidgetRenderer(groupRenderer);
-		 cloudRenderer.addWidgetRenderer(frameRenderer);
-		 cloudRenderer.addWidgetRenderer(switchRenderer);
-		 cloudRenderer.addWidgetRenderer(selectionRenderer);
-		 cloudRenderer.addWidgetRenderer(listRenderer);
-		 cloudRenderer.addWidgetRenderer(textRenderer);
-		 cloudRenderer.addWidgetRenderer(imageRenderer);
-		 cloudRenderer.addWidgetRenderer(sliderRenderer);
-		 cloudRenderer.addWidgetRenderer(chartRenderer);
-		 cloudRenderer.addWidgetRenderer(videoRenderer);
-		 cloudRenderer.addWidgetRenderer(webviewRenderer);
-		 cloudRenderer.addWidgetRenderer(setpointRenderer);
-		 cloudRenderer.addWidgetRenderer(colorpickerRenderer);
-//		 initilizeModelWithStoredData(cloudUIItemRegistry,localModelRepository);
+	private void addPageRenderers(PageRenderer cloudRenderer,
+			ItemUIRegistry cloudUIItemRegistry,
+			ModelRepository localModelRepository) {
+
+		WidgetRenderer groupRenderer = new GroupRenderer();
+		groupRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer frameRenderer = new FrameRenderer();
+		frameRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer switchRenderer = new SwitchRenderer();
+		switchRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer selectionRenderer = new SelectionRenderer();
+		selectionRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer listRenderer = new ListRenderer();
+		listRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer textRenderer = new TextRenderer();
+		textRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer imageRenderer = new ImageRenderer();
+		imageRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer sliderRenderer = new SliderRenderer();
+		sliderRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer chartRenderer = new ChartRenderer();
+		chartRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer videoRenderer = new VideoRenderer();
+		videoRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer webviewRenderer = new WebviewRenderer();
+		webviewRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer setpointRenderer = new SetpointRenderer();
+		setpointRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		WidgetRenderer colorpickerRenderer = new ColorpickerRenderer();
+		colorpickerRenderer.setItemUIRegistry(cloudUIItemRegistry);
+
+		cloudRenderer.addWidgetRenderer(groupRenderer);
+		cloudRenderer.addWidgetRenderer(frameRenderer);
+		cloudRenderer.addWidgetRenderer(switchRenderer);
+		cloudRenderer.addWidgetRenderer(selectionRenderer);
+		cloudRenderer.addWidgetRenderer(listRenderer);
+		cloudRenderer.addWidgetRenderer(textRenderer);
+		cloudRenderer.addWidgetRenderer(imageRenderer);
+		cloudRenderer.addWidgetRenderer(sliderRenderer);
+		cloudRenderer.addWidgetRenderer(chartRenderer);
+		cloudRenderer.addWidgetRenderer(videoRenderer);
+		cloudRenderer.addWidgetRenderer(webviewRenderer);
+		cloudRenderer.addWidgetRenderer(setpointRenderer);
+		cloudRenderer.addWidgetRenderer(colorpickerRenderer);
+		// initilizeModelWithStoredData(cloudUIItemRegistry,localModelRepository);
 
 	}
-	
-	private PersistenceManager initilizeModelWithStoredData(ItemRegistry cloudItemRegistry,ModelRepository localModelRepository){
-		 //This to initialize the stored data into the modelreposotory.
-		
-		 PersistenceService	persistenceService	=	new RRD4jService();
-		 RRD4jService	rRD4jService	=	(RRD4jService)persistenceService;
-		 rRD4jService.setItemRegistry(cloudItemRegistry);
-		 PersistenceManager persistenceManager	=	new PersistenceManager();
-		 persistenceManager.setItemRegistry(cloudItemRegistry);
-		 persistenceManager.setModelRepository(localModelRepository);
-		 persistenceManager.addPersistenceService(persistenceService);
-		 
-		 return persistenceManager;
-		 
-		 //---------------------NEW DB-----------------------//
-/*		 ICloudDAO	cloudDAO	=	new CloudItemDAO();
-		 cloudDAO.initialzeItem(localModelRepository, cloudUIItemRegistry);
-*/		 
+
+	private PersistenceManager initilizeModelWithStoredData(
+			ItemRegistry cloudItemRegistry, ModelRepository localModelRepository) {
+		// This to initialize the stored data into the modelreposotory.
+
+		PersistenceService persistenceService = new RRD4jService();
+		RRD4jService rRD4jService = (RRD4jService) persistenceService;
+		rRD4jService.setItemRegistry(cloudItemRegistry);
+		PersistenceManager persistenceManager = new PersistenceManager();
+		persistenceManager.setItemRegistry(cloudItemRegistry);
+		persistenceManager.setModelRepository(localModelRepository);
+		persistenceManager.addPersistenceService(persistenceService);
+
+		return persistenceManager;
+
+		// ---------------------NEW DB-----------------------//
+		/*
+		 * ICloudDAO cloudDAO = new CloudItemDAO();
+		 * cloudDAO.initialzeItem(localModelRepository, cloudUIItemRegistry);
+		 */
 	}
-	
-	public void validateAndGetSession(HttpServletRequest req,HttpServletResponse resp){
-		if(req!=null){
-			HttpSession session	=	req.getSession(false);
-			if(session==null){
-				//Create New Sssion
-				session	=	req.getSession(true);
+
+	public void validateAndGetSession(HttpServletRequest req,
+			HttpServletResponse resp) {
+		if (req != null) {
+			HttpSession session = req.getSession(false);
+			if (session == null) {
+				// Create New Sssion
+				session = req.getSession(true);
 			} else {
-				
+
 			}
 		}
-		
+
 	}
-	MqttService	mqttService	=	null;
-	private void initializeApp() throws CloudException{
-		try{
-			//initializeCloudMqttService();
-			mqttService	=	new MqttService();
+
+	MqttService mqttService = null;
+
+	private void initializeApp() throws CloudException {
+		try {
+			// initializeCloudMqttService();
+			mqttService = new MqttService();
 			mqttService.activate();
 			mqttService.updatedCloud(getMqttServiceDictionary());
-			//cloudEventPublisher	=	mqttService.getEventPublisher();
-			cloudEventPublisher	=	new EventPublisherImpl();
+			// cloudEventPublisher = mqttService.getEventPublisher();
+			cloudEventPublisher = new EventPublisherImpl();
 			mqttService.setEventPublisher(cloudEventPublisher);
-			messageBrokerService	=	MessageBrokerService.getInstance();
-//			AdminEventImpl	manager	=	new AdminEventImpl();
-//			manager.initializeBus();
-			
-			//System.out.println("\nWebAppServlet->initilize->cloudEventPublisher->"+cloudEventPublisher);
-		} catch (Exception e){
+			messageBrokerService = MessageBrokerService.getInstance();
+			// AdminEventImpl manager = new AdminEventImpl();
+			// manager.initializeBus();
+
+			// System.out.println("\nWebAppServlet->initilize->cloudEventPublisher->"+cloudEventPublisher);
+		} catch (Exception e) {
 			e.printStackTrace();
-			CloudExceptionManager.throwException(CloudMessageConstants.MQTT_SERVICE_ERROR, null, "could not initilize mqtt");
+			CloudExceptionManager.throwException(
+					CloudMessageConstants.MQTT_SERVICE_ERROR, null,
+					"could not initilize mqtt");
 		}
 	}
-	
-	private Dictionary<String, ?> getMqttServiceDictionary(){
+
+	private Dictionary<String, ?> getMqttServiceDictionary() {
 		Dictionary dict = new Hashtable();
 		dict.put("mosquitto.async", "false");
 		dict.put("mosquitto.async", "false");
-		dict.put("mosquitto.clientId","openHAB");
-		dict.put("mosquitto.qos","1");
-		dict.put("mosquitto.retain","false");
-		dict.put("mosquitto.url","tcp://localhost:1883");
+		dict.put("mosquitto.clientId", "openHAB");
+		dict.put("mosquitto.qos", "1");
+		dict.put("mosquitto.retain", "false");
+		dict.put("mosquitto.url", "tcp://localhost:1883");
 		return dict;
-		//MqttService->updated->property->async
-		//MqttService->updated->property->clientId
-		//MqttService->updated->property->qos
-		//MqttService->updated->property->retain
-		
+		// MqttService->updated->property->async
+		// MqttService->updated->property->clientId
+		// MqttService->updated->property->qos
+		// MqttService->updated->property->retain
+
 	}
-	
-	public void intitializeMQTTBinding(GenericItemProvider genericItemProvider,ModelRepository modelRepo){
-		BindingConfigReader	bindingConfigReader	=	new MqttGenericBindingProvider();
-		//System.out.println("\nWebAppServlet->initialzeMqttBinding->"+bindingConfigReader);
-		((MqttGenericBindingProvider)bindingConfigReader).setMqttService(mqttService);
+
+	public void intitializeMQTTBinding(GenericItemProvider genericItemProvider,
+			ModelRepository modelRepo) {
+		BindingConfigReader bindingConfigReader = new MqttGenericBindingProvider();
+		// System.out.println("\nWebAppServlet->initialzeMqttBinding->"+bindingConfigReader);
+		((MqttGenericBindingProvider) bindingConfigReader)
+				.setMqttService(mqttService);
 		genericItemProvider.addBindingConfigReader(bindingConfigReader);
 	}
 }
