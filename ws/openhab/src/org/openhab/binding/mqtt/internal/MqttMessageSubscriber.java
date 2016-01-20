@@ -165,7 +165,7 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 				EventManager manager	=	new EventManager();
 				Command command = getCommand(value);
 				manager.postUpdate(getItemName(), command, "demo");
-				eventPublisher.postUpdate(getItemName(), state);
+				//eventPublisher.postUpdate(getItemName(), state);
 				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+"->State->"+getState(value)+":command:->"+state.toString());				
 			}
 		} catch (Exception e) {

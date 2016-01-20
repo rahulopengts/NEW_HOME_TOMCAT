@@ -70,7 +70,7 @@ public class OSGILogListener {
 	private static class NLogListener implements LogListener {
 	 	public void logged(LogEntry entry) {
 	 		Logger logger = LoggerFactory.getLogger("OSGi");
-	 		Marker marker = MarkerFactory.getMarker(entry.getBundle().getSymbolicName());
+	 		Marker marker = null;//MarkerFactory.getMarker(entry.getBundle().getSymbolicName());
 	 		switch(entry.getLevel()) {
 	 		case LogService.LOG_DEBUG:   logger.debug(marker, entry.getMessage(), entry.getException()); break;
 	 		case LogService.LOG_INFO:    logger.info(marker, entry.getMessage(), entry.getException()); break;

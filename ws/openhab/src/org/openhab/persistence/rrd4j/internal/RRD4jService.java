@@ -58,8 +58,8 @@ public class RRD4jService implements QueryablePersistenceService {
 
 	private static final String DATASOURCE_STATE = "state";
 
-	//public final static String DB_FOLDER = getUserPersistenceDataFolder() + File.separator + "rrd4j";
-	public String DB_FOLDER = getUserPersistenceDataFolder() + File.separator + "rrd4j";
+	public final static String DB_FOLDER = getUserPersistenceDataFolder() + File.separator + "rrd4j";
+	//public String DB_FOLDER = getUserPersistenceDataFolder() + File.separator + "rrd4j";
 	
 	private static final Logger logger = LoggerFactory.getLogger(RRD4jService.class);
 
@@ -240,14 +240,14 @@ public class RRD4jService implements QueryablePersistenceService {
 	protected synchronized RrdDb getDB(String alias, ConsolFun function) {
 		RrdDb db = null;
 		System.out.println("\nRRD4jService->getDB->siteName->"+siteName);
-		DB_FOLDER	=	getUserPersistenceDataFolder()+File.separator+siteName+File.separator+"rrd4j";
-        File file = new File(DB_FOLDER + File.separator + alias + ".rrd");
+		String DB_FOLDER_NEW	=	getUserPersistenceDataFolder()+File.separator+siteName+File.separator+"rrd4j";
+        File file = new File(DB_FOLDER_NEW + File.separator + alias + ".rrd");
     	try {
             if (file.exists()) {
             	// recreate the RrdDb instance from the file
             	db = new RrdDb(file.getAbsolutePath());
             } else {
-            	File folder = new File(DB_FOLDER);
+            	File folder = new File(DB_FOLDER_NEW);
             	if(!folder.exists()) {
             		folder.mkdirs();
             	}

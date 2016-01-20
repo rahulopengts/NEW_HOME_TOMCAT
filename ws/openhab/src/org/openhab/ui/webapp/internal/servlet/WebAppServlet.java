@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 
 import org.eclipse.emf.common.util.EList;
 import org.openhab.binding.mqtt.internal.MqttGenericBindingProvider;
+import org.openhab.core.drools.internal.DroolsService;
 import org.openhab.core.events.EventPublisher;
 import org.openhab.core.internal.events.EventPublisherImpl;
 import org.openhab.core.internal.items.ItemRegistryImpl;
@@ -90,7 +91,6 @@ import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.openhab.core.cache.AbstractAppCache;
 import com.openhab.core.cache.AppCacheFactory;
 import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constant.CloudHomeAutoConstants;
@@ -604,6 +604,8 @@ public class WebAppServlet extends BaseServlet {
 
 			PersistenceManager persistenceManager = initilizeModelWithStoredData(
 					cloudItemRegistry, localModelRepository,sitemapName);
+
+			DroolsService	drools	=	initializeDroolsService(cloudItemRegistry, localModelRepository);
 //			CloudSessionManager.setAttribute(session,
 //					CloudSessionManager.PERSISTENCEMANAGER, persistenceManager);
 
@@ -636,6 +638,13 @@ public class WebAppServlet extends BaseServlet {
 		return masterData;
 	}
 
+	private DroolsService initializeDroolsService(ItemRegistry cloudItemRegistry,
+			ModelRepository localModelRepository) {
+			DroolsService	drools	=	new DroolsService();
+			drools.setItemRegistry(cloudItemRegistry);
+			drools.activate();
+			return drools;
+	}
 	private RuleEngine initializeRuleEngine(ItemRegistry cloudItemRegistry,
 			ModelRepository localModelRepository) {
 		RuleEngine ruleEngine = new RuleEngine();
