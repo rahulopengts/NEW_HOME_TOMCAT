@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-beliefs-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-compiler-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-core-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-decisiontables-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-jsr94-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-persistence-jpa-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-pmml-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-reteoo-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-scorecards-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-templates-6.3.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/drools/binaries/drools-verifier-6.3.0.Final.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/drools/binaries/kie-api-6.3.0.Final.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/drools/binaries/kie-ci-6.3.0.Final.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/drools/binaries/kie-internal-6.3.0.Final.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/drools/binaries/knowledge-api-6.3.0.Final.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
