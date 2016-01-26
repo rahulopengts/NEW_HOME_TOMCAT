@@ -127,7 +127,7 @@ public class CmdServlet extends BaseServlet {
 				eventObject.setModelRepository(cloudModelRepository);
 				eventObject.setRuleEngine(ruleEngine);
 				eventObject.setPersistanceManager(persistenceManager);
-
+				eventObject.setSiteName(siteName);
 				//TOMCAT
 //				CloudMasterData	masterData	=	new CloudMasterData();
 //				masterData.setItemRegistry(cloudItemRegistry);

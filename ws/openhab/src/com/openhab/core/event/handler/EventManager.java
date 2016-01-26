@@ -34,7 +34,7 @@ import com.openhab.core.event.dto.EventObject;
 import com.openhab.core.event.dto.UIEventObject;
 import com.openhab.core.internal.event.processor.CloudMessageProcHelper;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
-
+import org.openhab.core.types.Type;
 public class EventManager	{// implements IEventManager{
 
 	
@@ -97,17 +97,19 @@ public class EventManager	{// implements IEventManager{
 			}
 
 			MqttMessagePublisher	publisher	=	pubList.get(0);
+			
 			MqttMessagePublisher	p1=	(MqttMessagePublisher)pubList.get(0);
+			System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:0:"+p1.getItemName()+"->transformationRule->"+p1.getTransformationRule());
 			//CloudChange->As per configuration in .items, mqttmessagepublisher at index 0 is for OUTBOUND OFF COMMAND			
-			MqttMessagePublisher	p2=	(MqttMessagePublisher)pubList.get(1);
+			//MqttMessagePublisher	p2=	(MqttMessagePublisher)pubList.get(1);
 			MqttMessagePublisher	messageToBePublished	=	(MqttMessagePublisher)pubList.get(commandMessageIndex);
 			
 			MqttMessagePublisher	publisherTopic	=	pubList.get(commandMessageIndex);
 			
 			
-			System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:0:"+pubList.get(0)+":1:"+pubList.get(1));
+			//System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:0:"+pubList.get(0)+":1:"+pubList.get(1));
 			System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:Size:"+pubList.size());
-			System.out.println("\nEventManager->publishData->MqttMessagePublisher-0->"+p1.getTransformationRule()+"->p2->"+p2.getTransformationRule()+"->MessageType->"+p1.getMessageType());
+			//System.out.println("\nEventManager->publishData->MqttMessagePublisher-0->"+p1.getTransformationRule()+"->p2->"+p2.getTransformationRule()+"->MessageType->"+p1.getMessageType());
 			
 			//CoudChange Outbound OFF Command
 			eventObject.setMqttMessageToBePublished(messageToBePublished);
@@ -209,18 +211,19 @@ public class EventManager	{// implements IEventManager{
 		
 		eventObject.setTopicName(topicName);
 		IEventHandler	eventHandler	=	new UIEventMessageHandler();
-		admin.dispatchEvent(eventObject, eventHandler);
+		//admin.dispatchEvent(eventObject, eventHandler);
 
 		
 		EventObject	dbObject	=	new DBEventObject();
 		dbObject.setCommand(command);
 		dbObject.setItemName(itemName);
-		State s	=	(State)command;
+		Type s	=	(Type)command;
 		dbObject.setNewState(s);
 		dbObject.setModelRepository(p_EventObject.getModelRepository());
 		dbObject.setItemRegistry(p_EventObject.getItemRegistry());
 		dbObject.setPersistanceManager(p_EventObject.getPersistanceManager());
 		dbObject.setRuleEngine(p_EventObject.getRuleEngine());
+		dbObject.setSiteName(p_EventObject.getSiteName());
 
 		dbObject.setMessageContent(messageContent);
 		dbObject.setTopicName(topicName);
@@ -260,17 +263,27 @@ public class EventManager	{// implements IEventManager{
 			
 			MqttMessagePublisher	publisherTopic	=	pubList.get(commandMessageIndex);
 			
-			System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:0:"+pubList.get(0)+":1:"+pubList.get(1));
-			System.out.println("\nEventManager->publishData->MqttMessagePublisherList->:Size:"+pubList.size());
-			System.out.println("\nEventManager->publishData->MqttMessagePublisher-0->"+p1.getTransformationRule()+"->p2->"+p2.getTransformationRule()+"->MessageType->"+p1.getMessageType());
+			System.out.println("\nEventManager->postUpdate->MqttMessagePublisherList->:0:"+pubList.get(0)+":1:"+pubList.get(1));
+			System.out.println("\nEventManager->postUpdate->MqttMessagePublisherList->:Size:"+pubList.size());
+			System.out.println("\nEventManager->postUpdate->MqttMessagePublisher-0->"+p1.getTransformationRule()+"->p2->"+p2.getTransformationRule()+"->MessageType->"+p1.getMessageType());
 			
 			//CoudChange Outbound OFF Command
 			eventObject.setMqttMessageToBePublished(messageToBePublished);
 			eventObject.setItemRegistry(itemRegistry);
 			eventObject.setModelRepository(masterData.getModelRepository());
 			eventObject.setPersistanceManager(masterData.getPersistenceManager());
+			Type s	=	(Type)command;
+			eventObject.setNewState(s);
+			eventObject.setCommand(command);
+			eventObject.setItemName(itemName);
+			eventObject.setSiteName(siteName);
+			eventObject.setMessageContent(messageToBePublished.getTransformationRule());
+			eventObject.setTopicName(publisherTopic.getTopic());
 			
-			dispatchEvent(itemRegistry,messageToBePublished.getTransformationRule(), publisherTopic.getTopic(),command,itemName,modelRepository,itemConfig,eventObject);
+			//dispatchEvent(itemRegistry,messageToBePublished.getTransformationRule(), publisherTopic.getTopic(),command,itemName,modelRepository,itemConfig,eventObject);
+			AdminEventImpl	admin	=	new AdminEventImpl();
+			IEventHandler	dataEventHandler	=	new PostUpdateHandler();
+			admin.dispatchEvent(eventObject, dataEventHandler);
 
 			
 		} catch (Exception e){

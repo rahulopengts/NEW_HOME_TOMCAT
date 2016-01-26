@@ -40,27 +40,11 @@ public class CloudAutoUpdateBinding extends CloudAbstractBinding {
 	 */
 	@Override
 	public void receiveCommand(String itemName, Command command) {
-//		Boolean autoUpdate = null;
-//		for (AutoUpdateBindingProvider provider : providers) {
-//			Boolean au = provider.autoUpdate(itemName);
-//			if (au != null) {
-//				autoUpdate = au;
-//				if (Boolean.TRUE.equals(autoUpdate)) {
-//					break;
-//				}
-//			}
-//		}
-//		
-//		// we didn't find any autoupdate configuration, so apply the default now
-//		if (autoUpdate == null) {
-//			autoUpdate = Boolean.TRUE;
-//		}
-//		
-//		if (autoUpdate && command instanceof State) {
+		System.out.println("\nCloudAutoUpdateBinding->receiveCommand->itemName->"+itemName+"->Command->"+command.getClass()+"->Provider->"+this);
+		if(command instanceof State){	
+			System.out.println("\nCloudAutoUpdateBinding->receiveCommand->Not an instacen of state");
 			postUpdate(itemName, (State) command);
-//		} else {
-//			logger.trace("Won't update item '{}' as it is not configured to update its state automatically.", itemName);
-//		}
+		}
 	}
 
 	private void postUpdate(String itemName, State newStatus) {

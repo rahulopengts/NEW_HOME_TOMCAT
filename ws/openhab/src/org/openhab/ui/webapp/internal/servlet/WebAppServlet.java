@@ -625,7 +625,7 @@ public class WebAppServlet extends BaseServlet {
 			masterData.setPageRenderer(cloudRenderer);
 			masterData.setSiteMapProvider(cloudSitemapProvider);
 			masterData.setPersistenceManager(persistenceManager);
-			
+			masterData.setDroolsService(drools);
 			cache.putIntoCache(sitemapName, masterData);
 			System.out.println("\n WebAppServlet->Thread:"
 					+ Thread.currentThread().getId());

@@ -13,20 +13,12 @@ import org.openhab.core.types.State;
 
 public class DroolsScriptExecuter {
 
-	Map<String, String> factHashMap	=	new HashMap<>();
 	
-	public void executeRule(StatelessKieSession session, ItemRegistry itemRegistry){
+	public void executeRule(StatelessKieSession session, ItemRegistry itemRegistry,Map<String,String> factHashMap){
 		try{
-		Collection<Item> collectionItem	=	itemRegistry.getItems();
-		Iterator<Item> itemIterator	=	collectionItem.iterator();
-		while(itemIterator.hasNext()){
-			Item itemObj	=	itemIterator.next();
-			State	itemState	=	itemObj.getState();
-			factHashMap.put(itemObj.getName(), itemState.toString());
-			System.out.println("\nDroolsScriptExecuter->itemName->"+itemObj.getName()+"->ItemState->"+itemState.toString());
-		}
-		
-        session.execute(Arrays.asList(factHashMap));
+			Collection<Item> collectionItem	=	itemRegistry.getItems();
+			Iterator<Item> itemIterator	=	collectionItem.iterator();
+	        session.execute(Arrays.asList(factHashMap));
 		} catch (Throwable e){
 			e.printStackTrace();
 		}

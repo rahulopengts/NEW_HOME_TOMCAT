@@ -4,33 +4,29 @@ import static org.openhab.core.events.EventConstants.TOPIC_PREFIX;
 import static org.openhab.core.events.EventConstants.TOPIC_SEPERATOR;
 
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 import org.openhab.binding.mqtt.internal.MqttGenericBindingProvider;
 import org.openhab.binding.mqtt.internal.MqttItemBinding;
+import org.openhab.core.drools.internal.DroolsService;
 import org.openhab.core.events.EventPublisher;
 import org.openhab.core.internal.items.ItemUpdater;
 import org.openhab.core.items.ItemRegistry;
 import org.openhab.core.persistence.internal.PersistenceManager;
-import org.openhab.core.scriptengine.ScriptEngine;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.EventType;
 import org.openhab.core.types.State;
 import org.openhab.model.core.ModelRepository;
 import org.openhab.model.rule.internal.engine.RuleEngine;
-import org.openhab.model.script.internal.engine.ScriptEngineImpl;
-import org.osgi.service.event.Event;
+import org.openhab.ui.webapp.cloud.exception.CloudException;
 import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.openhab.core.db.CloudPersistenceManager;
+import com.openhab.core.cache.AppCacheFactory;
+import com.openhab.core.cache.IAppCache;
 import com.openhab.core.dto.CloudMasterData;
-import com.openhab.core.event.dto.EventObject;
 import com.openhab.core.internal.event.dto.CloudEvent;
-import com.openhab.core.internal.event.dto.CloudEventProperty;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
 
 public class CloudEventPublisherImpl implements EventPublisher {
@@ -39,6 +35,16 @@ public class CloudEventPublisherImpl implements EventPublisher {
 			LoggerFactory.getLogger(CloudEventPublisherImpl.class);
 			
 		private EventAdmin eventAdmin;
+		
+		public String getSiteName() {
+			return siteName;
+		}
+
+		public void setSiteName(String siteName) {
+			this.siteName = siteName;
+		}
+
+		private String siteName	=	null;
 		
 		
 		private ItemRegistry itemRegistry;
@@ -100,6 +106,7 @@ public class CloudEventPublisherImpl implements EventPublisher {
 		public void sendCommand(String itemName, Command command) {
 			
 			System.out.println("\n CloudEventPublisheImpl->sendCommand->");
+			try{
 			if (command != null) {
 				
 				ThreadLocal<String> t	=	new ThreadLocal<>();
@@ -122,17 +129,17 @@ public class CloudEventPublisherImpl implements EventPublisher {
 				System.out.println("\n CloudEventPublisheImpl->sendCommand->Command is not null");
 				System.out.println("\nCloudEventPublisheImpl->publishData->MasterData->"+Thread.currentThread().getId()+":MasterData:"+CloudThreadLocalStorage.getCloudMasterData());				
 				
-				CloudMasterData	masterData	=	new CloudMasterData();
-				masterData.setItemRegistry(itemRegistry);
-				masterData.setModelRepository(modelRepository);
+//				CloudMasterData	masterData	=	new CloudMasterData();
+//				masterData.setItemRegistry(itemRegistry);
+//				masterData.setModelRepository(modelRepository);
 				
 				//masterData.setTopicName(topicName);
-				
-				CloudThreadLocalStorage.setCloudMasterData(masterData);
+				CloudEvent	cloudEvent	=	createCommandEvent(itemName, command);
+//				CloudThreadLocalStorage.setCloudMasterData(masterData);
 				
 				CloudAutoUpdateBinding	cloudAutoUpdateBinding	=	new CloudAutoUpdateBinding();
 				cloudAutoUpdateBinding.setItemRegistry(itemRegistry);
-				cloudAutoUpdateBinding.handleEvent(createCommandEvent(itemName, command));
+				cloudAutoUpdateBinding.handleEvent(cloudEvent);
 				
 				
 				MqttGenericBindingProvider	mqttGenericBindingProvider	=	CloudMessageProcHelper.getMqttGenericBindingProvider(itemName, command,itemRegistry,modelRepository);
@@ -140,6 +147,12 @@ public class CloudEventPublisherImpl implements EventPublisher {
 				cloudMqttItemBinding.addBindingProvider(mqttGenericBindingProvider);
 				cloudMqttItemBinding.receiveCommand(itemName, command);
 
+			
+				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
+				CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache(siteName,null);
+				DroolsService	droolsService	=	masterData.getDroolsService();
+				droolsService.handleEvent(cloudEvent);
+				
 				
 /*				ItemUpdater	itemUpdater	=	new ItemUpdater();
 				itemUpdater.setItemRegistry(itemRegistry);
@@ -155,6 +168,9 @@ public class CloudEventPublisherImpl implements EventPublisher {
 */				
 			} else {
 				logger.warn("given command is NULL, couldn't send command to '{}'", itemName);
+			}
+			} catch (CloudException e){
+				e.printStackTrace();
 			}
 		}
 
@@ -176,18 +192,47 @@ public class CloudEventPublisherImpl implements EventPublisher {
 		 * @see org.openhab.core.internal.events.EventPublisher#postUpdate(org.openhab.core.items.GenericItem, org.openhab.core.datatypes.DataType)
 		 */
 		public void postUpdate(String itemName, State newState) {
-			if (newState != null) {
-				if(eventAdmin!=null) eventAdmin.postEvent(createUpdateEvent(itemName, newState));
-			} else {
-				logger.warn("given new state is NULL, couldn't post update for '{}'", itemName);
+			System.out.println("\n CloudEventPublisheImpl->sendCommand->");
+			try{
+				
+				ThreadLocal<String> t	=	new ThreadLocal<>();
+				t.set("rahul");
+				System.out.println("\n CloudEventPublisheImpl->postUpdate->Command is not null");
+				System.out.println("\nCloudEventPublisheImpl->postUpdate->MasterData->"+Thread.currentThread().getId()+":MasterData:"+CloudThreadLocalStorage.getCloudMasterData());				
+				CloudEvent	cloudEvent	=	createUpdateEvent(itemName, newState);
+				
+/*				CloudAutoUpdateBinding	cloudAutoUpdateBinding	=	new CloudAutoUpdateBinding();
+				cloudAutoUpdateBinding.setItemRegistry(itemRegistry);
+				cloudAutoUpdateBinding.handleEvent(cloudEvent);
+				
+				
+				MqttGenericBindingProvider	mqttGenericBindingProvider	=	CloudMessageProcHelper.getMqttGenericBindingProvider(itemName, command,itemRegistry,modelRepository);
+				MqttItemBinding	cloudMqttItemBinding	=	new MqttItemBinding();
+				cloudMqttItemBinding.addBindingProvider(mqttGenericBindingProvider);
+				cloudMqttItemBinding.receiveCommand(itemName, command);
+
+			
+				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
+				CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache(siteName,null);
+				DroolsService	droolsService	=	masterData.getDroolsService();
+				droolsService.handleEvent(cloudEvent);
+				*/
+				
+				ItemUpdater	itemUpdater	=	new ItemUpdater();
+				itemUpdater.setItemRegistry(itemRegistry);
+				itemUpdater.receiveUpdate(itemName, newState);
+				
+
+			} catch (Exception e){
+				e.printStackTrace();
 			}
 		}
 		
-		private Event createUpdateEvent(String itemName, State newState) {
+		private CloudEvent createUpdateEvent(String itemName, State newState) {
 			Dictionary<String, Object> properties = new Hashtable<String, Object>();
 			properties.put("item", itemName);
 			properties.put("state", newState);
-			return new Event(createTopic(EventType.UPDATE, itemName), properties);
+			return new CloudEvent(createTopic(EventType.UPDATE, itemName) , properties);
 		}
 
 		private CloudEvent createCommandEvent(String itemName, Command command) {

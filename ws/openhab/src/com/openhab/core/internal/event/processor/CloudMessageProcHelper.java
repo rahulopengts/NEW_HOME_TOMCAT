@@ -28,7 +28,7 @@ public class CloudMessageProcHelper {
 		Map<ItemProvider, Collection<Item>> itemMaps	=	((ItemRegistryImpl)itemRegistry).getItemMap();
 		//ItemRegistry has the map of providers.
 		if(itemMaps!=null && itemMaps.size()==1){
-			System.out.println("\n PublishData->");
+			//System.out.println("\n PublishData->");
 			Set<ItemProvider> genericItemKey	=	itemMaps.keySet();
 			Iterator<ItemProvider> iterate	=	genericItemKey.iterator();
 			
@@ -60,12 +60,12 @@ public class CloudMessageProcHelper {
 				commandMessageIndex	=	1;
 			}
 
-			MqttMessagePublisher	publisher	=	pubList.get(0);
-			MqttMessagePublisher	p1=	(MqttMessagePublisher)pubList.get(0);
-			//CloudChange->As per configuration in .items, mqttmessagepublisher at index 0 is for OUTBOUND OFF COMMAND			
-			MqttMessagePublisher	p2=	(MqttMessagePublisher)pubList.get(1);
-			MqttMessagePublisher	messageToBePublished	=	(MqttMessagePublisher)pubList.get(commandMessageIndex);
-			MqttMessagePublisher	publisherTopic	=	pubList.get(commandMessageIndex);
+//			MqttMessagePublisher	publisher	=	pubList.get(0);
+//			MqttMessagePublisher	p1=	(MqttMessagePublisher)pubList.get(0);
+//			//CloudChange->As per configuration in .items, mqttmessagepublisher at index 0 is for OUTBOUND OFF COMMAND			
+//			MqttMessagePublisher	p2=	(MqttMessagePublisher)pubList.get(1);
+//			MqttMessagePublisher	messageToBePublished	=	(MqttMessagePublisher)pubList.get(commandMessageIndex);
+//			MqttMessagePublisher	publisherTopic	=	pubList.get(commandMessageIndex);
 		}
 		
 		return mqttGenericBindingProvider;

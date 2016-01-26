@@ -1,7 +1,6 @@
 package com.openhab.core.dto;
 
-import java.util.EventObject;
-
+import org.openhab.core.drools.internal.DroolsService;
 import org.openhab.core.items.ItemRegistry;
 import org.openhab.core.persistence.internal.PersistenceManager;
 import org.openhab.core.types.Command;
@@ -10,12 +9,21 @@ import org.openhab.model.rule.internal.engine.RuleEngine;
 import org.openhab.model.sitemap.SitemapProvider;
 import org.openhab.ui.webapp.internal.render.PageRenderer;
 
+import com.openhab.core.event.dto.EventObject;
+
 public class CloudMasterData implements ICloudMasterData{
 	private SitemapProvider	siteMapProvider	=	null;
 	private PageRenderer	pageRenderer	=	null;
 	private ItemRegistry	itemRegistry	=	null;
 	private ModelRepository	modelRepository	=	null;
+	private DroolsService	droolsService	=	null;
 	
+	public DroolsService getDroolsService() {
+		return droolsService;
+	}
+	public void setDroolsService(DroolsService droolsService) {
+		this.droolsService = droolsService;
+	}
 	private String topicName		=	null;
 	private Command command		=	null;
 	private String itemName		=	null;

@@ -7,8 +7,19 @@ import org.openhab.core.types.Command;
 import org.openhab.core.types.State;
 import org.openhab.model.core.ModelRepository;
 import org.openhab.model.rule.internal.engine.RuleEngine;
+import org.openhab.core.types.Type;
 
 public class EventObject {
+
+	private String siteName	=	null;
+	
+	public String getSiteName() {
+		return siteName;
+	}
+
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
 
 	private ItemRegistry	itemRegistry	=	null;
 	
@@ -78,15 +89,16 @@ public class EventObject {
 		this.command = command;
 	}
 
-	public State getNewState() {
+	public Type getNewState() {
 		return newState;
 	}
 
-	public void setNewState(State newState) {
+	public void setNewState(Type newState) {
 		this.newState = newState;
 	}
 
-	private State newState		=	null;
+	//private State newState		=	null;
+	private Type newState		=	null;
 	
 	public String getTopicName() {
 		return topicName;

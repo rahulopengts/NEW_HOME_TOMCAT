@@ -66,7 +66,10 @@ public class TypeParser {
 				try {									
 					Method valueOf = type.getMethod("valueOf", String.class);
 					Command value = (Command) valueOf.invoke(type, s);
-					if(value!=null) return value;
+					if(value!=null) {
+						System.out.println("\n TypeParser-parseCommand->value->"+value+"->type->"+type);
+						return value;
+					}
 				} catch (NoSuchMethodException e) {
 				} catch (IllegalArgumentException e) {
 				} catch (IllegalAccessException e) {

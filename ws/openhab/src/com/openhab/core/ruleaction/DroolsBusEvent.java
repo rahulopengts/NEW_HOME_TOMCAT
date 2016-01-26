@@ -3,6 +3,7 @@ package com.openhab.core.ruleaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openhab.core.items.ItemRegistry;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.HSBType;
 import org.openhab.core.library.types.IncreaseDecreaseType;
@@ -12,13 +13,20 @@ import org.openhab.core.library.types.PercentType;
 import org.openhab.core.library.types.StopMoveType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.types.UpDownType;
+import org.openhab.core.persistence.internal.PersistenceManager;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.TypeParser;
+import org.openhab.model.core.ModelRepository;
+import org.openhab.model.rule.internal.engine.RuleEngine;
 import org.openhab.model.script.actions.BusEvent;
 import org.openhab.ui.webapp.cloud.exception.CloudException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openhab.core.cache.AppCacheFactory;
+import com.openhab.core.cache.IAppCache;
+import com.openhab.core.dto.CloudMasterData;
+import com.openhab.core.event.dto.EventObject;
 import com.openhab.core.event.handler.EventManager;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
 
@@ -34,10 +42,30 @@ public class DroolsBusEvent extends BusEvent {
 		
 			try {
 				
-				EventManager manager	=	new EventManager();
+				//EventManager manager	=	new EventManager();
 				Command command = getCommand(commandString);
-				eventManager.postUpdate(itemName, command, "demo");
-
+				//eventManager.postUpdate(itemName, command, "demo");
+				
+				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance("demo");
+				CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache("demo",null);
+				ItemRegistry	itemRegistry	=	masterData.getItemRegistry();
+				ModelRepository	cloudModelRepository	=	masterData.getModelRepository();
+				PersistenceManager pesPersistenceManager	=	masterData.getPersistenceManager();
+				RuleEngine	ruleEngine	=	masterData.getRuleEngine();
+				//EventObject	eventObject	=	masterData.getEventObject();
+				EventObject	eventObject	=	new EventObject();
+				
+				eventObject.setCommand(command);
+				eventObject.setModelRepository(cloudModelRepository);
+				eventObject.setItemName(itemName);
+				eventObject.setSiteName("demo");
+				eventObject.setPersistanceManager(pesPersistenceManager);
+				eventObject.setRuleEngine(ruleEngine);
+				eventObject.setItemRegistry(itemRegistry);
+				
+				eventManager.publishData(itemName, command, itemRegistry, masterData.getModelRepository(), masterData.getPersistenceManager(), masterData.getRuleEngine(), eventObject);
+				
+				//publishData(itemName, command, cloudItemRegistry,cloudModelRepository,persistenceManager,ruleEngine,eventObject);
 				System.out.println("\nDroolsBusEvent->Done");
 				
 			} catch (CloudException e) {
