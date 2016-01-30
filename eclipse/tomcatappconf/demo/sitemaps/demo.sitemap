@@ -1,4 +1,4 @@
-sitemap rahul label="Rahul's Home"
+sitemap rahul label="Rahul-Avishi's Home"
 {
 	Frame {
 		Group item=rHFF label="Rahul's Home" icon="cellar" {
@@ -9,7 +9,8 @@ sitemap rahul label="Rahul's Home"
 				Switch item=Node01				
 				Switch item=Node02				
 				Switch item=Node03				
-				Switch item=Node04				
+				Switch item=Node04		
+				Slider item=Dimmed_Light				
 			}			
 			Group item=RH_Kitchen {
 				Group item=Window {

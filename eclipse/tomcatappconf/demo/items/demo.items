@@ -9,7 +9,7 @@ Group Weather 	(All)
 Group Status 	(All)
 Group health 		(All)
 
-Group RH_Living 	"Drawing Room" 	<bedroom> 	(rHFF)
+Group RH_Living 	"Avishi Drawing Room" 	<bedroom> 	(rHFF)
 Group RH_Kitchen 	"Top Master Room" <bedroom> 	(rHFF)
 Group RH_Toilet 	"Toilet" 		<bath> 		(rHFF)
 Group RH_Corridor 	"Garage" 		<corridor> 	(rHFF)
@@ -31,25 +31,31 @@ Switch Light "Right-Bulb" (RH_Living) {mqtt=">[mosquitto:/nancy/kitchen/dishwash
 
 Switch	Dishwasher "Dish1" (RH_Living) {mqtt=">[mosquitto:/nancy/kitchen/dishwasher:command:ON:ONDISH1],>[mosquitto:/nancy/kitchen/dishwasher:command:OFF:OFFDISH],<[mosquitto:/RH_DISH:state:default]"}
 
-Switch	Node01 (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N1L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N1L9N9S1000000000],<[mosquitto:/L1N1L9N9S1:state:default]"}
+Switch	Node01 "Node01 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N1L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N1L9N9S1000000000],<[mosquitto:/L1N1L9N9S1:state:default]"}
 //OL1N1L9N9S1000000000
 
 
 
-Switch	Node02 (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N1S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N1S1000000000],<[mosquitto:/L1N2L9N9S1:state:default]"}
+Switch	Node02 "Node02 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N1S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N1S1000000000],<[mosquitto:/L1N2L9N9S1:state:default]"}
 
 
-Switch	Node03 (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N0S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N0S1000000000],<[mosquitto:/L1N0L2N0S1:state:default]"}
+Switch	Node03 "Node03 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N0S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N0S1000000000],<[mosquitto:/L1N0L2N0S1:state:default]"}
 
-Switch	Node04 (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N4L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N4L9N9S1000000000],<[mosquitto:/L1N4L9N9S1:state:default]"}
+Switch	Node04 "Node04 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N4L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N4L9N9S1000000000],<[mosquitto:/L1N4L9N9S1:state:default]"}
 
-Switch	Node05S0 (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S0100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S0000000000],<[mosquitto:/L1N5L9N9S0:state:default]"}
+Switch	Node05S0 "Node05 Avishi" (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S0100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S0000000000],<[mosquitto:/L1N5L9N9S0:state:default]"}
 
 Switch	Node05S1 (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S1000000000],<[mosquitto:/L1N5L9N9S1:state:default]"}
 
 Switch	Node05S2 (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S2100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S2000000000],<[mosquitto:/L1N5L9N9S2:state:default]"}
 
 Switch	Node05S33 (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S3100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S3000000000],<[mosquitto:/L1N5L9N9S3:state:default]"}
+
+Dimmer  Dimmed_Light  "Dimmer Light [%d %%]"  <slider> (GF_Living,Lights)  {mqtt=">[mosquitto:/raspberry:state:*:OL1N5L9N9S3100000000],>[mosquitto:/raspberry:state:*:OL1N5L9N9S3000000000],<[mosquitto:/L1N5L9N9S3:state:default]"}
+// { mqtt=">[mosquitto:/MyMQTT/30/3/V_DIMMER:state:*:default]" }
+
+
+//Dimmer  Dimmed_Light    "Dimmer Light [%d %%]"  <slider>    (GF_Living, Lights)     { mqtt=">[mosquitto:/MyMQTT/30/3/V_DIMMER:state:*:default]" }
 
 Group:Contact:OR(OPEN, CLOSED) 	Window 	"Open windows [(%d)]"				<contact>		(RH_Kitchen)
 
