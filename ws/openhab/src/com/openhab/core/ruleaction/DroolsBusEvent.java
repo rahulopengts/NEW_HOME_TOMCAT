@@ -45,9 +45,8 @@ public class DroolsBusEvent extends BusEvent {
 				//EventManager manager	=	new EventManager();
 				Command command = getCommand(commandString);
 				//eventManager.postUpdate(itemName, command, "demo");
-				
-				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance("demo");
-				CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache("demo",null);
+				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(homeId);
+				CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache(homeId,null);
 				ItemRegistry	itemRegistry	=	masterData.getItemRegistry();
 				ModelRepository	cloudModelRepository	=	masterData.getModelRepository();
 				PersistenceManager pesPersistenceManager	=	masterData.getPersistenceManager();
@@ -58,13 +57,11 @@ public class DroolsBusEvent extends BusEvent {
 				eventObject.setCommand(command);
 				eventObject.setModelRepository(cloudModelRepository);
 				eventObject.setItemName(itemName);
-				eventObject.setSiteName("demo");
+				eventObject.setSiteName(homeId);
 				eventObject.setPersistanceManager(pesPersistenceManager);
 				eventObject.setRuleEngine(ruleEngine);
 				eventObject.setItemRegistry(itemRegistry);
-				
 				eventManager.publishData(itemName, command, itemRegistry, masterData.getModelRepository(), masterData.getPersistenceManager(), masterData.getRuleEngine(), eventObject);
-				
 				//publishData(itemName, command, cloudItemRegistry,cloudModelRepository,persistenceManager,ruleEngine,eventObject);
 				System.out.println("\nDroolsBusEvent->Done");
 				
@@ -98,4 +95,45 @@ public class DroolsBusEvent extends BusEvent {
 		return TypeParser.parseCommand(commandList, value);
 
 	}
+	
+	public static void postUpdate(String itemName, String commandString,String homeId) {
+		EventManager	eventManager	=	new EventManager();
+		//eventManager.postUpdate(itemName, command, siteName)
+	}
+
+	public static void sendDimmerCommand(String itemName, String commandStringInceaseDecrease,String homeId) {
+		EventManager	eventManager	=	new EventManager();
+		System.out.println("\nDroolsBusEvent->sendDimmerCommand->"+homeId);
+		try {
+			
+			//EventManager manager	=	new EventManager();
+			Command command = getCommand("5");
+			System.out.println("\nDroolsBusEvent->sendDimmerCommand->"+command.getClass());
+			//eventManager.postUpdate(itemName, command, "demo");
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(homeId);
+			CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache(homeId,null);
+			ItemRegistry	itemRegistry	=	masterData.getItemRegistry();
+			ModelRepository	cloudModelRepository	=	masterData.getModelRepository();
+			PersistenceManager pesPersistenceManager	=	masterData.getPersistenceManager();
+			RuleEngine	ruleEngine	=	masterData.getRuleEngine();
+			//EventObject	eventObject	=	masterData.getEventObject();
+			EventObject	eventObject	=	new EventObject();
+			
+			eventObject.setCommand(command);
+			eventObject.setModelRepository(cloudModelRepository);
+			eventObject.setItemName(itemName);
+			eventObject.setSiteName(homeId);
+			eventObject.setPersistanceManager(pesPersistenceManager);
+			eventObject.setRuleEngine(ruleEngine);
+			eventObject.setItemRegistry(itemRegistry);
+			//eventManager.publishData(itemName, command, itemRegistry, masterData.getModelRepository(), masterData.getPersistenceManager(), masterData.getRuleEngine(), eventObject);
+			eventManager.postUpdate(itemName, command, homeId);
+			//publishData(itemName, command, cloudItemRegistry,cloudModelRepository,persistenceManager,ruleEngine,eventObject);
+			System.out.println("\nDroolsBusEvent->Done");
+		} catch (CloudException e){
+			e.printStackTrace();
+		}
+		//eventManager.postUpdate(itemName, command, siteName)
+	}
+	
 }

@@ -605,7 +605,7 @@ public class WebAppServlet extends BaseServlet {
 			PersistenceManager persistenceManager = initilizeModelWithStoredData(
 					cloudItemRegistry, localModelRepository,sitemapName);
 
-			DroolsService	drools	=	initializeDroolsService(cloudItemRegistry, localModelRepository);
+			DroolsService	drools	=	initializeDroolsService(cloudItemRegistry, localModelRepository,sitemapName);
 //			CloudSessionManager.setAttribute(session,
 //					CloudSessionManager.PERSISTENCEMANAGER, persistenceManager);
 
@@ -639,12 +639,14 @@ public class WebAppServlet extends BaseServlet {
 	}
 
 	private DroolsService initializeDroolsService(ItemRegistry cloudItemRegistry,
-			ModelRepository localModelRepository) {
+			ModelRepository localModelRepository,String siteName) {
 			DroolsService	drools	=	new DroolsService();
+			drools.setSiteName(siteName);
 			drools.setItemRegistry(cloudItemRegistry);
 			drools.activate();
 			return drools;
 	}
+	
 	private RuleEngine initializeRuleEngine(ItemRegistry cloudItemRegistry,
 			ModelRepository localModelRepository) {
 		RuleEngine ruleEngine = new RuleEngine();

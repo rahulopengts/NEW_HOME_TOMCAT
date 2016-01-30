@@ -113,7 +113,7 @@ public class GenericItemProvider implements ItemProvider, ModelRepositoryChangeL
 	
 	public void addBindingConfigReader(BindingConfigReader reader) {
 		if (!bindingConfigReaders.containsKey(reader.getBindingType())) {
-			System.out.println("\nGenericItemProvide->addBindingConfigReader->"+reader.getBindingType());
+			//System.out.println("\nGenericItemProvide->addBindingConfigReader->"+reader.getBindingType());
 //			String s=null;
 //			
 //			s.toString();
@@ -303,10 +303,10 @@ public class GenericItemProvider implements ItemProvider, ModelRepositoryChangeL
 							if (itemType.equals(modelItem.getType())) {
 								Item item = createItemFromModelItem(modelItem);
 								internalDispatchBindings(reader, modelName, item, modelItem.getBindings());
-								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->reader->"+reader);
-								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->modelName->"+modelName);
-								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->item->"+item);
-								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->modelItem.getBindings()->"+modelItem.getBindings());
+//								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->reader->"+reader);
+//								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->modelName->"+modelName);
+//								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->item->"+item);
+//								System.out.println("\nGenericItemProvider->dispatchBindingsPerItemType->modelItem.getBindings()->"+modelItem.getBindings());
 							}
 						}
 					}

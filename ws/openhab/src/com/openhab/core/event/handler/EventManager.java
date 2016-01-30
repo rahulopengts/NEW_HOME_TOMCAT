@@ -234,7 +234,7 @@ public class EventManager	{// implements IEventManager{
 	
 	public void postUpdate(String itemName, Command command,String siteName) throws CloudException {	
 		try{
-			siteName	=	"demo";
+			//siteName	=	"demo";
 			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
 			CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache(siteName,null);
 			ItemRegistry	itemRegistry	=	masterData.getItemRegistry();
@@ -258,17 +258,17 @@ public class EventManager	{// implements IEventManager{
 			MqttMessagePublisher	publisher	=	pubList.get(0);
 			MqttMessagePublisher	p1=	(MqttMessagePublisher)pubList.get(0);
 			//CloudChange->As per configuration in .items, mqttmessagepublisher at index 0 is for OUTBOUND OFF COMMAND			
-			MqttMessagePublisher	p2=	(MqttMessagePublisher)pubList.get(1);
-			MqttMessagePublisher	messageToBePublished	=	(MqttMessagePublisher)pubList.get(commandMessageIndex);
+			//MqttMessagePublisher	p2=	(MqttMessagePublisher)pubList.get(1);
+			//MqttMessagePublisher	messageToBePublished	=	(MqttMessagePublisher)pubList.get(commandMessageIndex);
 			
-			MqttMessagePublisher	publisherTopic	=	pubList.get(commandMessageIndex);
+			//MqttMessagePublisher	publisherTopic	=	pubList.get(commandMessageIndex);
 			
-			System.out.println("\nEventManager->postUpdate->MqttMessagePublisherList->:0:"+pubList.get(0)+":1:"+pubList.get(1));
+//			System.out.println("\nEventManager->postUpdate->MqttMessagePublisherList->:0:"+pubList.get(0)+":1:"+pubList.get(1));
 			System.out.println("\nEventManager->postUpdate->MqttMessagePublisherList->:Size:"+pubList.size());
-			System.out.println("\nEventManager->postUpdate->MqttMessagePublisher-0->"+p1.getTransformationRule()+"->p2->"+p2.getTransformationRule()+"->MessageType->"+p1.getMessageType());
+			//System.out.println("\nEventManager->postUpdate->MqttMessagePublisher-0->"+p1.getTransformationRule()+"->p2->"+p2.getTransformationRule()+"->MessageType->"+p1.getMessageType());
 			
 			//CoudChange Outbound OFF Command
-			eventObject.setMqttMessageToBePublished(messageToBePublished);
+			//eventObject.setMqttMessageToBePublished(messageToBePublished);
 			eventObject.setItemRegistry(itemRegistry);
 			eventObject.setModelRepository(masterData.getModelRepository());
 			eventObject.setPersistanceManager(masterData.getPersistenceManager());
@@ -277,8 +277,8 @@ public class EventManager	{// implements IEventManager{
 			eventObject.setCommand(command);
 			eventObject.setItemName(itemName);
 			eventObject.setSiteName(siteName);
-			eventObject.setMessageContent(messageToBePublished.getTransformationRule());
-			eventObject.setTopicName(publisherTopic.getTopic());
+			//eventObject.setMessageContent(messageToBePublished.getTransformationRule());
+			//eventObject.setTopicName(publisherTopic.getTopic());
 			
 			//dispatchEvent(itemRegistry,messageToBePublished.getTransformationRule(), publisherTopic.getTopic(),command,itemName,modelRepository,itemConfig,eventObject);
 			AdminEventImpl	admin	=	new AdminEventImpl();
@@ -287,6 +287,7 @@ public class EventManager	{// implements IEventManager{
 
 			
 		} catch (Exception e){
+			e.printStackTrace();
 			CloudExceptionManager.throwException(CloudMessageConstants.CACHE_EXCEPTION, e, "");
 		}
 	}

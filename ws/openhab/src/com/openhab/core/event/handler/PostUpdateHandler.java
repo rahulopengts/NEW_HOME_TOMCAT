@@ -34,6 +34,7 @@ public class PostUpdateHandler extends AbstractEventHandler {
 			cloudEventPublisherImpl.setPersistenceManager(persistanceManager);
 			cloudEventPublisherImpl.setRuleEngine(ruleEngine);
 			cloudEventPublisherImpl.setSiteName(eventObject.getSiteName());
+			cloudEventPublisherImpl.setCommand(eventObject.getCommand());
 			cloudEventPublisherImpl.postUpdate(eventObject.getItemName(), (State)eventObject.getNewState());
 			System.out.println("\n PostUpdateHandler->handleEvent->Done");
 		}

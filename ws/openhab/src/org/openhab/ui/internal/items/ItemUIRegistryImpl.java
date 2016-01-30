@@ -245,7 +245,7 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 				//System.out.println("\nItemUIRegistryImpl->getLabel->itemName->"+itemName);
 				if (label.contains("%d")) {
 					// a number is requested
-					//System.out.println("\nItemUIRegistryImpl->getLabel->contains%d->"+label);
+					System.out.println("\nItemUIRegistryImpl->getLabel->contains%d->"+label+"-> for item->"+item);
 					state = item.getState();
 					if(!(state instanceof DecimalType)) {
 						//System.out.println("\nItemUIRegistryImpl->getLabel->instanceof DecimalType->"+label);
@@ -366,7 +366,7 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 	public String getIcon(Widget w) {
 		String widgetTypeName = w.eClass().getInstanceTypeName().substring(w.eClass().getInstanceTypeName().lastIndexOf(".")+1);
 		
-		System.out.println("\n ICON :widgetTypeName: "+widgetTypeName);
+		//System.out.println("\n ICON :widgetTypeName: "+widgetTypeName);
 		// the default is the widget type name, e.g. "switch"
 		String icon = widgetTypeName.toLowerCase();
 		
@@ -382,7 +382,7 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 			}
 		}
 
-		System.out.println("\n ICON :icon: "+icon);
+		//System.out.println("\n ICON :icon: "+icon);
 		// now add the state, if the string does not already contain a state
 		// information
 		if(!icon.contains("-")) {
@@ -408,16 +408,16 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 		
 		// if the icon contains a status part, but does not exist, return the icon without status
 		if(iconExists(icon) || !icon.contains("-")) {
-			System.out.println("\n ICON :iconExists: "+widgetTypeName);
+			//System.out.println("\n ICON :iconExists: "+widgetTypeName);
 			return icon;
 		} else {
 			icon = icon.substring(0, icon.indexOf("-"));
-			System.out.println("\n ICON :iconExists: 1:"+widgetTypeName);
+			//System.out.println("\n ICON :iconExists: 1:"+widgetTypeName);
 			if(iconExists(icon)) {
-				System.out.println("\n ICON :iconExists: 3:"+widgetTypeName);
+				//System.out.println("\n ICON :iconExists: 3:"+widgetTypeName);
 				return icon;
 			} else {
-				System.out.println("\n ICON :iconExists: 4:"+widgetTypeName);
+				//System.out.println("\n ICON :iconExists: 4:"+widgetTypeName);
 				// see http://code.google.com/p/openhab/issues/detail?id=63
 				return ICON_NONE;
 			}
@@ -537,9 +537,9 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 	public boolean iconExists(String icon) {
 		
 		String iconLocation = IMAGE_LOCATION + icon + IMAGE_EXT;
-		System.out.println("\n ItemUIRegistryImpl :iconExists: iconLocation"+iconLocation);
+		//System.out.println("\n ItemUIRegistryImpl :iconExists: iconLocation"+iconLocation);
 		File file = new File(iconLocation);
-		System.out.println("\n ItemUIRegistryImpl :iconExists: iconLocation:Path:->"+file.getAbsolutePath());
+		//System.out.println("\n ItemUIRegistryImpl :iconExists: iconLocation:Path:->"+file.getAbsolutePath());
 		if(file.exists()) {
 			return true;
 		} else {

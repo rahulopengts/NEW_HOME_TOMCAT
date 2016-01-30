@@ -118,7 +118,7 @@ public class MqttService implements ManagedService {
 
 		for (MqttBrokerConnection con : brokerConnections.values()) {
 			try {
-				System.out.println("\nMqttService->updated->BrokerConnections : "+con);
+				//System.out.println("\nMqttService->updated->BrokerConnections : "+con);
 				con.start();
 			} catch (Exception e) {
 				logger.error("Error starting broker connection", e);
@@ -158,9 +158,9 @@ public class MqttService implements ManagedService {
 			String name = subkeys[0].toLowerCase();
 			String property = subkeys[1];
 
-			System.out.println("\nMqttService->updated->key->"+key);
-			System.out.println("\nMqttService->updated->value->"+value);
-			System.out.println("\nMqttService->updated->property->"+subkeys[1]);
+//			System.out.println("\nMqttService->updated->key->"+key);
+//			System.out.println("\nMqttService->updated->value->"+value);
+//			System.out.println("\nMqttService->updated->property->"+subkeys[1]);
 			if (StringUtils.isBlank(value)) {
 				logger.trace("Property is empty: {}", key);
 				continue;

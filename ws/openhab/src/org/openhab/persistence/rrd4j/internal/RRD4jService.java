@@ -181,22 +181,27 @@ public class RRD4jService implements QueryablePersistenceService {
 //		String n=	null;
 //		n.getBytes();
 //		return null;
-		
+		System.out.println("\n RRD4JService->query->1 "+itemName);
 		ConsolFun consolidationFunction = getConsolidationFunction(itemName);
 		RrdDb db = getDB(itemName, consolidationFunction);
+		
 		if(db!=null) {
+			System.out.println("\n RRD4JService->query->2 "+itemName);
 			long start = 0L;
 			long end = filter.getEndDate()==null ? System.currentTimeMillis()/1000 : filter.getEndDate().getTime()/1000;
 
 			try {
 				if(filter.getBeginDate()==null) {
+					System.out.println("\n RRD4JService->query->3 "+itemName);
 					// as rrd goes back for years and gets more and more inaccurate, we only support descending order and a single return value
 					// if there is no begin date is given - this case is required specifically for the historicState() query, which we
 					// want to support
 					if(filter.getOrdering()==Ordering.DESCENDING && filter.getPageSize()==1 && filter.getPageNumber()==0) {
 						if(filter.getEndDate()==null) {
+							System.out.println("\n RRD4JService->query->5 "+itemName);
 							// we are asked only for the most recent value!
 							double lastValue = db.getLastDatasourceValue(DATASOURCE_STATE);
+							System.out.println("\n RRD4JService->query->6 "+itemName+"->LastValue State->"+lastValue);
 							if(!Double.isNaN(lastValue)) {
 								HistoricItem rrd4jItem = new RRD4jItem(itemName, mapToState(lastValue, itemName), new Date(db.getLastArchiveUpdateTime() * 1000));
 								return Collections.singletonList(rrd4jItem);

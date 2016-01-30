@@ -2,25 +2,19 @@ package org.openhab.core.drools.internal;
 
 import static org.openhab.core.events.EventConstants.TOPIC_PREFIX;
 import static org.openhab.core.events.EventConstants.TOPIC_SEPERATOR;
-import static org.openhab.model.rule.internal.engine.RuleTriggerManager.TriggerTypes.COMMAND;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.HiddenFileFilter;
-import org.apache.commons.io.filefilter.IOFileFilter;
-import org.apache.commons.io.monitor.FileAlterationMonitor;
-import org.eclipse.xtext.naming.QualifiedName;
-import org.kie.api.io.Resource;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kie.api.runtime.StatelessKieSession;
-import org.kie.api.runtime.rule.FactHandle;
-import org.openhab.core.drools.util.DroolsUtil;
+import org.openhab.core.drools.dto.IDroolsDTO;
+import org.openhab.core.drools.sessionholder.DroolsSessionDataHolder;
 import org.openhab.core.items.GenericItem;
 import org.openhab.core.items.Item;
 import org.openhab.core.items.ItemNotFoundException;
@@ -32,12 +26,6 @@ import org.openhab.core.library.items.SwitchItem;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.EventType;
 import org.openhab.core.types.State;
-import org.openhab.model.rule.internal.engine.RuleContextHelper;
-import org.openhab.model.rule.internal.engine.RuleEvaluationContext;
-import org.openhab.model.rule.rules.Rule;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventHandler;
-import org.osgi.service.event.TopicPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,41 +34,59 @@ import com.openhab.core.internal.event.dto.CloudEvent;
 
 public class DroolsService  implements StateChangeListener , ItemRegistryChangeListener {//EventHandler,{
 
-    private static final File RULES_DIR = new File("configurations/drools/");
-    private static final IOFileFilter RULES_FILTER = FileFilterUtils.and(
-            FileFilterUtils.fileFileFilter(),
-            HiddenFileFilter.VISIBLE);
-    private static final IOFileFilter RULES_DIR_FILTER = FileFilterUtils.and(
-            FileFilterUtils.directoryFileFilter(),
-            HiddenFileFilter.VISIBLE);
-
     private static final Logger logger = LoggerFactory.getLogger(DroolsService.class);
-
     private ItemRegistry itemRegistry;
-
-    private Map<String, FactHandle> factHandles = new HashMap<String, FactHandle>();
-
     private final LinkedListMultimap<String, Object> updates = LinkedListMultimap.create();
-    
     private DroolsScriptExecuter	droolsScriptExecuter	=	null;
     
-
-    private StatelessKieSession session	=	null;
-
-    private FileAlterationMonitor monitor;
-    private Map<String, Resource> changedRules = Collections.synchronizedMap(new HashMap<String, Resource>());
-
-    Map<String, String> factHashMap	=	new HashMap<>();
+    private StatelessKieSession	session	=	null;
+    
+    private StatefulKnowledgeSession	kStatefulSession	=	null;
+    private Map<String, String> factHashMap	=	new HashMap<>();
 	public final static String FACT_OLD_SUFFIX	=	".OLD";
 	public final static String FACT_NEW_SUFFIX	=	".NEW";
-
+	public final static String DROOLS_FILE_SUFFIX	=	".drl";
+	private PackageDescr	packageDecs	=	null;
+	private DroolsSessionDataHolder	droolsSessionDataHolder	=	null;
+	private Map<String,ArrayList<String>>	itemRulesMap	=	new HashMap<String,ArrayList<String>>();
+	private String siteName	=	null;
+	private static String fileLocDir	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\";
 	
-    public void activate() {
+	boolean IS_STATELESS	=	false;
+	
+    public String getSiteName() {
+		return siteName;
+	}
+
+    
+    
+
+
+	public void setSiteName(String siteName) {
+		this.siteName = siteName;
+	}
+
+
+
+	public void activate() {
+    	droolsSessionDataHolder	=	new DroolsSessionDataHolder();
     	droolsScriptExecuter	=	new DroolsScriptExecuter();
-    	
-		String fileLoc	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\hashmap.drl";
-    	session = DroolsUtil.createStatelessKieSession(fileLoc);
-        addItems(itemRegistry.getItems());
+		String fileLoc	=	fileLocDir+siteName+DROOLS_FILE_SUFFIX;
+    	File droolsFile	=	null;
+		try{
+			droolsFile	=	new File(fileLoc);
+			if(IS_STATELESS){
+				session = droolsSessionDataHolder.createStatelessKieSession(fileLoc);
+			} else {
+				droolsSessionDataHolder.createStatefulSession(fileLoc);
+			}
+			
+			packageDecs	=	droolsSessionDataHolder.getRulePackageDescr(droolsFile);
+			itemRulesMap	=	droolsSessionDataHolder.populateRulesTriggerInfo(packageDecs);
+	        addItems(itemRegistry.getItems());
+    	} catch (Exception e){
+    		e.printStackTrace();
+    	}
         logger.info("Dools service started");
     }
     
@@ -101,13 +107,27 @@ public class DroolsService  implements StateChangeListener , ItemRegistryChangeL
 	@Override
 	public void stateChanged(Item item, State oldState, State newState) {
 		// TODO Auto-generated method stub
-		System.out.println("\nDroolsService->stateChanged->"+item.getName()+"->oldState->"+oldState+"->newState->"+newState);		
-		factHashMap.put(item.getName()+FACT_NEW_SUFFIX, newState.toString());
-		factHashMap.put(item.getName()+FACT_OLD_SUFFIX, oldState.toString());		
-		identifyFactChanges(item,oldState,newState);
-		droolsScriptExecuter.executeRule(session, itemRegistry,factHashMap);
-		factHashMap.put(item.getName()+FACT_OLD_SUFFIX, newState.toString());
-		
+		System.out.println("\nDroolsService->stateChanged->"+item.getName()+"->oldState->"+oldState+"->newState->"+newState);
+		if(IS_STATELESS){
+			factHashMap.put(item.getName()+FACT_NEW_SUFFIX, newState.toString());
+			factHashMap.put(item.getName()+FACT_OLD_SUFFIX, oldState.toString());		
+			
+			droolsScriptExecuter.executeRule(session, itemRegistry,factHashMap);
+			//factHashMap.put(item.getName()+FACT_OLD_SUFFIX, newState.toString());
+			factHashMap.remove(item.getName()+FACT_NEW_SUFFIX);
+			factHashMap.remove(item.getName()+FACT_OLD_SUFFIX);
+		} else {
+			factHashMap.put(item.getName()+FACT_NEW_SUFFIX, newState.toString());
+			factHashMap.put(item.getName()+FACT_OLD_SUFFIX, oldState.toString());		
+			kStatefulSession	=	droolsSessionDataHolder.getStatefulSession();	
+			droolsSessionDataHolder.insertHashMap(factHashMap);
+			droolsSessionDataHolder.executeStatefulRule();
+			droolsSessionDataHolder.disposeSession();
+			//factHashMap.put(item.getName()+FACT_OLD_SUFFIX, newState.toString());
+			factHashMap.remove(item.getName()+FACT_NEW_SUFFIX);
+			factHashMap.remove(item.getName()+FACT_OLD_SUFFIX);
+			
+		}
 	}
 	
 	private boolean identifyFactChanges(Item item, State oldState, State newState){
@@ -181,17 +201,52 @@ public class DroolsService  implements StateChangeListener , ItemRegistryChangeL
 		//if(triggerManager!=null && itemRegistry!=null) {
 		if(itemRegistry!=null) {
 			try {
-				System.out.println("\nDroolsEngine->receiveCommand->2->itemName"+itemName+"->newState->"+command);
 				Item item = itemRegistry.getItem(itemName);
-//				Iterable<Rule> rules = triggerManager.getRules(COMMAND, item, command);
-//				RuleEvaluationContext context = new RuleEvaluationContext();
-//				context.newValue(QualifiedName.create(RuleContextHelper.VAR_RECEIVED_COMMAND), command);
-//				executeRules(rules, context);
+				System.out.println("\nRuleEngine->receiveCommand->2->itemName"+itemName+"->command->"+command+"newState->"+item.getState()+"->Class->"+item.getState().getClass());
+				State	itemState	=	item.getState();
+				if(validateRuleExecution(itemName,command)){
+					if(IS_STATELESS){
+						System.out.println("\nDroolsService->receiveCommand->Firing->"+itemState);		
+						factHashMap.put(item.getName()+".COMMAND", command.toString());
+						droolsScriptExecuter.executeRule(session, itemRegistry,factHashMap);
+						factHashMap.remove(item.getName()+".COMMAND");
+					} else {
+						System.out.println("\nDroolsService->receiveCommand->Firing-->"+itemState.getClass());		
+						factHashMap.put(item.getName()+".COMMAND", command.toString());
+						//droolsScriptExecuter.executeRule(session, itemRegistry,factHashMap);
+						kStatefulSession	=	droolsSessionDataHolder.getStatefulSession();	
+						IDroolsDTO	dto	=	droolsSessionDataHolder.buildFacts(command,itemState);
+						droolsSessionDataHolder.insertHashMap(factHashMap);
+						droolsSessionDataHolder.insertObject(dto);
+						droolsSessionDataHolder.executeStatefulRule();
+						droolsSessionDataHolder.disposeSession();
+						factHashMap.remove(item.getName()+".COMMAND");
+						
+					}
+					
+					
+				} else {
+					System.out.println("\nDroolsService->receiveCommand-Not Firing->"+itemState);
+				}
 				System.out.println("\nDroolsEngine->receiveCommand->3->item"+item+"->newState->"+command);
 			} catch (ItemNotFoundException e) {
 				// ignore commands for non-existent items
 			}
 		}
 	}
+	
+	private boolean validateRuleExecution(String itemName,Command command){
+		System.out.println("\nDroolsService->validateRuleExecution->itemName->"+itemName+"->command->"+command.toString());
+		if(itemRulesMap.containsKey(itemName)){
+			//This means there is a rule configured for this.
+			List<String>	ruleTypeList	=	itemRulesMap.get(itemName);
+			if(ruleTypeList.contains("COMMAND")){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	
 }

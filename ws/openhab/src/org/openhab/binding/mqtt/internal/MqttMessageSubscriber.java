@@ -119,7 +119,7 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 
 	@Override
 	public void processMessage(String topic, byte[] message) {
-		System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:->"+new String(message));
+		System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:->"+new String(message)+"->this->"+this);
 		try {
 			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());
 			

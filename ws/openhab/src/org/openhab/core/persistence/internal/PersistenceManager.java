@@ -178,7 +178,7 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 	 */
 	private void startEventHandling(String modelName) {
 		PersistenceModel model = (PersistenceModel) modelRepository.getModel(modelName + ".persist");
-		//System.out.println("\nPersistenceManager->startEventHandling-> modelName->"+modelName+"->modelRepository "+modelRepository);
+		System.out.println("\nPersistenceManager->startEventHandling-> modelName->"+modelName+"->modelRepository "+modelRepository+":model:"+model);
 		if(model!=null) {
 			//System.out.println("\nPersistenceManager->startEventHandling-> model.getConfigs() "+model.getConfigs());
 			persistenceConfigurations.put(modelName, model.getConfigs());
@@ -202,16 +202,18 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 	@Override
 	public void initializeItems(String modelName) {
 		PersistenceModel model = (PersistenceModel) modelRepository.getModel(modelName + ".persist");
+		System.out.println("\nPersistenceManager->startEventHandling-> modelName-2>"+modelName+"->modelRepository "+modelRepository+":model:"+model);
 		if(model!=null) {
 			initializeItems(model, modelName);
 		}		
 	}
 	
 	private void initializeItems(PersistenceModel model, String modelName) {
-		//System.out.println("\nPersistenceManager->initializeItems-> "+model.getConfigs());
+		System.out.println("\nPersistenceManager->initializeItems-> "+model.getConfigs());
 		for(PersistenceConfiguration config : model.getConfigs()) {
 			if(hasStrategy(modelName, config, GlobalStrategies.RESTORE)) {
 				for(Item item : getAllItems(config)) {
+					System.out.println("\nPersistenceManager->initializeItems-> 2 "+item.getName());
 					initialize(item);
 				}
 			}
@@ -240,7 +242,7 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 					for(PersistenceConfiguration config : entry.getValue()) {
 						if(hasStrategy(serviceName, config, onlyChanges ? GlobalStrategies.CHANGE : GlobalStrategies.UPDATE)) {
 							if(appliesToItem(config, item)) {
-								System.out.println("\nPersistenceManager->handleStateEvent-item->"+item.getName()+"->config->"+config+"->config.getAlias->"+config.getAlias());
+								//System.out.println("\nPersistenceManager->handleStateEvent-item->"+item.getName()+"->config->"+config+"->config.getAlias->"+config.getAlias());
 								persistenceServices.get(serviceName).store(item, config.getAlias());
 							}
 						}
@@ -373,20 +375,30 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 	 */
 	protected void initialize(Item item) {
 		// get the last persisted state from the persistence service if no state is yet set
+		//System.out.println("\n PersistenceManager->initialize->serviceName->"+item.getName());
 		if(item.getState().equals(UnDefType.NULL) && item instanceof GenericItem) {
+			//System.out.println("\n PersistenceManager->initialize->serviceName->2"+item.getName());
 			for(Entry<String, List<PersistenceConfiguration>> entry : persistenceConfigurations.entrySet()) {
+				//System.out.println("\n PersistenceManager->initialize->serviceName->3"+item.getName());
 				String serviceName = entry.getKey();
 				//System.out.println("\n PersistenceManager->initialize->serviceName->"+serviceName);
 				for(PersistenceConfiguration config : entry.getValue()) {
+					//System.out.println("\n PersistenceManager->initialize->serviceName->4"+item.getName()+"->ServiceName->"+serviceName);
 					if(hasStrategy(serviceName, config, GlobalStrategies.RESTORE)) {
+						//System.out.println("\n PersistenceManager->initialize->serviceName->5"+item.getName());
 						if(appliesToItem(config, item)) {
+							//System.out.println("\n PersistenceManager->initialize->serviceName->6"+item.getName());
+
 							PersistenceService service = persistenceServices.get(serviceName);
+							//System.out.println("\n PersistenceManager->initialize->serviceName->6-7->"+item.getName()+"Instance->"+service);
 							if(service instanceof QueryablePersistenceService) {
+								System.out.println("\n PersistenceManager->initialize->serviceName->7"+item.getName());
 								QueryablePersistenceService queryService = (QueryablePersistenceService) service;
 								FilterCriteria filter = new FilterCriteria().setItemName(item.getName()).setPageSize(1);
 								Iterable<HistoricItem> result = queryService.query(filter);
 								Iterator<HistoricItem> it = result.iterator();
 								if(it.hasNext()) {
+									System.out.println("\n PersistenceManager->initialize->serviceName->8"+item.getName());
 									HistoricItem historicItem = it.next();
 									GenericItem genericItem = (GenericItem) item;
 									genericItem.removeStateChangeListener(this);

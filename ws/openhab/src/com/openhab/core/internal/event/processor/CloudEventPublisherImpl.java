@@ -35,7 +35,16 @@ public class CloudEventPublisherImpl implements EventPublisher {
 			LoggerFactory.getLogger(CloudEventPublisherImpl.class);
 			
 		private EventAdmin eventAdmin;
+		private Command command	=	null;
 		
+		public Command getCommand() {
+			return command;
+		}
+
+		public void setCommand(Command command) {
+			this.command = command;
+		}
+
 		public String getSiteName() {
 			return siteName;
 		}
@@ -198,18 +207,21 @@ public class CloudEventPublisherImpl implements EventPublisher {
 				ThreadLocal<String> t	=	new ThreadLocal<>();
 				t.set("rahul");
 				System.out.println("\n CloudEventPublisheImpl->postUpdate->Command is not null");
-				System.out.println("\nCloudEventPublisheImpl->postUpdate->MasterData->"+Thread.currentThread().getId()+":MasterData:"+CloudThreadLocalStorage.getCloudMasterData());				
+				//System.out.println("\nCloudEventPublisheImpl->postUpdate->MasterData->"+Thread.currentThread().getId()+":MasterData:"+CloudThreadLocalStorage.getCloudMasterData());				
 				CloudEvent	cloudEvent	=	createUpdateEvent(itemName, newState);
 				
-/*				CloudAutoUpdateBinding	cloudAutoUpdateBinding	=	new CloudAutoUpdateBinding();
-				cloudAutoUpdateBinding.setItemRegistry(itemRegistry);
-				cloudAutoUpdateBinding.handleEvent(cloudEvent);
 				
 				
 				MqttGenericBindingProvider	mqttGenericBindingProvider	=	CloudMessageProcHelper.getMqttGenericBindingProvider(itemName, command,itemRegistry,modelRepository);
 				MqttItemBinding	cloudMqttItemBinding	=	new MqttItemBinding();
+				System.out.println("\n CloudEventPublisheImpl->postUpdate->mqttGenericBindingProvider->"+mqttGenericBindingProvider.getItemConfig(itemName));
 				cloudMqttItemBinding.addBindingProvider(mqttGenericBindingProvider);
-				cloudMqttItemBinding.receiveCommand(itemName, command);
+				
+				cloudMqttItemBinding.receiveUpdate(itemName, newState);
+/*
+				CloudAutoUpdateBinding	cloudAutoUpdateBinding	=	new CloudAutoUpdateBinding();
+				cloudAutoUpdateBinding.setItemRegistry(itemRegistry);
+				cloudAutoUpdateBinding.handleEvent(cloudEvent);
 
 			
 				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
