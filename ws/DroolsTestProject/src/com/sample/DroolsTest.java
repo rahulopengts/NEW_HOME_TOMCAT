@@ -3,15 +3,27 @@ package com.sample;
 //import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.compiler.DroolsError;
+import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.PatternDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.kie.api.KieBase;
 import org.kie.api.definition.KiePackage;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.io.ResourceType;
@@ -44,22 +56,155 @@ public class DroolsTest {
 	public static void main (String[] s){
 		DroolsTest r	=	new DroolsTest();
         //r.testFireAfterRemoveRule();
-        r.testFireAfterRemoveRuleWithFile();
+        //r.testFireAfterRemoveRuleWithFile();
+        r.testStatefulSession();
+//		File file = new File("D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\Sample.drl");
+//		r.testParser(file);
+		//String str	=	"ITEM:Node01,TYPE:COMMAND";
+		//r.parseRuleInfo(str);
+		//r.testRuleWithManupulatedRulesList();
 		//r.testStatelessRules_new("");
 		//r.testDrools();
 	}
 
+	Map<String,ArrayList<String>>	itemRulesMap	=	new HashMap<>();
+	int ITEMSTARTINDEX	=	5;
+	int COMMANDTYPESTARTINDEX	=	5;
+	
+	public void testParser(File file){
+//    	String fileLoc	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf";
+//    	fileLoc	=	fileLoc	+ File.separator+"Sample.drl";
+//    	File file	=	new File(fileLoc);
+		try{
+		
+		FileInputStream fis = null;
+		fis = new FileInputStream(file);	
+		final Reader reader = new InputStreamReader( fis  );
+        final DrlParser parser = new DrlParser();
+        final PackageDescr packageDescr = parser.parse( true,reader );
+       
+        if( parser.hasErrors() ) {
+            for( DroolsError error : parser.getErrors() ) {
+            	
+                System.out.println( error );
+            }
+          
+        }
+        //RuleDescr r = packageDescr.getRules().get( 1 );
+        populateRulesTriggerInfo(packageDescr);
+        Set ruleSet	=	itemRulesMap.keySet();
+        Iterator<String> t	=	ruleSet.iterator();
+        while(t.hasNext()){
+        	String itemName	=	(String)t.next();
+        	List arrayList	=	itemRulesMap.get(itemName);
+        	for(int f=0;f<arrayList.size();f++){
+        		System.out.println("\n Key itemName->"+itemName+"->Values->"+arrayList.get(f));
+        		
+        	}
+        	
+        }
+        
+} catch (Exception e){
+	e.printStackTrace();
+}
+
+}
+	
+	
+	public String[] parseRuleInfo(String strRuleDescr){
+		String strArray[]	=	null;
+		if(strRuleDescr!=null){
+			strArray	=	strRuleDescr.split(",");
+			for(int i=0;i<strArray.length;i++){
+				if(i==0){
+					strArray[i]	=	strArray[i].substring(ITEMSTARTINDEX);
+				}
+				if(i==1){
+					strArray[i]	=	strArray[i].substring(COMMANDTYPESTARTINDEX);
+				}
+				//System.out.println("\nParseRuleInfo :"+i+":-:"+strArray[i]);
+			}
+		}
+		return strArray;
+	}
+	
+	private void populateRulesTriggerInfo(PackageDescr packageDescr){
+        List<RuleDescr>	listRuleDescr =	packageDescr.getRules();
+        Iterator<RuleDescr>	listRuleDescrIterator	=	listRuleDescr.iterator();
+        while(listRuleDescrIterator.hasNext()){
+        	ArrayList<String>	ruleTypeList	=	new ArrayList<String>();
+        	RuleDescr	ruleDescr	=	listRuleDescrIterator.next();
+        	String strRuleDescr	=	ruleDescr.getName();
+        	System.out.println("\nParseRuleInfo :String for Parsing "+strRuleDescr);
+        	String ruleInfo[]	=	parseRuleInfo(strRuleDescr);
+				if(itemRulesMap.containsKey(ruleInfo[0])){
+					ruleTypeList	=	itemRulesMap.get(ruleInfo[0]);
+					ruleTypeList.add(ruleInfo[1]);
+				} else {
+					ruleTypeList.add(ruleInfo[1]);
+				}
+			itemRulesMap.put(ruleInfo[0],ruleTypeList);
+        }
+        
+		
+	}
+	public void validateRuleFile(File file) {
+		try{
+			//File file = new File("D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\Sample.drl");
+			FileInputStream fis = null;
+			fis = new FileInputStream(file);	
+			final Reader reader = new InputStreamReader( fis  );
+	        final DrlParser parser = new DrlParser();
+	        PackageDescr packageDescr = parser.parse( reader );
+	        RuleDescr r = packageDescr.getRules().get( 1 );
+	        PatternDescr pd = (PatternDescr) r.getLhs().getDescrs().get( 0 );        
+	        System.out.println("\n Text:"+r.getName());
+	        
+	     } catch (DroolsParserException e){
+			e.printStackTrace();
+		
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
 	  public void testFireAfterRemoveRuleWithFile() {
-			String fileLoc	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\hashmap.drl";
+			String fileLoc	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\Sample.drl";
 			String drlResourcesPaths[]	=	{fileLoc};
 			System.out.println("\nTIME->1->"+System.currentTimeMillis());
 			StatelessKieSession session = TestUtil.createStatelessKieSession(fileLoc);
 	        Map<String, Object> fact = new HashMap<String, Object>();
 	        fact.put("type", "Cinema");
 	        fact.put("type3", "rahul2");
+	      
+	        
 	        session.execute(fact);
+	        
 //	        this.deleteRule("rule1");
+	        //session.execute(fact);
+	        System.out.println("\nTIME->1->"+System.currentTimeMillis());
+	    }	  
+	  
+	  public void testRuleWithManupulatedRulesList() {
+			String fileLoc	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\hashmapsample.drl";
+			String drlResourcesPaths[]	=	{fileLoc};
+			System.out.println("\nTIME->1->"+System.currentTimeMillis());
+			DroolsSessionHolder	s	=	new DroolsSessionHolder();
+			
+			StatelessKieSession session = s.createStatelessKieSession(fileLoc);
+			KieBase	base	=	s.getKieBase();
+			
+	        Map<String, Object> fact = new HashMap<String, Object>();
+	        fact.put("type", "Cinema");
+	        fact.put("type3", "rahul2");
+	        
+//	        this.deleteRule("rule1");
+	        
+	        base.removeRule("com.test", "rule1");
 	        session.execute(fact);
+	        
+	        session.execute(fact);
+	        
 	        System.out.println("\nTIME->1->"+System.currentTimeMillis());
 	    }	  
 	  
@@ -70,6 +215,7 @@ public class DroolsTest {
 		String drlResourcesPaths[]	=	{fileLoc};
 		System.out.println("\nTIME->1->"+System.currentTimeMillis());
 		StatelessKieSession session = TestUtil.createStatelessKieSession(fileLoc);
+		
 		System.out.println("\nTIME->2->"+System.currentTimeMillis()+"->session->"+session);
         Message message = new Message();
         message.setMessage("Hello WorldTT");
@@ -323,6 +469,51 @@ public class DroolsTest {
     	}
     	return fileContent;
     	
+    }
+ 
+    public void testStatefulSession(){
+    	System.out.println("\n DONE-0 "+System.currentTimeMillis());
+    	KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+	    //kbuilder.add( ResourceFactory.newFileSystemResource( fileName ), ResourceType.DRL );
+    	String fileLoc	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\Sample.drl";
+	    File file	=	new File(fileLoc);	
+	    kbuilder.add( ResourceFactory.newFileResource(file),ResourceType.DRL);
+	    //assertFalse( kbuilder.hasErrors() );
+	    if (kbuilder.hasErrors() ) {
+	        System.out.println( kbuilder.getErrors() );
+	    }
+	    KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+	    kbase.addKnowledgePackages( kbuilder.getKnowledgePackages() );
+	    
+	    StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+//	    for( Object fact : facts ) {
+//	        ksession.insert( fact );
+//	    }
+	    
+	    
+	    Message m	=	new Message();
+	    m.setMessage("MY");
+	    m.setStatus(9);
+	    Map<String, Object> fact = new HashMap<String, Object>();
+        fact.put("type", "Cinema");
+        fact.put("type3", "rahul2");
+        ksession.insert( fact );
+        ksession.insert( m );
+	    ksession.fireAllRules();
+	    ksession.dispose();    
+	    System.out.println("\n DONE-1 "+System.currentTimeMillis());
+	    ksession = kbase.newStatefulKnowledgeSession();
+	    System.out.println("\n DONE-2 "+System.currentTimeMillis());
+	    m	=	new Message();
+	    m.setMessage("MY");
+	    m.setStatus(1);
+	    fact = new HashMap<String, Object>();
+        fact.put("type", "Cinema");
+        fact.put("type3", "rahul2");
+        ksession.insert( fact );
+        ksession.insert( m );
+	    ksession.fireAllRules();
+	    System.out.println("\n DONE-3 "+System.currentTimeMillis());
     }
     
 }

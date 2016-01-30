@@ -4,13 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.drools.KnowledgeBase;
-import org.drools.KnowledgeBaseFactory;
-import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderFactory;
-import org.drools.builder.ResourceType;
 import org.drools.core.ClockType;
-import org.drools.runtime.StatefulKnowledgeSession;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
@@ -33,8 +27,8 @@ import org.kie.internal.io.ResourceFactory;
  * @author ezegrande
  *
  */
-public class TestUtil {
-    private TestUtil() {
+public class DroolsSessionHolder {
+    public DroolsSessionHolder() {
         // Non-instantiable from outside
     }
 
@@ -55,20 +49,23 @@ public class TestUtil {
         }
         return factHandles;
     }
-
+    private KieBase kbase = null;
+    public KieBase getKieBase(){
+    	return kbase;
+    }
     /**
      * Creates a new StatelessKieSession that will be used for the rules. Its
      * KieBase contains the drl files sent by parameter.
      * 
      * @return the new StatelessKieSession
      */
-    public static StatelessKieSession createStatelessKieSession(String drlResourcesPaths) {
+    public StatelessKieSession createStatelessKieSession(String drlResourcesPaths) {
         KieServices ks = KieServices.Factory.get();
         KieContainer kcontainer = createKieContainer(ks, drlResourcesPaths);
         
         // Configure and create the KieBase
         KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
-        KieBase kbase = kcontainer.newKieBase(kbconf);
+        kbase = kcontainer.newKieBase(kbconf);
 
         // Configure and create the KieSession
         KieSessionConfiguration ksconf = ks.newKieSessionConfiguration();
@@ -76,13 +73,14 @@ public class TestUtil {
         return kbase.newStatelessKieSession(ksconf);
     }
 
+    
     /**
      * Creates a new KieSession (Stateful) that will be used for the rules. Its
      * KieBase contains the drl files sent by parameter.
      * 
      * @return the new KieSession
      */
-    public static KieSession createKieSession(String... drlResourcesPaths) {
+    public KieSession createKieSession(String... drlResourcesPaths) {
         return createKieSession(false, drlResourcesPaths);
     }
 
@@ -92,7 +90,7 @@ public class TestUtil {
      * 
      * @return the new KieSession
      */
-    public static KieSession createKieSession(boolean usePseudoClock, String... drlResourcesPaths) {
+    public KieSession createKieSession(boolean usePseudoClock, String... drlResourcesPaths) {
         KieServices ks = KieServices.Factory.get();
         KieContainer kcontainer = createKieContainer(ks, drlResourcesPaths);
 
@@ -121,7 +119,7 @@ public class TestUtil {
      *            DRL files that will be included
      * @return the new KieContainer
      */
-    private static KieContainer createKieContainer(KieServices ks, String... drlResourcesPaths) {
+    private KieContainer createKieContainer(KieServices ks, String... drlResourcesPaths) {
         // Create the in-memory File System and add the resources files to it
         KieFileSystem kfs = ks.newKieFileSystem();
         for (String path : drlResourcesPaths) {
