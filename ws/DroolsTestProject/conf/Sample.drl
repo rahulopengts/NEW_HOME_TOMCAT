@@ -1,0 +1,52 @@
+package com.sample
+ 
+import com.sample.Message;import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+rule "ITEM:Node01,TYPE:COMMAND"
+    when
+        Message( status == Message.GOODBYE, myMessage : message )
+    then
+        System.out.println( myMessage );
+end
+
+rule "ITEM:Node02,TYPE:COMMAND"
+    when
+        m : Message( status == Message.HELLO, myMessage : message )
+    then
+        System.out.println( myMessage );
+        m.setMessage( "Goodbye cruel world" );
+        m.setStatus( Message.GOODBYE );
+        update( m );
+end
+
+rule "ITEM:Node01,TYPE:UPDATE"
+    when
+        m : Message( status == Message.HELLO, myMessage : message )
+    then
+        System.out.println( myMessage );
+        m.setMessage( "Goodbye cruel world" );
+        m.setStatus( Message.GOODBYE );
+        update( m );
+end
+
+rule rule1
+	when 
+	
+		$map:Map(  this['type'] == 'Cinema'  )
+		or 
+		$map:Map(  this['type'] == 'rahul'  )
+			then
+			System.out.println('test in rule11'+$map.get('type'));
+			
+	    end;
+
+rule rule2
+	when
+	Map(  this['type'] == 'Goods'  )
+		and
+	Map(  this['type'] == 'Cinema'  )
+		then
+	System.out.println('test in rule2');
+	end;

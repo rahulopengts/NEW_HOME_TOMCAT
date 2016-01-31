@@ -1,0 +1,23 @@
+package com.test
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+rule rule1
+	when 
+	
+		Map(  this['type'] == 'Cinema'  )
+		or 
+		Map(  this['type'] == 'rahul'  )
+			then
+			System.out.println('test in rule1');
+	    end;
+
+rule rule2
+	when
+	Map(  this['type'] == 'Goods'  )
+		and
+	Map(  this['type'] == 'Cinema'  )
+		then
+	System.out.println('test in rule2');
+	end;

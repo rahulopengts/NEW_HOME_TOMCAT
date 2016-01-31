@@ -1,0 +1,49 @@
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.openhab.core.ruleaction.DroolsBusEvent;
+import org.openhab.core.drools.dto.DimmerDroolsDTO;
+
+rule "ITEM:Node02,TYPE:UPDATE"
+	when 
+		Map(  this['Node02.OLD'] == 'ON'  )
+		and
+		Map(  this['Node02.NEW'] == 'OFF'  )
+			then
+			System.out.println('test in Node02 is OFF NOW');
+	    end;
+
+rule "ITEM:Node04,TYPE:UPDATE"
+	when 
+		Map(  this['Node04.NEW'] == 'ON'  )
+		and
+		Map(  this['Node04.OLD'] == 'OFF'  )
+			then
+			DroolsBusEvent.sendCommand('Node01','OFF','avishi');
+	    end;
+		
+rule "ITEM:Node03,TYPE:COMMAND"
+	when
+	Map(  this['Node03.COMMAND'] == 'OFF'  )
+		then
+	System.out.println('Test Node03 for COMMAND');
+	end;
+
+rule "ITEM:Node03,TYPE:UPDATE"
+	when
+	Map(  this['Node03.NEW'] == 'ON'  )
+		then
+	System.out.println('Test Node03 for UPDATE');
+	end;
+
+rule "ITEM:Dimmed_Light,TYPE:COMMAND"
+	when
+		Map(this['Dimmed_Light.COMMAND'] == 'INCREASE'  )
+		or
+		Map(this['Dimmed_Light.COMMAND'] == 'DECREASE'  )
+		$dimmerDrools : DimmerDroolsDTO()
+	then
+		System.out.println('Dimmed_Light for COMMAND');
+		
+		DroolsBusEvent.postDimmerCommand('Dimmed_Light',$dimmerDrools.getCommandName(),20,100,'avishi',$dimmerDrools.getValue());
+end

@@ -1,0 +1,36 @@
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.openhab.core.ruleaction.DroolsBusEvent;
+
+rule "ITEM:Node02,TYPE:UPDATE"
+	when 
+		Map(  this['Node02.OLD'] == 'ON'  )
+		and
+		Map(  this['Node02.NEW'] == 'OFF'  )
+			then
+			System.out.println('test in Node02 is OFF NOW');
+	    end;
+
+rule "ITEM:Node04,TYPE:UPDATE"
+	when 
+		Map(  this['Node04.NEW'] == 'ON'  )
+		and
+		Map(  this['Node04.OLD'] == 'OFF'  )
+			then
+			DroolsBusEvent.sendCommand('Node01','OFF','Demo');
+	    end;
+		
+rule "ITEM:Node03,TYPE:COMMAND"
+	when
+	Map(  this['Node03.COMMAND'] == 'OFF'  )
+		then
+	System.out.println('Test Node03 for COMMAND');
+	end;
+
+rule "ITEM:Node03,TYPE:UPDATE"
+	when
+	Map(  this['Node03.NEW'] == 'ON'  )
+		then
+	System.out.println('Test Node03 for UPDATE');
+	end;
