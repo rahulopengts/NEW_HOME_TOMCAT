@@ -471,6 +471,7 @@ public class WebAppServlet extends BaseServlet {
 			IAppCache cache = AppCacheFactory.getAppCacheInstance(sitemapName);
 			masterData = (CloudMasterData) cache
 					.getFromCache(sitemapName, null);
+			System.out.println("\n WebAppServlet->handleHttpRequest->getting MasterData for site->"+sitemapName);
 			if (masterData != null) {
 				System.out.println("\n WebAppServlet->handleHttpRequest->Existing Session for site->"+sitemapName);
 				return masterData;

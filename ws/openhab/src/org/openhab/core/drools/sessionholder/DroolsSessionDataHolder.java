@@ -59,10 +59,14 @@ public class DroolsSessionDataHolder {
 		IDroolsDTO	dto	=	null;
 		if(type instanceof IncreaseDecreaseType){
 			dto	=	new DimmerDroolsDTO();
-			//IncreaseDecreaseType	typeCommand	=	(IncreaseDecreaseType)dto;
+			IncreaseDecreaseType	typeCommand	=	(IncreaseDecreaseType)type;
 			if(state instanceof DecimalType){
 				System.out.println("\nDroolsSessionDataHolder->buildFact->Setting");
 				((DimmerDroolsDTO)dto).setItemState(((DecimalType)state).toString());
+				((DimmerDroolsDTO)dto).setValue(((DecimalType)state).intValue());
+				System.out.println("\nDroolsSessionDataHolder->buildFact->Setting-Value+"+((DecimalType)state).intValue());
+				dto.setCommandName(typeCommand.toString());
+				
 			}
 			
 		}

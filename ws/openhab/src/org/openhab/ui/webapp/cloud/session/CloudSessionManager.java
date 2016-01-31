@@ -46,13 +46,13 @@ public class CloudSessionManager {
 			
 			if(session==null){
 				session	=	request.getSession(true);
-				session.setAttribute("SITENAME", siteMapName);
+				session.setAttribute(SITEMAPNAME, siteMapName);
 			} else {
-				String existingSessionMapName	=	(String)session.getAttribute("SITENAME");
-				if(existingSessionMapName!=null && !existingSessionMapName.endsWith(siteMapName)){
+				String existingSessionMapName	=	(String)session.getAttribute(SITEMAPNAME);
+				if(existingSessionMapName!=null && !existingSessionMapName.equals(siteMapName)){
 					session.invalidate();
 					session	=	request.getSession(true);
-					session.setAttribute("SITENAME", siteMapName);					
+					session.setAttribute(SITEMAPNAME, siteMapName);					
 				}
 			}
 		}

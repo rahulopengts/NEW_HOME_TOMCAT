@@ -8,6 +8,8 @@ public class AbstractDroolsDTO implements IDroolsDTO {
 	
 	private int value	=	0;
 	
+
+	//private int setItemStateInt
 	
 	public int getValue() {
 		return value;

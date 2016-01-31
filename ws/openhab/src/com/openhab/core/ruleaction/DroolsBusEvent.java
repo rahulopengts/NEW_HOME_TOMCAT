@@ -29,6 +29,7 @@ import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.dto.EventObject;
 import com.openhab.core.event.handler.EventManager;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
+import com.openhab.core.util.UIComponentValueCalculator;
 
 public class DroolsBusEvent extends BusEvent {
 
@@ -101,13 +102,17 @@ public class DroolsBusEvent extends BusEvent {
 		//eventManager.postUpdate(itemName, command, siteName)
 	}
 
-	public static void sendDimmerCommand(String itemName, String commandStringInceaseDecrease,String homeId) {
+	//public static void sendDimmerCommand(String itemName, String commandStringInceaseDecrease,int currentValue,int incrementFactor,int maxValue,String homeId) {
+
+	public static void postDimmerCommand(String itemName, String commandStringInceaseDecrease,int increament,int maxValue,String homeId,int currentValue) {
 		EventManager	eventManager	=	new EventManager();
-		System.out.println("\nDroolsBusEvent->sendDimmerCommand->"+homeId);
+		System.out.println("\nDroolsBusEvent->sendDimmerCommand->"+commandStringInceaseDecrease+"->"+increament+"->maxValue->"+maxValue+"->CurrentValue->"+currentValue);
+		String nextValue	=	UIComponentValueCalculator.getNextValue(commandStringInceaseDecrease,currentValue, increament, maxValue);
+		//System.out.println("\nDroolsBusEvent->sendDimmerCommand->"+homeId+"->commandName->"+commandStringInceaseDecrease+"->currentValue->"+currentValue+"->increamentFactor->"+incrementFactor+"->maxValue->"+maxValue);
 		try {
 			
 			//EventManager manager	=	new EventManager();
-			Command command = getCommand("5");
+			Command command = getCommand(nextValue);
 			System.out.println("\nDroolsBusEvent->sendDimmerCommand->"+command.getClass());
 			//eventManager.postUpdate(itemName, command, "demo");
 			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(homeId);
