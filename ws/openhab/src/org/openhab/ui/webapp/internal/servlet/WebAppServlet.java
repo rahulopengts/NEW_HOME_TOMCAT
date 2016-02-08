@@ -97,6 +97,7 @@ import com.openhab.core.constant.CloudHomeAutoConstants;
 import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.messaging.mqtt.MessageBrokerService;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
+import com.openhab.core.util.AppPropertyReader;
 
 /**
  * This is the main servlet for the WebApp UI. It serves the Html code based on
@@ -777,6 +778,7 @@ public class WebAppServlet extends BaseServlet {
 			cloudEventPublisher = new EventPublisherImpl();
 			mqttService.setEventPublisher(cloudEventPublisher);
 			messageBrokerService = MessageBrokerService.getInstance();
+			AppPropertyReader.getAppPropertyReader();
 			// AdminEventImpl manager = new AdminEventImpl();
 			// manager.initializeBus();
 

@@ -232,7 +232,56 @@ public class EventManager	{// implements IEventManager{
 	}
 	
 	
-	public void postUpdate(String itemName, Command command,String siteName) throws CloudException {	
+	//public void postUpdate(String itemName, Command command,String siteName) throws CloudException {
+	public void postUpdate(String itemName, State command,String siteName) throws CloudException {
+		try{
+			//siteName	=	"demo";
+			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);
+			CloudMasterData masterData	=	(CloudMasterData)cache.getFromCache(siteName,null);
+			ItemRegistry	itemRegistry	=	masterData.getItemRegistry();
+			
+			EventObject	eventObject	=	new EventObject();
+//			ModelRepository modelRepository	=	masterData.getModelRepository();
+			
+//			MqttGenericBindingProvider	mqttGenericBindingProvider	=	CloudMessageProcHelper.getMqttGenericBindingProvider(itemName, command, itemRegistry, modelRepository);
+//			Map<String, MqttItemConfig> itemConfigMap	=	mqttGenericBindingProvider.getMqttItemConfigList();
+//			MqttItemConfig	itemConfig	=	itemConfigMap.get(itemName);
+//			java.util.List<MqttMessagePublisher> pubList	=	itemConfig.getMessagePublishers();
+			
+//			String uiCommand	=	command.toString();
+//			int commandMessageIndex	=	0;
+//			
+//			if(CloudAppConstants.ON_COMMAND.equals(uiCommand)){
+//				commandMessageIndex	=	0;
+//			} else if(CloudAppConstants.OFF_COMMAND.equals(uiCommand)){
+//				commandMessageIndex	=	1;
+//			}
+//
+//			MqttMessagePublisher	publisher	=	pubList.get(0);
+//			MqttMessagePublisher	p1=	(MqttMessagePublisher)pubList.get(0);
+//			System.out.println("\nEventManager->postUpdate->MqttMessagePublisherList->:Size:"+pubList.size());
+
+			eventObject.setItemRegistry(itemRegistry);
+			eventObject.setModelRepository(masterData.getModelRepository());
+			eventObject.setPersistanceManager(masterData.getPersistenceManager());
+			Type s	=	(Type)command;
+			eventObject.setNewState(s);
+			//eventObject.setCommand(command);
+			eventObject.setItemName(itemName);
+			eventObject.setSiteName(siteName);
+
+			AdminEventImpl	admin	=	new AdminEventImpl();
+			IEventHandler	dataEventHandler	=	new PostUpdateHandler();
+			admin.dispatchEvent(eventObject, dataEventHandler);
+
+			
+		} catch (Exception e){
+			e.printStackTrace();
+			CloudExceptionManager.throwException(CloudMessageConstants.CACHE_EXCEPTION, e, "");
+		}
+	}
+
+	public void postUpdateOrg(String itemName, Command command,String siteName) throws CloudException {	
 		try{
 			//siteName	=	"demo";
 			IAppCache	cache	=	AppCacheFactory.getAppCacheInstance(siteName);

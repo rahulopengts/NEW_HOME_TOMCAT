@@ -51,6 +51,8 @@ public class ItemUpdater extends AbstractEventSubscriber {
 				GenericItem item = (GenericItem) itemRegistry.getItem(itemName);
 				boolean isAccepted = false;
 				System.out.println("\nItemUpdater->receiveUpdate->item->"+item);
+				System.out.println("\nItemUpdater->receiveUpdate->item->"+newStatus);
+				System.out.println("\nItemUpdater->receiveUpdate->item->"+newStatus.getClass());
 				if (item.getAcceptedDataTypes().contains(newStatus.getClass())) {
 					System.out.println("\nItemUpdater->receiveUpdate->isAccepted->1->"+isAccepted);
 					isAccepted = true;

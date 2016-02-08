@@ -34,8 +34,11 @@ import org.slf4j.LoggerFactory;
 
 import com.openhab.core.cache.AppCacheFactory;
 import com.openhab.core.cache.IAppCache;
+import com.openhab.core.constants.CloudAppConstants;
 import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.handler.EventManager;
+import com.openhab.core.util.AppPropertyReader;
+import com.openhab.core.util.CloudHelperUtil;
 
 /**
  * Message subscriber configuration for items which receive inbound MQTT
@@ -119,6 +122,7 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 
 	@Override
 	public void processMessage(String topic, byte[] message) {
+		String homeId	=	null;
 		System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:->"+new String(message)+"->this->"+this);
 		try {
 			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());
@@ -130,8 +134,18 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 			}
 
 			String value = new String(message);
-
-			System.out.println("\n MqttMessageSubscriber->processMessage->value():->"+value);	
+			homeId	=	CloudHelperUtil.getHomeId(value);
+			System.out.println("\n MqttMessageSubscriber->processMessage->homeId->"+homeId);
+			
+			String userHomeId	=	AppPropertyReader.getProperty(CloudAppConstants.HOME_ID+"."+homeId);
+			//************************************************//
+			//Temp Code//
+			String tempMessage	=	value.substring(8,10);
+			
+			value	=	tempMessage;
+			//************************************************//
+			
+			System.out.println("\n MqttMessageSubscriber->processMessage->value():->"+value+"->messageFilter->"+msgFilter+"->homeid->"+userHomeId);	
 			
 			if (!msgFilterApplies(value)) {
 				logger.debug(
@@ -151,7 +165,7 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 			}
 
 			value = StringUtils.replace(value, "${itemName}", getItemName());
-			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:value repalce->"+value);			
+			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:value repalce->"+value+"->:MessageType:->"+getMessageType());			
 			if (getMessageType().equals(MessageType.COMMAND)) {
 				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());	
 				Command command = getCommand(value);
@@ -164,9 +178,11 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 				State state = getState(value);
 				EventManager manager	=	new EventManager();
 				Command command = getCommand(value);
-				manager.postUpdate(getItemName(), command, "demo");
+				//manager.postUpdate(getItemName(), command, "avishi");
+				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+"->State->"+state+":command:->"+state.toString());
+				manager.postUpdate(getItemName(), state, userHomeId);
 				//eventPublisher.postUpdate(getItemName(), state);
-				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+"->State->"+getState(value)+":command:->"+state.toString());				
+								
 			}
 		} catch (Exception e) {
 			logger.error("Error processing MQTT message.", e);

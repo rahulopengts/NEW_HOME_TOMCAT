@@ -10,6 +10,7 @@ import org.openhab.ui.webapp.internal.render.PageRenderer;
 
 import com.openhab.core.cache.AppCacheFactory;
 import com.openhab.core.cache.IAppCache;
+import com.openhab.core.constants.CloudAppConstants;
 import com.openhab.core.dto.CloudMasterData;
 
 public class CloudHelperUtil {
@@ -81,4 +82,12 @@ public class CloudHelperUtil {
 		}
 	}
 
+	public static String getHomeId(String receievedMessage) throws CloudException {
+		if(receievedMessage==null){
+			CloudExceptionManager.throwException(CloudMessageConstants.NULL_RECEIVEDMESAGE,new Exception(), null);
+		}
+		
+		String homeId	=	receievedMessage.substring(CloudAppConstants.STARTINDEX_HOMEID, CloudAppConstants.ENDINDEX_HOMEID);
+		return homeId;
+	}
 }

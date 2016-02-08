@@ -47,18 +47,18 @@ public class CloudMessageProcHelper {
 			String bindingProvider	=	iteratebindingProvider.next();
 			mqttGenericBindingProvider	=	 (MqttGenericBindingProvider)bindingConfigReaders.get(bindingProvider);
 			
-			Map<String, MqttItemConfig> itemConfigMap	=	mqttGenericBindingProvider.getMqttItemConfigList();
-			itemConfig	=	itemConfigMap.get(itemName);
-			java.util.List<MqttMessagePublisher> pubList	=	itemConfig.getMessagePublishers();
+//			Map<String, MqttItemConfig> itemConfigMap	=	mqttGenericBindingProvider.getMqttItemConfigList();
+//			itemConfig	=	itemConfigMap.get(itemName);
+//			java.util.List<MqttMessagePublisher> pubList	=	itemConfig.getMessagePublishers();
 			
-			String uiCommand	=	command.toString();
-			int commandMessageIndex	=	0;
-			
-			if(CloudAppConstants.ON_COMMAND.equals(uiCommand)){
-				commandMessageIndex	=	0;
-			} else if(CloudAppConstants.OFF_COMMAND.equals(uiCommand)){
-				commandMessageIndex	=	1;
-			}
+//			String uiCommand	=	command.toString();
+//			int commandMessageIndex	=	0;
+//			
+//			if(CloudAppConstants.ON_COMMAND.equals(uiCommand)){
+//				commandMessageIndex	=	0;
+//			} else if(CloudAppConstants.OFF_COMMAND.equals(uiCommand)){
+//				commandMessageIndex	=	1;
+//			}
 
 //			MqttMessagePublisher	publisher	=	pubList.get(0);
 //			MqttMessagePublisher	p1=	(MqttMessagePublisher)pubList.get(0);

@@ -1,0 +1,13 @@
+package com.sample
+ 
+import com.sample.Message;import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+rule "Send SMS every 15 minutes"
+    timer (cron:59 15 * * * ?)
+when
+      m : Message( status == Message.HELLO)
+then
+    System.out.println('Timer fired now.');
+end

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openhab.core.items.ItemRegistry;
+import org.openhab.core.library.types.DateTimeType;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.HSBType;
 import org.openhab.core.library.types.IncreaseDecreaseType;
@@ -15,6 +16,7 @@ import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.types.UpDownType;
 import org.openhab.core.persistence.internal.PersistenceManager;
 import org.openhab.core.types.Command;
+import org.openhab.core.types.State;
 import org.openhab.core.types.TypeParser;
 import org.openhab.model.core.ModelRepository;
 import org.openhab.model.rule.internal.engine.RuleEngine;
@@ -131,8 +133,10 @@ public class DroolsBusEvent extends BusEvent {
 			eventObject.setPersistanceManager(pesPersistenceManager);
 			eventObject.setRuleEngine(ruleEngine);
 			eventObject.setItemRegistry(itemRegistry);
+			State state = getState(nextValue);
 			//eventManager.publishData(itemName, command, itemRegistry, masterData.getModelRepository(), masterData.getPersistenceManager(), masterData.getRuleEngine(), eventObject);
-			eventManager.postUpdate(itemName, command, homeId);
+			//eventManager.postUpdate(itemName, command, homeId);
+			eventManager.postUpdate(itemName, state, homeId);
 			//publishData(itemName, command, cloudItemRegistry,cloudModelRepository,persistenceManager,ruleEngine,eventObject);
 			System.out.println("\nDroolsBusEvent->Done");
 		} catch (CloudException e){
@@ -140,5 +144,23 @@ public class DroolsBusEvent extends BusEvent {
 		}
 		//eventManager.postUpdate(itemName, command, siteName)
 	}
-	
+
+	protected static State getState(String value) {
+
+		List<Class<? extends State>> stateList = new ArrayList<Class<? extends State>>();
+
+		// Not sure if the sequence below is the best one..
+		stateList.add(OnOffType.class);
+		stateList.add(OpenClosedType.class);
+		stateList.add(UpDownType.class);
+		stateList.add(HSBType.class);
+		stateList.add(PercentType.class);
+		stateList.add(DecimalType.class);
+		stateList.add(DateTimeType.class);
+		stateList.add(StringType.class);
+
+		return TypeParser.parseState(stateList, value);
+
+	}
+
 }

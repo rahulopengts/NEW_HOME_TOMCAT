@@ -57,7 +57,8 @@ public class DroolsTest {
 		DroolsTest r	=	new DroolsTest();
         //r.testFireAfterRemoveRule();
         //r.testFireAfterRemoveRuleWithFile();
-        r.testStatefulSession();
+        //r.testStatefulSession();
+        r.testStatefulSessionTimer();
 //		File file = new File("D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\Sample.drl");
 //		r.testParser(file);
 		//String str	=	"ITEM:Node01,TYPE:COMMAND";
@@ -514,6 +515,33 @@ public class DroolsTest {
         ksession.insert( m );
 	    ksession.fireAllRules();
 	    System.out.println("\n DONE-3 "+System.currentTimeMillis());
+    }
+
+    public void testStatefulSessionTimer(){
+    	System.out.println("\n DONE-0 "+System.currentTimeMillis());
+    	KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+	    //kbuilder.add( ResourceFactory.newFileSystemResource( fileName ), ResourceType.DRL );
+    	String fileLoc	=	"D:\\Home_Auto\\NEW_HOME_TOMCAT\\ws\\DroolsTestProject\\conf\\timer.drl";
+	    File file	=	new File(fileLoc);	
+	    kbuilder.add( ResourceFactory.newFileResource(file),ResourceType.DRL);
+	    //assertFalse( kbuilder.hasErrors() );
+	    if (kbuilder.hasErrors() ) {
+	        System.out.println( kbuilder.getErrors() );
+	    }
+	    KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+	    kbase.addKnowledgePackages( kbuilder.getKnowledgePackages() );
+	    
+	    StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+	    //ksession.fireAllRules();
+	    Message m	=	new Message();
+	    m.setStatus(Message.HELLO);
+	    ksession.insert(m);
+	    ksession.fireAllRules();
+	    
+	    while(true){
+	    	
+	    }
+	    //System.out.println("\n DONE-3 "+System.currentTimeMillis());
     }
     
 }
