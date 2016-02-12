@@ -118,7 +118,14 @@ Number Radio_Station			"Radio"					<network>
 Dimmer Volume 					"Volume [%.1f %%]"
 Number Temperature_Setpoint		"Temperature [%.1f °C]" <temperature>
 
-Dimmer  Dimmed_Light    "Dimmer Light [%d %%]"  <slider>    (GF_Living, Lights)     { mqtt=">[mosquitto:/raspberry:state:*:default]" }
+//v-1 Dimmer  Dimmed_Light    "Dimmer Light [%d %%]"  <slider>    (GF_Living, Lights)     { mqtt=">[mosquitto:/raspberry:state:*:default]" }
+//v-2 Dimmer  Dimmed_Light    "Dimmer Light [%d %%]"  <slider>    (GF_Living, Lights)     { mqtt=">[mosquitto:/raspberry:state:*:default],<[mosquitto:/DIMMER_LIGHT_1S:state:40:^[0-9]*$]" }
+
+//v-3 Dimmer  Dimmed_Light    "Dimmer Light [%d %%]"  <slider>    (GF_Living, Lights)     { mqtt=">[mosquitto:/raspberry:state:*:default],<[mosquitto:/DIMMER_LIGHT_1S:state:default:^[0-9]*$]" }
+
+Dimmer  Dimmed_Light    "Dimmer Light [%d %%]"  <slider>    (GF_Living, Lights)     { mqtt=">[mosquitto:/raspberry:state:*:JAVA(OL1N0L2N1S11000%0000)],<[mosquitto:/DIMMER_LIGHT_1S:command:default:^[0-9]*$]" }
+
+//{mqtt=">[mosquitto:/raspberry:command:ON:OL1N4L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N4L9N9S1000000000],<[mosquitto:/L1N4L9N9S1:state:default]"}
 
 String UnknownDevices    "Unknown Devices in Range: [%s]" { bluetooth="?" }
 Number NoOfPairedDevices "Paired Devices in Range: [%d]"  { bluetooth="!" }

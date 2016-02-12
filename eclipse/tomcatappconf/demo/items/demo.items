@@ -36,8 +36,9 @@ Switch	Node01 "Node01 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:
 
 
 
-Switch	Node02 "Node02 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N1S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N1S1000000000],<[mosquitto:/L1N2L9N9S1:state:default]"}
+//Switch	Node02 "Node02 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N1S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N1S1000000000],<[mosquitto:/L1N2L9N9S1:state:default]"}
 
+Switch	Node02 (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:JAVA(OL1N0L2N1S1100000000)],>[mosquitto:/raspberry:command:OFF:JAVA(OL1N0L2N1S1100000000)],<[mosquitto:/L1N2L9N9S1:state:default]"}
 
 Switch	Node03 "Node03 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N0S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N0S1000000000],<[mosquitto:/L1N0L2N0S1:state:default]"}
 
