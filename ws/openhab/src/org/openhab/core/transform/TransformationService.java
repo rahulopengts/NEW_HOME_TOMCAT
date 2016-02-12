@@ -8,6 +8,8 @@
  */
 package org.openhab.core.transform;
 
+import org.openhab.core.items.Item;
+
 
 /**
  * A TransformationProcessor transforms a given input and returns the transformed
@@ -43,5 +45,9 @@ public interface TransformationService {
 	 * @throws TransformationException if any error occurs
 	 */
 	String transform(String function, String source) throws TransformationException;
+	
+	
+	String transform(String function, String source,Item item) throws TransformationException;
+	
 	
 }

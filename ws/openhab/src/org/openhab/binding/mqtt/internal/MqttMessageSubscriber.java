@@ -37,6 +37,7 @@ import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constants.CloudAppConstants;
 import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.handler.EventManager;
+import com.openhab.core.ruleaction.DroolsBusEvent;
 import com.openhab.core.util.AppPropertyReader;
 import com.openhab.core.util.CloudHelperUtil;
 
@@ -161,16 +162,18 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 			} else if (getTransformationRule() != null
 					&& !getTransformationRule().equalsIgnoreCase("default")) {
 				value = getTransformationRule();
-				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:->"+value);
+				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationRule().transform:->"+value);
 			}
 
 			value = StringUtils.replace(value, "${itemName}", getItemName());
 			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:value repalce->"+value+"->:MessageType:->"+getMessageType());			
 			if (getMessageType().equals(MessageType.COMMAND)) {
-				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());	
+				//System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());	
 				Command command = getCommand(value);
-				eventPublisher.postCommand(getItemName(), command);
 				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+":command:->"+command.toString());
+				//eventPublisher.postCommand(getItemName(), command);
+				
+				DroolsBusEvent.sendCommand(getItemName(), command.toString(), userHomeId);
 			} else {
 //				IAppCache	cache	=	AppCacheFactory.getAppCacheInstance().getCacheImpl("");
 //				CloudMasterData	master	=	cache.getFromCache("demo", null);
@@ -179,7 +182,7 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 				EventManager manager	=	new EventManager();
 				Command command = getCommand(value);
 				//manager.postUpdate(getItemName(), command, "avishi");
-				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+"->State->"+state+":command:->"+state.toString());
+				System.out.println("\n MqttMessageSubscriber->processMessage->getItemName"+getItemName()+"->State->"+state+":state:->"+state.toString());
 				manager.postUpdate(getItemName(), state, userHomeId);
 				//eventPublisher.postUpdate(getItemName(), state);
 								
@@ -228,11 +231,15 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 	 *         specified
 	 */
 	private boolean msgFilterApplies(String msg) {
+		System.out.println("\n msgFileterApplies->"+msg+"->msgFilter->"+msgFilter);
 		if (msg == null) {
+			System.out.println("\n msgFileterApplies->msg==null");
 			return false;
 		} else if (msgFilter == null) {
+			System.out.println("\n msgFileterApplies->msgFilter==null-true");
 			return true;
 		} else {
+			System.out.println("\n msgFileterApplies->msg.matches(msgFilter)"+msg.matches(msgFilter));
 			return msg.matches(msgFilter);
 		}
 	}

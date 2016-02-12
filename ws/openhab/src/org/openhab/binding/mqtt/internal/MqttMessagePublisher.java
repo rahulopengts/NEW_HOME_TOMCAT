@@ -9,6 +9,8 @@
 package org.openhab.binding.mqtt.internal;
 
 import org.apache.commons.lang.StringUtils;
+import org.openhab.core.transform.CloudTransformationHelper;
+import org.openhab.core.transform.TransformationService;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.State;
 import org.openhab.io.transport.mqtt.MqttMessageProducer;
@@ -113,10 +115,19 @@ public class MqttMessagePublisher extends AbstractMqttMessagePubSub implements
 		if (getMessageType().equals(MessageType.COMMAND)) {
 			return false;
 		}
+		
+		String trigger	=	getTrigger();
+		if(trigger!=null && trigger.contains("REGEX")){
+			String triggerValue	=	trigger.substring(trigger.indexOf('('),trigger.indexOf(')'));
+			System.out.println("\nMqttMessagePublisher->"+triggerValue);
+			boolean isValid	=	triggerValue.matches(state.toString());
+			System.out.println("\nMqttMessagePublisher->"+triggerValue+"->isValid->"+isValid);
+		}
 		if (getTrigger().equals("*")) {
 			return true;
 		}
 
+		
 		return trigger.equalsIgnoreCase(state.toString());
 	}
 
@@ -236,6 +247,29 @@ public class MqttMessagePublisher extends AbstractMqttMessagePubSub implements
 	 */
 	public String getTopic(String itemName) {
 		return StringUtils.replace(getTopic(), "${item}", itemName);
+	}
+
+	@Override
+	protected void initTransformService() {
+		// TODO Auto-generated method stub
+		
+		if (getTransformationService() != null || StringUtils.isBlank(getTransformationServiceName())) {
+			return;
+		}
+
+		String transformationServiceType	=	getTransformationServiceName();
+		System.out.println("\nMqttMessagePublisher->initTransformService->"+getTransformationServiceName());
+		
+		
+		if(transformationServiceType!=null && transformationServiceType.equals("JAVA")){
+			TransformationService	transformationService	=	CloudTransformationHelper.getTransformationService(transformationServiceType);
+			setTransformationService(transformationService);
+			System.out.println("\nMqttMessagePublisher->initTransformService->done for cloud");
+			//TransformationService	transformationService	=	new 	
+		} else {
+			super.initTransformService();			
+		}
+
 	}
 	
 }

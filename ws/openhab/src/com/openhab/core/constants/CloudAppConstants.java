@@ -10,4 +10,8 @@ public interface CloudAppConstants {
 	public final static int STARTINDEX_HOMEID	=	5;
 	public final static int ENDINDEX_HOMEID		=	8;
 	public final static String HOME_ID	=	"homeid";
+
+
+	//Supported Transformation Types
+	public final static String JAVA_TRANSFORMATION	=	"JAVA";	
 }
