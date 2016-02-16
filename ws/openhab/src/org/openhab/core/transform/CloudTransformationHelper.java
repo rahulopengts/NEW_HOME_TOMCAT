@@ -7,6 +7,12 @@ import com.openhab.core.constants.CloudAppConstants;
 
 public class CloudTransformationHelper extends TransformationHelper {
 
+	//~I90199991001119292#
+	
+	public final static String DIMMERTYPEITEM	=	"DI";
+	public final static String SWITCHTYPEITEM	=	"SI";
+	
+	public final static String CONTACTTYPEITEM	=	"CI";
 	
 	static public TransformationService getTransformationService(String transformationType) {
 		TransformationService	transformationService	=	null;
@@ -16,4 +22,6 @@ public class CloudTransformationHelper extends TransformationHelper {
 		
 		return transformationService;
 	}
+
+
 }

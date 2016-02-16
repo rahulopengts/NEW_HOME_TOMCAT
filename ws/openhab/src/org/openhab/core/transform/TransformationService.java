@@ -9,6 +9,7 @@
 package org.openhab.core.transform;
 
 import org.openhab.core.items.Item;
+import org.openhab.core.parser.dto.InboundMessageDTO;
 
 
 /**
@@ -49,5 +50,6 @@ public interface TransformationService {
 	
 	String transform(String function, String source,Item item) throws TransformationException;
 	
+	InboundMessageDTO transformInboundMessage(String function, String source,String itemName) throws TransformationException;
 	
 }

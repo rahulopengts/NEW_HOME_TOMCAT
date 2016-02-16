@@ -23,6 +23,9 @@ import org.openhab.core.library.types.PercentType;
 import org.openhab.core.library.types.StopMoveType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.types.UpDownType;
+import org.openhab.core.parser.dto.InboundMessageDTO;
+import org.openhab.core.transform.CloudTransformationHelper;
+import org.openhab.core.transform.TransformationService;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.State;
 import org.openhab.core.types.TypeParser;
@@ -32,10 +35,7 @@ import org.openhab.ui.webapp.cloud.exception.CloudException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.openhab.core.cache.AppCacheFactory;
-import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constants.CloudAppConstants;
-import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.handler.EventManager;
 import com.openhab.core.ruleaction.DroolsBusEvent;
 import com.openhab.core.util.AppPropertyReader;
@@ -125,6 +125,7 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 	public void processMessage(String topic, byte[] message) {
 		String homeId	=	null;
 		System.out.println("\n MqttMessageSubscriber->processMessage->"+topic+":message:->"+new String(message)+"->this->"+this);
+		InboundMessageDTO	inboundMessageDTO	=	null;
 		try {
 			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationServiceName():->"+getTransformationServiceName());
 			
@@ -135,18 +136,19 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 			}
 
 			String value = new String(message);
-			homeId	=	CloudHelperUtil.getHomeId(value);
-			System.out.println("\n MqttMessageSubscriber->processMessage->homeId->"+homeId);
-			
-			String userHomeId	=	AppPropertyReader.getProperty(CloudAppConstants.HOME_ID+"."+homeId);
+//			homeId	=	CloudHelperUtil.getHomeId(value);
+//			System.out.println("\n MqttMessageSubscriber->processMessage->homeId->"+homeId);
+//			
+//			String userHomeId	=	AppPropertyReader.getProperty(CloudAppConstants.HOME_ID+"."+homeId);
 			//************************************************//
 			//Temp Code//
-			String tempMessage	=	value.substring(8,10);
-			
-			value	=	tempMessage;
+//			String tempMessage	=	value.substring(8,10);
+//			//String tempMessage	=	value.substring(8,14);
+//			
+//			value	=	tempMessage;
 			//************************************************//
 			
-			System.out.println("\n MqttMessageSubscriber->processMessage->value():->"+value+"->messageFilter->"+msgFilter+"->homeid->"+userHomeId);	
+		
 			
 			if (!msgFilterApplies(value)) {
 				logger.debug(
@@ -156,8 +158,13 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 			}
 
 			if (getTransformationService() != null) {
-				value = getTransformationService().transform(
-						getTransformationServiceParam(), value);
+//				value = getTransformationService().transform(
+//						getTransformationServiceParam(), value);
+				
+				inboundMessageDTO = getTransformationService().transformInboundMessage(
+						getTransformationServiceParam(), value,getItemName());
+				value	=	inboundMessageDTO.getItemStatusValue();
+				
 				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:->"+value);
 			} else if (getTransformationRule() != null
 					&& !getTransformationRule().equalsIgnoreCase("default")) {
@@ -165,6 +172,12 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationRule().transform:->"+value);
 			}
 
+			homeId	=	CloudHelperUtil.getHomeId(value);//inboundMessageDTO.getHomeId();
+			System.out.println("\n MqttMessageSubscriber->processMessage->homeId->"+homeId);
+			
+			String userHomeId	=	AppPropertyReader.getProperty(CloudAppConstants.HOME_ID+"."+homeId);
+			System.out.println("\n MqttMessageSubscriber->processMessage->value():->"+value+"->messageFilter->"+msgFilter+"->homeid->"+userHomeId);				
+			
 			value = StringUtils.replace(value, "${itemName}", getItemName());
 			System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationService().transform:value repalce->"+value+"->:MessageType:->"+getMessageType());			
 			if (getMessageType().equals(MessageType.COMMAND)) {
@@ -299,4 +312,26 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 		return StringUtils.replace(super.getTopic(), "${item}", "+");
 	}
 
+	@Override
+	protected void initTransformService() {
+		// TODO Auto-generated method stub
+		
+		if (getTransformationService() != null || StringUtils.isBlank(getTransformationServiceName())) {
+			return;
+		}
+
+		String transformationServiceType	=	getTransformationServiceName();
+		System.out.println("\nMqttMessageSubscriber->initTransformService->"+getTransformationServiceName());
+		
+		
+		if(transformationServiceType!=null && transformationServiceType.equals("JAVA")){
+			TransformationService	transformationService	=	CloudTransformationHelper.getTransformationService(transformationServiceType);
+			setTransformationService(transformationService);
+			System.out.println("\nMqttMessageSubscriber->initTransformService->done for cloud");
+			//TransformationService	transformationService	=	new 	
+		} else {
+			super.initTransformService();			
+		}
+
+	}
 }

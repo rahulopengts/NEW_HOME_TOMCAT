@@ -283,9 +283,9 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 			label = label.substring(0, indexOpenBracket + 1) + formatPattern + label.substring(indexCloseBracket);
 		}
 		
-		//System.out.println("\nItemUIRegistryImpl->getLabel->before transform->"+itemName+"Label->"+label);
+		System.out.println("\nItemUIRegistryImpl->getLabel->before transform->"+itemName+"Label->"+label);
 		label = transform(label);
-		//System.out.println("\nItemUIRegistryImpl->getLabel->itemName->"+itemName+"Label->"+label);
+		System.out.println("\nItemUIRegistryImpl->getLabel->itemName->"+itemName+"Label->"+label);
 		return label;
 	}
 

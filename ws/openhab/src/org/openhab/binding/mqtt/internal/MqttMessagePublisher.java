@@ -44,7 +44,7 @@ public class MqttMessagePublisher extends AbstractMqttMessagePubSub implements
 	 */
 	public MqttMessagePublisher(String configuration) throws BindingConfigParseException {
 
-		//System.out.println("\n MqttMessagePublisher : "+configuration+":instance:"+this);
+		System.out.println("\n MqttMessagePublisher : "+configuration+":instance:"+this.getItemName());
 //		String s	=	null;
 //		s.toString();
 		String[] config = splitConfigurationString(configuration);
