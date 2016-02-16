@@ -38,15 +38,15 @@ Switch	Node01 "Node01 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:
 
 //Switch	Node02 "Node02 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N1S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N1S1000000000],<[mosquitto:/L1N2L9N9S1:state:default]"}
 
-Switch	Node02 (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:JAVA(OL1N0L2N1S1100000000)],>[mosquitto:/raspberry:command:OFF:JAVA(OL1N0L2N1S1100000000)],<[mosquitto:/L1N2L9N9S1:state:default]"}
+Switch	Node02 (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:JAVA(OL1N0L2N1S1100000000)],>[mosquitto:/raspberry:command:OFF:JAVA(OL1N0L2N1S1100000000)],<[mosquitto:/L1N2L9N9S1:state:JAVA(SI)]"}
 
-Switch	Node03 "Node03 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N0S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N0S1000000000],<[mosquitto:/L1N0L2N0S1:state:default]"}
+Switch	Node03 "Node03 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N0S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N0S1000000000],<[mosquitto:/L1N0L2N0S1:state:JAVA(SI)]"}
 
-Switch	Node04 "Node04 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N4L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N4L9N9S1000000000],<[mosquitto:/L1N4L9N9S1:state:default]"}
+Switch	Node04 "Node04 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N4L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N4L9N9S1000000000],<[mosquitto:/L1N4L9N9S1:state:JAVA(SI)]"}
 
-Switch	Node05S0 "Node05 Avishi" (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S0100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S0000000000],<[mosquitto:/L1N5L9N9S0:state:default]"}
+Switch	Node05S0 "Node05 Avishi" (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S0100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S0000000000],<[mosquitto:/L1N5L9N9S0:state:JAVA(SI)]"}
 
-Switch	Node05S1 (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S1000000000],<[mosquitto:/L1N5L9N9S1:state:default]"}
+Switch	Node05S1 (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S1000000000],<[mosquitto:/L1N5L9N9S1:state:JAVA(SI)]"}
 
 Switch	Node05S2 (RH_Corridor) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N5L9N9S2100000000],>[mosquitto:/raspberry:command:OFF:OL1N5L9N9S2000000000],<[mosquitto:/L1N5L9N9S2:state:default]"}
 
@@ -98,8 +98,10 @@ Number Temperature_FF_Bed 		"Temperature [%.1f Â°C]"	<temperature>	(Temperatur
 
 
 /* Window */
-Contact Windows_GF_Frontdoor 	"Frontdoor [MAP(en.map):%s]"		(RH_Kitchen, Window)
-Contact Windows_GF_Kitchen 		"Kitchen [MAP(en.map):%s]"			(RH_Kitchen, Window)
+//Switch	Node03 "Node03 Avishi" (RH_Living) {mqtt=">[mosquitto:/raspberry:command:ON:OL1N0L2N0S1100000000],>[mosquitto:/raspberry:command:OFF:OL1N0L2N0S1000000000],<[mosquitto:/L1N0L2N0S1:state:default]"}
+//Contact Windows_GF_Frontdoor 	"Frontdoor [MAP(en.map):%s]"		(RH_Kitchen, Window)
+Contact Windows_GF_Frontdoor 	"Frontdoor [MAP(en.map):%s]"		(RH_Kitchen, Window) {mqtt="<[mosquitto:/FRONTWINDOWTOPIC:state:JAVA(CI)]"}
+Contact Windows_GF_Kitchen 		"Kitchen [MAP(en.map):%s]"			(RH_Kitchen, Window) {mqtt="<[mosquitto:/Kitchen:state:JAVA(CI)]"}
 
 
 /* Windows */
