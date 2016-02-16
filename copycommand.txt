@@ -4,3 +4,5 @@ xcopy D:\Home_Auto\raspberry\Latest\openHAB_Installer\openhab-master\bundles\per
 xcopy D:\Home_Auto\raspberry\Latest\openHAB_Installer\openhab-master\bundles\persistence\org.openhab.persistence.mysql\src\main\java /E
 
 xcopy D:\Home_Auto\raspberry\Latest\openHAB_Installer\openhab-master\bundles\persistence\org.openhab.persistence.mysql\java /E
+
+xcopy /S /I /E /Y D:\Home_Auto\NEW_HOME_TOMCAT\ws\openhab\build D:\Home_Auto\NEW_HOME_TOMCAT\ws\openhab\WebContent\WEB-INF

@@ -1,0 +1,157 @@
+ CmdServlet->service-> DOES NOT START WITH->_ And Submitted Command Name Is INCREASE
+
+ CmdServlet->service-> Command:INCREASE
+
+ CmdServlet->service-> Command is Before :INCREASE :
+ Command Type :IncreaseDecreaseType
+
+ EventPublisheImpl->sendCommand->org.eclipse.equinox.internal.event.EventComponent
+
+ EventPublisheImpl->sendCommand->Command is not null
+
+ EventPublisheImpl : EventAdmin : org.eclipse.equinox.internal.event.EventComponent
+
+ CreateCommand : itemName Dimmed_Light : Command INCREASE Command Object INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.core.internal.items.ItemUpdater@44d06fee
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+ItemUpdater->receiveCommand->item->Dimmed_Light->command->INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.binding.mqtt.internal.MqttItemBinding@78cd65cf
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AbstractBinding->receiveCommand->itemNameDimmed_Light->Command->INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.binding.http.internal.HttpBinding@5d5b999f
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AbstractBinding->addbindingProvider->class org.openhab.core.autoupdate.internal.AutoUpdateGenericBindingProvider
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.core.autoupdate.internal.AutoUpdateBinding@3fe05aaa
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AutoUpdateBinding->receiveCommand->itemName->Dimmed_Light->Command->INCREASE->Provider->
+
+AutoUpdateGenericBindingProvider->autoUpdate->itemName->Dimmed_Light->Config->null
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.io.monitor.internal.EventLogger@713bee40
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.binding.mqtt.internal.MqttEventBusBinding@65cacc5e
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+RuleEngine->handleEvent->
+
+RuleEngine->receiveCommand->1->itemNameDimmed_Light->oldState->Dimmed_Light->newState->INCREASE
+
+RuleEngine->receiveCommand->2->itemNameDimmed_Light->newState->INCREASE
+
+RuleEngine->receiveCommand->3->itemNameDimmed_Light->newState->INCREASE
+
+ CmdServlet->service-> Command is INCREASE :
+ Command Type :IncreaseDecreaseType
+
+ CmdServlet->service-> DOES NOT START WITH->_ And Submitted Command Name Is INCREASE
+
+ CmdServlet->service-> Command:INCREASE
+
+ CmdServlet->service-> Command is Before :INCREASE :
+ Command Type :IncreaseDecreaseType
+
+ EventPublisheImpl->sendCommand->org.eclipse.equinox.internal.event.EventComponent
+
+ EventPublisheImpl->sendCommand->Command is not null
+
+ EventPublisheImpl : EventAdmin : org.eclipse.equinox.internal.event.EventComponent
+
+ CreateCommand : itemName Dimmed_Light : Command INCREASE Command Object INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.core.internal.items.ItemUpdater@44d06fee
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+ItemUpdater->receiveCommand->item->Dimmed_Light->command->INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.binding.mqtt.internal.MqttItemBinding@78cd65cf
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AbstractBinding->receiveCommand->itemNameDimmed_Light->Command->INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.binding.http.internal.HttpBinding@5d5b999f
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.core.autoupdate.internal.AutoUpdateBinding@3fe05aaa
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AutoUpdateBinding->receiveCommand->itemName->Dimmed_Light->Command->INCREASE->Provider->
+
+AutoUpdateGenericBindingProvider->autoUpdate->itemName->Dimmed_Light->Config->null
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.io.monitor.internal.EventLogger@713bee40
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+AbstractEventSubscriber->handleEvent->==:Thread 151:ThreadName:qtp1291351116-151:->topicParts->command
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND :org.openhab.binding.mqtt.internal.MqttEventBusBinding@65cacc5e
+
+AbstractEventSubscriber->handleEvent->operation==COMMAND Item :Dimmed_Light->Command->INCREASE
+
+RuleEngine->handleEvent->
+
+RuleEngine->receiveCommand->1->itemNameDimmed_Light->oldState->Dimmed_Light->newState->INCREASE
+
+RuleEngine->receiveCommand->2->itemNameDimmed_Light->newState->INCREASE
+
+RuleEngine->receiveCommand->3->itemNameDimmed_Light->newState->INCREASE
+
+ CmdServlet->service-> Command is INCREASE :
+ Command Type :IncreaseDecreaseType
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
+
+GenericItem->addStateChangeListener->listener->org.openhab.ui.webapp.internal.servlet.WebAppServlet$BlockingStateChangeListener@3b8ccdf0
