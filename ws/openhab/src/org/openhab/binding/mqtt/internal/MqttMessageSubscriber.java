@@ -172,7 +172,8 @@ public class MqttMessageSubscriber extends AbstractMqttMessagePubSub implements
 				System.out.println("\n MqttMessageSubscriber->processMessage->getTransformationRule().transform:->"+value);
 			}
 
-			homeId	=	CloudHelperUtil.getHomeId(value);//inboundMessageDTO.getHomeId();
+			//homeId	=	CloudHelperUtil.getHomeId(value);//inboundMessageDTO.getHomeId();
+			homeId	=	CloudHelperUtil.getHomeId(new String(message));//inboundMessageDTO.getHomeId();
 			System.out.println("\n MqttMessageSubscriber->processMessage->homeId->"+homeId);
 			
 			String userHomeId	=	AppPropertyReader.getProperty(CloudAppConstants.HOME_ID+"."+homeId);

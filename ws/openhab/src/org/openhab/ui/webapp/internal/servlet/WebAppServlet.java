@@ -96,6 +96,7 @@ import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constant.CloudHomeAutoConstants;
 import com.openhab.core.dto.CloudMasterData;
 import com.openhab.core.event.messaging.mqtt.MessageBrokerService;
+import com.openhab.core.quartz.scheduler.EventScheduler;
 import com.openhab.core.threadstore.CloudThreadLocalStorage;
 import com.openhab.core.util.AppPropertyReader;
 
@@ -133,29 +134,6 @@ public class WebAppServlet extends BaseServlet {
 	// CloudChange
 	private MessageBrokerService messageBrokerService = null;
 
-	// protected SitemapProvider sitemapProvider;
-	// CloudChange
-	// protected SitemapProvider cloudSitemapProvider;
-
-	// private void setModelRepository(ModelRepository modelRepository){
-	// this.modelRepository = modelRepository;
-	// }
-	//
-	// private void unsetModelRepository(ModelRepository modelRepository){
-	// this.modelRepository = null;
-	// }
-
-	// public void setSitemapProvider(SitemapProvider sitemapProvider) {
-	// this.sitemapProvider = sitemapProvider;
-	// }
-	//
-	// public void unsetSitemapProvider(SitemapProvider sitemapProvider) {
-	// this.sitemapProvider = null;
-	// }
-
-	// public void setPageRenderer(PageRenderer renderer) {
-	// this.renderer = renderer;
-	// }
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -214,22 +192,16 @@ public class WebAppServlet extends BaseServlet {
 				.getParameter("poll"));
 
 		if (CloudHomeAutoConstants.CLOUD_MODE) {
-			// System.out.println("\n WebAppServler - > service -> PageRendered "+renderer);
 			masterData = handleHttpRequest((HttpServletRequest) req,
 					(HttpServletResponse) res, sitemapName);
 			sitemapProvider = masterData.getSiteMapProvider();
 			System.out.println("\n WebAppServler - > service -> siteMapName "+sitemapName);
 			renderer = masterData.getPageRenderer();
-			// System.out.println("\n WebAppServler - > service -> CloudPageRendered "+cloudRenderer);
-			// renderer = cloudRenderer;
 		}
-		// System.out.println("\n WebAppServler - > service -> PageRendered "+renderer);
-		// if there are no parameters, display the "default" sitemap
 		if (sitemapName == null)
 			sitemapName = "default";
 
 		StringBuilder result = new StringBuilder();
-
 		Sitemap sitemap = sitemapProvider.getSitemap(sitemapName);
 
 		// **************************
@@ -525,7 +497,7 @@ public class WebAppServlet extends BaseServlet {
 				masterData = new CloudMasterData();
 				masterData.setItemRegistry(cloudItemRegistry);
 				masterData.setModelRepository(localModelRepository);
-
+				masterData.setItemUIRegistry(cloudUIItemRegistry);
 				// masterData.setTopicName(topicName);
 				CloudThreadLocalStorage.setCloudMasterData(masterData);
 
@@ -590,7 +562,7 @@ public class WebAppServlet extends BaseServlet {
 			cloudItemRegistry.addItemProvider(cloudGenericItemProvider);
 
 			intitializeMQTTBinding(cloudGenericItemProvider,
-					localModelRepository);
+					localModelRepository,sitemapName);
 
 			cloudSitemapProvider = new SitemapProviderImpl();
 
@@ -779,6 +751,7 @@ public class WebAppServlet extends BaseServlet {
 			mqttService.setEventPublisher(cloudEventPublisher);
 			messageBrokerService = MessageBrokerService.getInstance();
 			AppPropertyReader.getAppPropertyReader();
+			EventScheduler.getEventScheduler();
 			// AdminEventImpl manager = new AdminEventImpl();
 			// manager.initializeBus();
 
@@ -808,11 +781,13 @@ public class WebAppServlet extends BaseServlet {
 	}
 
 	public void intitializeMQTTBinding(GenericItemProvider genericItemProvider,
-			ModelRepository modelRepo) {
+			ModelRepository modelRepo,String homeName) {
 		BindingConfigReader bindingConfigReader = new MqttGenericBindingProvider();
 		// System.out.println("\nWebAppServlet->initialzeMqttBinding->"+bindingConfigReader);
 		((MqttGenericBindingProvider) bindingConfigReader)
 				.setMqttService(mqttService);
+		((MqttGenericBindingProvider) bindingConfigReader)
+		.setHomeName(homeName);
 		genericItemProvider.addBindingConfigReader(bindingConfigReader);
 	}
 }

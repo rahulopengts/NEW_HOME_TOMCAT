@@ -34,3 +34,11 @@ rule "ITEM:Node03,TYPE:UPDATE"
 		then
 	System.out.println('Test Node03 for UPDATE');
 	end;
+
+rule "ITEM:TIMER,TYPE:TIMER"
+	when
+	Map(  this['DEMO.TIMER'] == 'Y'  )
+		then
+	System.out.println('Test Timer for TIMER');
+	end;
+	

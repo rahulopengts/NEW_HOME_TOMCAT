@@ -33,6 +33,16 @@ import org.slf4j.LoggerFactory;
  */
 public class MqttGenericBindingProvider extends AbstractGenericBindingProvider implements MqttBindingProvider {
 
+	private String homeName	=	null;
+	
+	public String getHomeName() {
+		return homeName;
+	}
+
+	public void setHomeName(String homeName) {
+		this.homeName = homeName;
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(MqttGenericBindingProvider.class);
 
 	private MqttService mqttService;
@@ -64,7 +74,8 @@ public class MqttGenericBindingProvider extends AbstractGenericBindingProvider i
 	public void processBindingConfiguration(String context, Item item,
 			String bindingConfig) throws BindingConfigParseException {
 		super.processBindingConfiguration(context, item, bindingConfig);
-
+		
+		System.out.println("\n MqttGenericBindingProvider->processBindingConfiguration->homeName "+homeName);
 		final String itemName = item.getName();
 		logger.trace("Starting to load MQTT config for item {}", itemName);
 

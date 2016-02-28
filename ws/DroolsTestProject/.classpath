@@ -85,5 +85,7 @@
 	<classpathentry kind="lib" path="D:/Home_Auto/drools/binaries/aopalliance-1.0.jar"/>
 	<classpathentry kind="lib" path="D:/Home_Auto/drools/binaries/commons-codec-1.4.jar"/>
 	<classpathentry kind="lib" path="D:/Home_Auto/drools/binaries/org.antlr.runtime_3.2.0.v201101311130.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/quartz-2.2.2/lib/quartz-2.2.2.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/quartz-2.2.2/lib/quartz-jobs-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,7 +7,8 @@
 <web-app>
   <servlet>
     <servlet-name>WebAppServlet</servlet-name>
-    <servlet-class>org.openhab.ui.webapp.internal.servlet.WebAppServlet</servlet-class>
+    <servlet-class>org.openhab.ui.webapp.internal.servlet.WebAutomationServlet</servlet-class>
+       <load-on-startup>1</load-on-startup>
   </servlet>
 
   
@@ -16,7 +17,27 @@
     <servlet-class>org.openhab.ui.webapp.internal.servlet.CmdServlet</servlet-class>
   </servlet>
   
-    <servlet-mapping>
+
+
+<servlet>
+	<servlet-name>wsChat</servlet-name>
+	<servlet-class>org.atmosphere.sample.WebSocketDemo</servlet-class>
+	</servlet> 
+
+<servlet>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-class>
+                     com.sun.jersey.spi.container.servlet.ServletContainer
+                </servlet-class>
+		<init-param>
+		     <param-name>com.sun.jersey.config.property.packages</param-name>
+		     <param-value>com.openhab.core.rest</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	
+  <servlet-mapping>
     <servlet-name>WebAppServlet</servlet-name>
     <url-pattern>/openhab.app</url-pattern>
   </servlet-mapping>
@@ -26,4 +47,16 @@
     <url-pattern>/CMD</url-pattern>
   </servlet-mapping>
   
+
+<servlet-mapping>
+<servlet-name>wsChat</servlet-name>
+<url-pattern>/chat</url-pattern>
+</servlet-mapping>
+  	
+
+<servlet-mapping>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
 </web-app>   

@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat-7.0.67/lib/catalina.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

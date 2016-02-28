@@ -14,4 +14,8 @@ public interface CloudAppConstants {
 
 	//Supported Transformation Types
 	public final static String JAVA_TRANSFORMATION	=	"JAVA";	
+
+
+	//Constants for Drools
+	public final static String YES	=	"Y";
 }

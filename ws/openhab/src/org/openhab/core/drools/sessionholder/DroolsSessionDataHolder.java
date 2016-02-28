@@ -66,9 +66,7 @@ public class DroolsSessionDataHolder {
 				((DimmerDroolsDTO)dto).setValue(((DecimalType)state).intValue());
 				System.out.println("\nDroolsSessionDataHolder->buildFact->Setting-Value+"+((DecimalType)state).intValue());
 				dto.setCommandName(typeCommand.toString());
-				
 			}
-			
 		}
 		return dto;
 	}

@@ -1,0 +1,2 @@
+com.sun.jersey.jersey-core-1.4.0 replaced by jersey-core-1.18.1
+javax.ws.rs-api-2.0 replaced by jsr311-api-1.1.1

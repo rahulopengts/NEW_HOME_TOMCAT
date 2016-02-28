@@ -7,6 +7,7 @@ import org.openhab.core.types.Command;
 import org.openhab.model.core.ModelRepository;
 import org.openhab.model.rule.internal.engine.RuleEngine;
 import org.openhab.model.sitemap.SitemapProvider;
+import org.openhab.ui.items.ItemUIRegistry;
 import org.openhab.ui.webapp.internal.render.PageRenderer;
 
 import com.openhab.core.event.dto.EventObject;
@@ -18,6 +19,15 @@ public class CloudMasterData implements ICloudMasterData{
 	private ModelRepository	modelRepository	=	null;
 	private DroolsService	droolsService	=	null;
 	
+	private ItemUIRegistry	itemUIRegistry	=	null;
+	
+	
+	public ItemUIRegistry getItemUIRegistry() {
+		return itemUIRegistry;
+	}
+	public void setItemUIRegistry(ItemUIRegistry itemUIRegistry) {
+		this.itemUIRegistry = itemUIRegistry;
+	}
 	public DroolsService getDroolsService() {
 		return droolsService;
 	}

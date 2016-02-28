@@ -98,8 +98,10 @@ public class DroolsService  implements StateChangeListener , ItemRegistryChangeL
                 ((GenericItem) item).addStateChangeListener(this);
                 System.out.println("\nDroolsService->addItems->"+item.getName());
         		State	itemState	=	item.getState();
-        		factHashMap.put(item.getName()+FACT_NEW_SUFFIX, itemState.toString());
-        		factHashMap.put(item.getName()+FACT_OLD_SUFFIX, itemState.toString());
+        		factHashMap.put(item.getName(), itemState.toString());
+        		
+//        		factHashMap.put(item.getName()+FACT_NEW_SUFFIX, itemState.toString());
+//        		factHashMap.put(item.getName()+FACT_OLD_SUFFIX, itemState.toString());
             }
         }
     }
@@ -248,5 +250,13 @@ public class DroolsService  implements StateChangeListener , ItemRegistryChangeL
 		return false;
 	}
 
+	public void fireScheduledRule(IDroolsDTO	dto){
+		System.out.println("\nDroolsService->fireScheduledRule->Firing-->");		
+		kStatefulSession	=	droolsSessionDataHolder.getStatefulSession();	
+		droolsSessionDataHolder.insertHashMap(factHashMap);
+		droolsSessionDataHolder.insertObject(dto);
+		droolsSessionDataHolder.executeStatefulRule();
+		droolsSessionDataHolder.disposeSession();
+	}
 	
 }

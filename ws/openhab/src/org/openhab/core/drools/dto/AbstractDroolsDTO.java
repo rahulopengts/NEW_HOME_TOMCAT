@@ -8,9 +8,17 @@ public class AbstractDroolsDTO implements IDroolsDTO {
 	
 	private int value	=	0;
 	
+	
+	private String IS_TIMETYPE		=	null;
 
 	//private int setItemStateInt
 	
+	public String getIS_TIMETYPE() {
+		return IS_TIMETYPE;
+	}
+	public void setIS_TIMETYPE(String iS_TIMETYPE) {
+		IS_TIMETYPE = iS_TIMETYPE;
+	}
 	public int getValue() {
 		return value;
 	}
