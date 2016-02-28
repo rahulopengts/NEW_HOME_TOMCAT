@@ -1,0 +1,82 @@
+
+SitemapReource->getSiteMaps->
+
+SitemapReource->getSiteMaps->HttpHeaders->com.sun.jersey.spi.container.ContainerRequest@32a29d10
+
+SitemapReource->getSiteMaps->type->null
+
+SitemapReource->getSiteMaps->callback->callback
+
+SitemapReource->getSiteMaps->responseType->application/xml
+
+SitemapReource->getSitemapBeans->
+
+SitemapReource->getSiteMaps->responseObject->org.openhab.io.rest.internal.resources.beans.SitemapListBean@78dc804d
+
+SitemapReource->getPageData->siteMapname->demo->pageId->rahul-type->null->callback->callback
+
+SitemapReource->getPageBean->
+
+ItemUIRegistryImpl->getLabel->before transform->nullLabel->
+
+ItemUIRegistryImpl->getLabel->itemName->nullLabel->
+
+ItemUIRegistryImpl->getLabel->before transform->rHFFLabel->Rahul's Home
+
+ItemUIRegistryImpl->getLabel->itemName->rHFFLabel->Rahul's Home
+
+ItemUIRegistryImpl->getLabel->before transform->rHFFLabel->Rahul's Home
+
+ItemUIRegistryImpl->getLabel->itemName->rHFFLabel->Rahul's Home
+
+SitemapReource->createSitemapBean->org.openhab.io.rest.internal.resources.beans.PageBean@24661208
+
+SitemapReource->createWidgetBean->org.openhab.io.rest.internal.resources.beans.WidgetBean@2929dde3
+
+SitemapReource->createWidgetBean->org.openhab.io.rest.internal.resources.beans.WidgetBean@7ba67731
+
+ItemUIRegistryImpl->getLabel->before transform->nullLabel->Date
+
+ItemUIRegistryImpl->getLabel->itemName->nullLabel->Date
+
+ItemUIRegistryImpl->getLabel->itemName->Date
+
+ItemUIRegistryImpl->getLabel->before transform->DateLabel->Date [-, -.-.-]
+
+ItemUIRegistryImpl->getLabel->itemName->DateLabel->Date [-, -.-.-]
+
+SitemapReource->createWidgetBean->org.openhab.io.rest.internal.resources.beans.WidgetBean@2a57eb6c
+
+SitemapReource->createWidgetBean->org.openhab.io.rest.internal.resources.beans.WidgetBean@7221152b
+
+ItemUIRegistryImpl->getLabel->before transform->nullLabel->Day Phase
+
+ItemUIRegistryImpl->getLabel->itemName->nullLabel->Day Phase
+
+SitemapReource->createWidgetBean->org.openhab.io.rest.internal.resources.beans.WidgetBean@103d6abe
+
+ItemUIRegistryImpl->getLabel->before transform->nullLabel->Health
+
+ItemUIRegistryImpl->getLabel->itemName->nullLabel->Health
+
+ItemUIRegistryImpl->getLabel->before transform->healthLabel->System Health
+
+ItemUIRegistryImpl->getLabel->itemName->healthLabel->System Health
+
+ItemUIRegistryImpl->getLabel->before transform->healthLabel->System Health
+
+ItemUIRegistryImpl->getLabel->itemName->healthLabel->System Health
+
+SitemapReource->createSitemapBean->org.openhab.io.rest.internal.resources.beans.PageBean@302ae846
+
+SitemapReource->createWidgetBean->org.openhab.io.rest.internal.resources.beans.WidgetBean@50f7645e
+
+SitemapReource->createWidgetBean->org.openhab.io.rest.internal.resources.beans.WidgetBean@21de80d9
+
+SitemapReource->createSitemapBean->org.openhab.io.rest.internal.resources.beans.PageBean@16dd37ee
+
+SitemapReource->getPageData->responseObject->org.openhab.io.rest.internal.resources.beans.PageBean@16dd37ee
+
+SitemapReource->getPageData->siteMapname->demo->pageId->rahul-type->null->callback->callback
+
+GeneralBroadcaster->addStateChangeListener->1

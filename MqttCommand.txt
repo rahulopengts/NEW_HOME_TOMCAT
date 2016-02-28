@@ -1,0 +1,69 @@
+Inbound Commands for Switch
+
+Node02 Command
+mosquitto_pub.exe -t /L1N2L9N9S1 -m ~I90100291001119292#
+
+Node04
+mosquitto_pub.exe -t /L1N4L9N9S1 -m ~I90100291001119292#
+
+Command for Contact-OPEN
+mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m ~I90100291001119292#
+
+D:\mosquitto>mosquitto_pub.exe -t /Kitchen -m ~I90100291001119292#
+
+
+
+
+mosquitto_pub.exe -t /DIMMER_LIGHT_1S -m 0000000140
+
+mosquitto_pub.exe -t /DIMMER_LIGHT_1S -m 0000000202
+
+mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m CLOSED
+
+Node02 and Demo
+mosquitto_pub.exe -t /L1N2L9N9S1 -m 00000002OFF
+
+
+
+NEW_HOME_TOMCAT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m 00000002OPEN
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m 00000002OPEN
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m 00000002OPEN
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m 00000002CLOSED
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m 00000002CLOSED
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m 00000002OPEN
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m 00000002CLOSED
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m CLOSED
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m OPEN
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m CLOSED
+
+D:\mosquitto>mosquitto_pub.exe -t /FRONTWINDOWTOPIC -m OPEN
+
+D:\mosquitto>mosquitto_pub.exe -t /KITCHEN -m OPEN
+
+D:\mosquitto>mosquitto_pub.exe -t /Kitchen -m OPEN
