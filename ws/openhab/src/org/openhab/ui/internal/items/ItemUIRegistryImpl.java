@@ -80,7 +80,7 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 
 	/* the image location inside the installation folder */
 	//protected static final String IMAGE_LOCATION = "./webapps/images/";
-	protected static final String IMAGE_LOCATION = "images/";
+	protected static final String IMAGE_LOCATION = "auto/images/";
 
 	/* RegEx to extract and parse a function String <code>'\[(.*?)\((.*)\):(.*)\]'</code> */
 	protected static final Pattern EXTRACT_TRANSFORMFUNCTION_PATTERN = Pattern.compile("\\[(.*?)\\((.*)\\):(.*)\\]");
@@ -382,7 +382,7 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 			}
 		}
 
-		//System.out.println("\n ICON :icon: "+icon);
+		System.out.println("\n ICON :icon: "+icon);
 		// now add the state, if the string does not already contain a state
 		// information
 		if(!icon.contains("-")) {
@@ -539,13 +539,14 @@ public class ItemUIRegistryImpl implements ItemUIRegistry {
 		String iconLocation = IMAGE_LOCATION + icon + IMAGE_EXT;
 		//System.out.println("\n ItemUIRegistryImpl :iconExists: iconLocation"+iconLocation);
 		File file = new File(iconLocation);
-		//System.out.println("\n ItemUIRegistryImpl :iconExists: iconLocation:Path:->"+file.getAbsolutePath());
-		if(file.exists()) {
+		System.out.println("\n ItemUIRegistryImpl :iconExists: iconLocation:Path:->"+file.getAbsolutePath());
+		return true;
+		/*		if(file.exists()) {
 			return true;
 		} else {
 			return false;
 		}
-	}
+*/	}
 
 	private Class<? extends Item> getItemType(String itemName) {
 		try {

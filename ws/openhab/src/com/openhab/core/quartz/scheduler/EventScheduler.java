@@ -5,9 +5,9 @@ import org.openhab.ui.webapp.cloud.exception.CloudExceptionManager;
 import org.openhab.ui.webapp.cloud.exception.CloudMessageConstants;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
@@ -22,29 +22,30 @@ public class EventScheduler {
 	public static EventScheduler	eventScheduler	=	null;
 	public static boolean isInitialized	=	false;
 	
-	private EventScheduler(){
-		
+	private EventScheduler() throws CloudException{
+		//initializeScheduler();
+		initilizeSimpleTrigger();
 	}
 	
 	public static EventScheduler getEventScheduler() throws CloudException{
 		if(eventScheduler==null){
 			eventScheduler=	new EventScheduler();
-			eventScheduler.initializeScheduler();
+			
 			isInitialized	=	true;
 		}
 		return eventScheduler;
 	}
 	
 	
-	public  void initializeScheduler() throws CloudException{
+	private void initializeScheduler1() throws CloudException{
     	try{
 			JobDetail job = JobBuilder.newJob(QuartzEventHandler.class)
 			.withIdentity("dummyJobName", "group1").build();
 	
-	    	JobDataMap jobDataMap	=  job.getJobDataMap();
-	    	
-	    	QuartzEventDTO	data	=	new QuartzEventDTO();
-	    	jobDataMap.put("DATA", data);
+//	    	JobDataMap jobDataMap	=  job.getJobDataMap();
+//	    	
+//	    	QuartzEventDTO	data	=	new QuartzEventDTO();
+//	    	jobDataMap.put("DATA", data);
 	    	AppPropertyReader.getAppPropertyReader();
 	    	String cronJob	=	AppPropertyReader.getProperty("cronjob");
 	    	
@@ -64,7 +65,28 @@ public class EventScheduler {
     		CloudExceptionManager.throwException(CloudMessageConstants.SCHEDULER_INIT_ERROR, e, null);
     	}
 	}
-	
+
+	public void initilizeSimpleTrigger(){
+		try{
+			System.out.println("\n EventScheduer->Initialize Simple Trigger");
+		JobDetail job = JobBuilder.newJob(QuartzEventHandler.class).withIdentity("dummyJobName", "group1").build();
+		Trigger trigger = TriggerBuilder
+				.newTrigger()
+				.withIdentity("dummyTriggerName", "group1")
+				.withSchedule(
+				    SimpleScheduleBuilder.simpleSchedule()
+					.withIntervalInSeconds(10).repeatForever())
+				.build();
+    	
+		Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+    	scheduler.start();
+    	scheduler.scheduleJob(job, trigger);
+    	System.out.println("\n EventScheduer->Initialize Simple Trigger-Done");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+	}
 	
 	/**
 	 * Generate a CRON expression is a string comprising 6 or 7 fields separated by white space.

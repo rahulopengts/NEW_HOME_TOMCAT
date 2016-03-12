@@ -13,6 +13,7 @@ import java.util.Map;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kie.api.runtime.StatelessKieSession;
+import org.openhab.core.drools.dto.CommonDroolsDTO;
 import org.openhab.core.drools.dto.IDroolsDTO;
 import org.openhab.core.drools.sessionholder.DroolsSessionDataHolder;
 import org.openhab.core.items.GenericItem;
@@ -30,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.LinkedListMultimap;
+import com.openhab.core.constants.CloudAppConstants;
 import com.openhab.core.internal.event.dto.CloudEvent;
 
 public class DroolsService  implements StateChangeListener , ItemRegistryChangeListener {//EventHandler,{
@@ -251,11 +253,15 @@ public class DroolsService  implements StateChangeListener , ItemRegistryChangeL
 	}
 
 	public void fireScheduledRule(IDroolsDTO	dto){
-		System.out.println("\nDroolsService->fireScheduledRule->Firing-->");		
-		kStatefulSession	=	droolsSessionDataHolder.getStatefulSession();	
+			
+		CommonDroolsDTO	commonDroolsDTO	=	(CommonDroolsDTO)dto;
+		System.out.println("\nDroolsService->fireScheduledRule->Firing-->DONE=>---"+commonDroolsDTO.getIS_TIMETYPE());	
+		kStatefulSession	=	droolsSessionDataHolder.getStatefulSession();
+		factHashMap.put(commonDroolsDTO.getIS_TIMETYPE(), CloudAppConstants.YES);
 		droolsSessionDataHolder.insertHashMap(factHashMap);
 		droolsSessionDataHolder.insertObject(dto);
 		droolsSessionDataHolder.executeStatefulRule();
+		factHashMap.remove(commonDroolsDTO.getIS_TIMETYPE());
 		droolsSessionDataHolder.disposeSession();
 	}
 	

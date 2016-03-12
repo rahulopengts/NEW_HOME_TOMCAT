@@ -14,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import org.eclipse.emf.common.util.EList;
 import org.openhab.core.events.EventPublisher;
@@ -21,6 +22,7 @@ import org.openhab.core.internal.events.EventPublisherImpl;
 import org.openhab.core.items.GenericItem;
 import org.openhab.core.items.Item;
 import org.openhab.core.items.ItemNotFoundException;
+import org.openhab.core.items.ItemRegistry;
 import org.openhab.core.items.StateChangeListener;
 import org.openhab.core.types.State;
 import org.openhab.io.transport.mqtt.MqttService;
@@ -40,6 +42,8 @@ import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.homeauto.db.core.TestDB;
+import com.homeauto.db.core.dbprocessors.SiteDataDAO;
 import com.openhab.core.cache.AppCacheFactory;
 import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constant.CloudHomeAutoConstants;
@@ -111,6 +115,8 @@ public class WebAutomationServlet extends BaseServlet {
 		logger.debug("Servlet request received!");
 		// System.out.println("Servlet request received!");
 		// read request parameters
+		testDB();
+		
 		PageRenderer renderer = null;
 		CloudMasterData masterData = null;
 		SitemapProvider sitemapProvider = null;
@@ -370,6 +376,7 @@ public class WebAutomationServlet extends BaseServlet {
 			HttpSession session = CloudSessionManager.getSession(req, res,
 					sitemapName);
 			IAppCache cache = AppCacheFactory.getAppCacheInstance(sitemapName);
+			System.out.println("\n QuartzEventHandler->cache->WebAuto"+cache);
 			masterData = (CloudMasterData) cache
 					.getFromCache(sitemapName, null);
 			
@@ -382,9 +389,15 @@ public class WebAutomationServlet extends BaseServlet {
 			} else {
 				masterData	=	CloudHelperUtil.initializeSite(sitemapName,mqttService);
 			}
+
+			ItemRegistry itemRegistry	=	 masterData.getItemRegistry();
+//			SiteDataDAO	siteInfo	=	new SiteDataDAO();
+//			siteInfo.initilizeSiteItemInfo(null, itemRegistry);
+			
 		} catch (CloudException e){
 			e.printStackTrace();
 		}
+		
 		
 		return masterData;
 	}
@@ -399,7 +412,11 @@ public class WebAutomationServlet extends BaseServlet {
 			// cloudEventPublisher = mqttService.getEventPublisher();
 			cloudEventPublisher = new EventPublisherImpl();
 			mqttService.setEventPublisher(cloudEventPublisher);
+			
 			AppPropertyReader.getAppPropertyReader();
+			IAppCache cache = AppCacheFactory.getAppCacheInstance("");
+			System.out.println("\n QuartzEventHandler->cache->WebAuto"+cache);
+
 			EventScheduler.getEventScheduler();
 			
 			System.out.println("\nWebAutomationServlet->Done with Scheduler");
@@ -427,5 +444,21 @@ public class WebAutomationServlet extends BaseServlet {
 
 	}
 
-	
+
+	private void testDB(){
+		try{
+			System.out.print("\n Derby DB Calling");
+			SiteDataDAO siteInfo	=	new SiteDataDAO();
+			//siteInfo.fetchSiteInfo("");
+			
+//			TestDB t	=	new TestDB();
+//			DataSource	data	=	t.init();
+//			t.doGet(data);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+//		} catch (CloudException e){
+//			e.printStackTrace();
+//		}
+	}
 }

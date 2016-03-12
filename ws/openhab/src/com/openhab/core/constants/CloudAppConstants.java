@@ -18,4 +18,8 @@ public interface CloudAppConstants {
 
 	//Constants for Drools
 	public final static String YES	=	"Y";
+	public final static String TIMER_TYPE	=	"TIMER";
+	
+	
+	public final static boolean IS_SQL_MODE	=	false;	
 }

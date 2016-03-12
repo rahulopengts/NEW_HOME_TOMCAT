@@ -371,10 +371,12 @@ public class CloudHelperUtil {
 		RRD4jService rRD4jService = (RRD4jService) persistenceService;
 		rRD4jService.setItemRegistry(cloudItemRegistry);
 		PersistenceManager persistenceManager = new PersistenceManager();
+		persistenceManager.setUserSiteId(siteMapName);
 		persistenceManager.setItemRegistry(cloudItemRegistry);
 		persistenceManager.setModelRepository(localModelRepository);
 		persistenceManager.addPersistenceService(persistenceService);
-
+		
+		
 		return persistenceManager;
 
 		// ---------------------NEW DB-----------------------//

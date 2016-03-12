@@ -8,6 +8,10 @@
  */
 package org.openhab.ui.webapp.internal.servlet;
 
+
+//CmdServlet
+//button.html
+//switch.html
 import java.io.IOException;
 import java.util.Hashtable;
 
@@ -62,7 +66,7 @@ public class CmdServlet extends BaseServlet {
 
 	private static final Logger logger = LoggerFactory.getLogger(CmdServlet.class);
 
-	public static final String SERVLET_NAME = "CMD";
+	public static final String SERVLET_NAME = "/auto/CMD";
 
 	private EventPublisher eventPublisher;	
 

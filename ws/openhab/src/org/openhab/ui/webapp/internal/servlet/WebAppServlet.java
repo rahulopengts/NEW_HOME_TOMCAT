@@ -121,7 +121,7 @@ public class WebAppServlet extends BaseServlet {
 	public static final long TIMEOUT_IN_MS = 10000L;
 
 	/** the name of the servlet to be used in the URL */
-	public static final String SERVLET_NAME = "openhab.app";
+	public static final String SERVLET_NAME = "/auto/openhab.app";
 
 	// private PageRenderer renderer;
 

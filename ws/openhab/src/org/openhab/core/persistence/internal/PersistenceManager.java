@@ -50,6 +50,7 @@ import org.openhab.model.persistence.persistence.PersistenceConfiguration;
 import org.openhab.model.persistence.persistence.PersistenceModel;
 import org.openhab.model.persistence.persistence.Strategy;
 import org.openhab.model.persistence.scoping.GlobalStrategies;
+import org.openhab.ui.webapp.cloud.exception.CloudException;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobDetail;
@@ -61,6 +62,10 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.homeauto.db.core.dbprocessors.SiteDataDAO;
+import com.openhab.core.constants.CloudAppConstants;
+import com.openhab.core.db.vo.SiteInfoVO;
 
 /**
  * This class is the central part of the persistence management and delegation. It reads the persistence
@@ -74,6 +79,26 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 	
 	private static final Logger logger = LoggerFactory.getLogger(PersistenceManager.class);
 
+	private String siteId		=	null;
+	
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
+	}
+
+	public String getUserSiteId() {
+		return userSiteId;
+	}
+
+	public void setUserSiteId(String userSiteId) {
+		this.userSiteId = userSiteId;
+	}
+
+	private String userSiteId	=	null;
+	
 	private static PersistenceManager instance;
 	
 	// the scheduler used for timer events
@@ -209,12 +234,34 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 	}
 	
 	private void initializeItems(PersistenceModel model, String modelName) {
-		System.out.println("\nPersistenceManager->initializeItems-> "+model.getConfigs());
-		for(PersistenceConfiguration config : model.getConfigs()) {
-			if(hasStrategy(modelName, config, GlobalStrategies.RESTORE)) {
-				for(Item item : getAllItems(config)) {
-					System.out.println("\nPersistenceManager->initializeItems-> 2 "+item.getName());
-					initialize(item);
+		System.out.println("\nPersistenceManager->initializeItems->Called for site id ->"+userSiteId);
+		if(CloudAppConstants.IS_SQL_MODE){
+			try{
+				SiteDataDAO	siteInfo	=	new SiteDataDAO();
+				SiteInfoVO	siteInfoVO	=	siteInfo.getSiteInitializationData(userSiteId,"1");
+				System.out.println("\nPersistenceManager->initialize FLAG->"+siteInfoVO.getINITIALIZED()+"Site_id->"+siteInfoVO.getSITE_ID());
+				setSiteId( Integer.toString(siteInfoVO.getSITE_ID()) );
+				if(siteInfoVO.getINITIALIZED()==0){
+					siteInfo.initilizeSiteItemInfo(userSiteId,null, itemRegistry);
+					siteInfo.updateSiteInitializationData(userSiteId,Integer.toString(siteInfoVO.getSITE_ID()));
+					System.out.println("\nPersistenceManager->initialize UPDATE->");
+				} else {
+					System.out.println("\nPersistenceManager->Getting from existing data");
+					siteInfo.fetchSiteItemInfo(getUserSiteId(),getSiteId(), itemRegistry);
+				}
+				
+			} catch (CloudException e){
+				e.printStackTrace();
+			}
+			System.out.println("\nPersistenceManager->initializeItems-> "+model.getConfigs());
+			
+		} else {
+			for(PersistenceConfiguration config : model.getConfigs()) {
+				if(hasStrategy(modelName, config, GlobalStrategies.RESTORE)) {
+					for(Item item : getAllItems(config)) {
+						System.out.println("\nPersistenceManager->initializeItems-> 2 "+item.getName());
+						initialize(item);
+					}
 				}
 			}
 		}
@@ -235,20 +282,31 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 	 * @param onlyChanges true, if it has the change strategy, false otherwise
 	 */
 	private void handleStateEvent(Item item, boolean onlyChanges) {
-		synchronized (persistenceConfigurations) {
-			for(Entry<String, List<PersistenceConfiguration>> entry : persistenceConfigurations.entrySet()) {
-				String serviceName = entry.getKey();
-				if(persistenceServices.containsKey(serviceName)) {				
-					for(PersistenceConfiguration config : entry.getValue()) {
-						if(hasStrategy(serviceName, config, onlyChanges ? GlobalStrategies.CHANGE : GlobalStrategies.UPDATE)) {
-							if(appliesToItem(config, item)) {
-								//System.out.println("\nPersistenceManager->handleStateEvent-item->"+item.getName()+"->config->"+config+"->config.getAlias->"+config.getAlias());
-								persistenceServices.get(serviceName).store(item, config.getAlias());
+
+		if(CloudAppConstants.IS_SQL_MODE){
+			try{
+				SiteDataDAO	siteInfo	=	new SiteDataDAO();
+				siteInfo.updateItemInfo(userSiteId, siteId, item);
+			} catch (CloudException e){
+				e.printStackTrace();
+			}
+
+		} else {
+			synchronized (persistenceConfigurations) {
+				for(Entry<String, List<PersistenceConfiguration>> entry : persistenceConfigurations.entrySet()) {
+					String serviceName = entry.getKey();
+					if(persistenceServices.containsKey(serviceName)) {				
+						for(PersistenceConfiguration config : entry.getValue()) {
+							if(hasStrategy(serviceName, config, onlyChanges ? GlobalStrategies.CHANGE : GlobalStrategies.UPDATE)) {
+								if(appliesToItem(config, item)) {
+									System.out.println("\nPersistenceManager->handleStateEvent-item->"+item.getName()+"->config->"+config+"->config.getAlias->"+config.getAlias());
+									persistenceServices.get(serviceName).store(item, config.getAlias());
+								}
 							}
 						}
 					}
 				}
-			}
+		}
 		}
 	}
 	

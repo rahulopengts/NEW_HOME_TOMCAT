@@ -21,7 +21,7 @@ public class AppCacheFactory {
 		if(appCacheInstance==null){
 			synchronized (lock) {
 				appCacheInstance	=	new AppCacheFactory();
-				getCacheImpl(cacheType);
+				cache	=	getCacheImpl(cacheType);
 			}
 		}
 		return cache;
@@ -29,10 +29,10 @@ public class AppCacheFactory {
 	
 	
 	private static IAppCache getCacheImpl(String cacheType) throws CloudException{
-		if(cache==null){
+//		if(cache==null){
 			cache	=	new JCSCacheImpl();
 			cache.init();			
-		}
+//		}
 		return cache;
 	}
 	
