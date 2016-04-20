@@ -1,0 +1,70 @@
+<?xml version="1.0" ?> 
+<project name="buildapplication" default="war">
+
+<property name="tomcat.home" value="D:/apache-tomcat-7.0.67"/>
+
+ <property name="deploy.destination" value="D:/apache-tomcat-7.0.67/webapps" />
+ <property name="deploy.destination.app" value="D:/apache-tomcat-7.0.67/webapps/auto" />
+	<path id="compile.classpath">
+		<fileset dir="WebContent/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="init">
+		<mkdir dir="build/classes"/>
+		<mkdir dir="dist" />
+	</target>
+	
+	<target name="compile" depends="init" >
+		<javac destdir="build/classes" debug="true" srcdir="src">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="war" depends="compile">
+		<war destfile="dist/auto.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent"/>
+			<lib dir="WebContent/WEB-INF/lib"/>
+			<classes dir="build/classes"/>
+		</war>
+	</target>
+	
+	<target name="copy" depends="war">
+			<delete dir="${deploy.destination.app}" />
+		   <copy todir="${deploy.destination}/" overwrite="true">
+			 <fileset dir="dist/"/>
+		   </copy>
+	</target>
+	
+	<target name="clean">
+		<delete dir="dist" />
+		<delete dir="build" />
+		<delete dir="${deploy.destination.app}" />
+	</target>
+	
+	<target name="deleteappfromtomcat">
+		<delete dir="dist" />
+		<delete dir="build" />
+		<delete dir="${deploy.destination.app}" />
+	</target>	
+	
+	<target name="start">
+     <java classname="org.apache.catalina.startup.Bootstrap" fork="true">
+            <classpath path="${tomcat.home}/bin/bootstrap.jar:${tomcat.home}/bin/tomcat-juli.jar:${D:/Home_Auto/NEW_HOME_TOMCAT/ws/openhab}" />
+            <jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+            <!--If you are getting any OutOfMemoryError, remove the comments 
+            and enable jvm argument of the following line-->
+            <!--jvmarg value="-XX:MaxPermSize=256m"/-->
+        </java>
+</target>
+
+ <target name="tomcat-stop">
+        <java classname="org.apache.catalina.startup.Bootstrap" fork="true">
+            <classpath path="${tomcat.home}/bin/bootstrap.jar:${tomcat.home}/bin/tomcat-juli.jar" />
+            <jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+            <arg line="stop"/>
+        </java>
+    </target>
+	
+</project>
