@@ -1,0 +1,115 @@
+2016-04-18 07:47:38.155 [DEBUG] [.io.transport.mqtt.MqttService] - Starting MQTT Service...
+2016-04-18 07:47:38.177 [INFO ] [.io.transport.mqtt.MqttService] - MQTT Service initialization completed.
+2016-04-18 07:47:38.180 [INFO ] [o.i.t.m.i.MqttBrokerConnection] - Starting MQTT broker connection 'mosquitto'
+2016-04-18 07:47:39.506 [ERROR] [.io.transport.mqtt.MqttService] - Error starting broker connection
+org.eclipse.paho.client.mqttv3.MqttException: Unable to connect to server
+	at org.eclipse.paho.client.mqttv3.internal.TCPNetworkModule.start(TCPNetworkModule.java:75) ~[mqtt-client-0.4.0.jar:na]
+	at org.eclipse.paho.client.mqttv3.internal.ClientComms$ConnectBG.run(ClientComms.java:538) ~[mqtt-client-0.4.0.jar:na]
+	at java.lang.Thread.run(Thread.java:744) [na:1.7.0_45]
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method) ~[na:1.7.0_45]
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:85) ~[na:1.7.0_45]
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339) ~[na:1.7.0_45]
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200) ~[na:1.7.0_45]
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182) ~[na:1.7.0_45]
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172) ~[na:1.7.0_45]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392) ~[na:1.7.0_45]
+	at java.net.Socket.connect(Socket.java:579) ~[na:1.7.0_45]
+	at org.eclipse.paho.client.mqttv3.internal.TCPNetworkModule.start(TCPNetworkModule.java:66) ~[mqtt-client-0.4.0.jar:na]
+	... 2 common frames omitted
+2016-04-18 07:47:40.012 [ERROR] [.d.AbstractDiskCacheAttributes] - Failed to create directory D:\Home_Auto\NEW_HOME_TOMCAT\eclipse\jcs_swap
+2016-04-18 07:47:40.079 [ERROR] [.d.AbstractDiskCacheAttributes] - Failed to create directory D:\Home_Auto\NEW_HOME_TOMCAT\eclipse\jcs_swap
+2016-04-18 07:49:34.854 [DEBUG] [o.u.w.i.s.WebAutomationServlet] - Servlet request received!
+2016-04-18 07:49:39.293 [WARN ] [.u.w.cloud.CloudFolderObserver] - Directory 'scripts' does not exist in ''. Please check your configuration settings!
+2016-04-18 07:49:39.341 [INFO ] [c.internal.ModelRepositoryImpl] - Loading model 'demo.items'
+2016-04-18 07:49:39.801 [INFO ] [c.internal.ModelRepositoryImpl] - Loading model 'rrd4j.persist'
+2016-04-18 07:49:39.904 [INFO ] [c.internal.ModelRepositoryImpl] - Loading model 'demo.sitemap'
+2016-04-18 07:49:40.054 [WARN ] [.u.w.cloud.CloudFolderObserver] - Directory 'rules' does not exist in ''. Please check your configuration settings!
+2016-04-18 07:49:40.205 [DEBUG] [i.internal.GenericItemProvider] - Read items from model 'demo.items'
+2016-04-18 07:49:40.210 [DEBUG] [o.o.c.i.items.ItemRegistryImpl] - Item provider 'GenericItemProvider' has been added.
+2016-04-18 07:49:40.210 [DEBUG] [i.internal.GenericItemProvider] - Read items from model 'demo.items'
+2016-04-18 07:49:40.232 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Fan (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.250 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Fan' : 0 subscribers, 2 publishers
+2016-04-18 07:49:40.255 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Light (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.260 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Light' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.260 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Dishwasher (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.260 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Dishwasher' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.260 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node01 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.260 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node01' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.260 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node02 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.275 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node02' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.275 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node03 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.275 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node03' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.277 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node04 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.277 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node04' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.277 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S0 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.277 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S0' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.277 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S1 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.277 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S1' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.277 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S2 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.277 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S2' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.280 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S33 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.280 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S33' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.280 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Dimmed_Light (Type=DimmerItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.280 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Dimmed_Light' : 1 subscribers, 2 publishers
+2016-04-18 07:49:40.280 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'dayPhase (Type=NumberItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.280 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'dayPhase' : 1 subscribers, 0 publishers
+2016-04-18 07:49:40.280 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'repeaterBattery (Type=NumberItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.280 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'repeaterBattery' : 1 subscribers, 0 publishers
+2016-04-18 07:49:40.280 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Windows_GF_Frontdoor (Type=ContactItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.280 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Windows_GF_Frontdoor' : 1 subscribers, 0 publishers
+2016-04-18 07:49:40.280 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Windows_GF_Kitchen (Type=ContactItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:40.282 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Windows_GF_Kitchen' : 1 subscribers, 0 publishers
+2016-04-18 07:49:42.676 [DEBUG] [o.u.w.i.s.WebAutomationServlet] -  async false poll false
+2016-04-18 07:49:42.679 [INFO ] [o.u.w.i.s.WebAutomationServlet] -  async info false poll false
+2016-04-18 07:49:42.679 [DEBUG] [o.u.w.i.s.WebAutomationServlet] - reading sitemap rahul
+2016-04-18 07:49:42.737 [DEBUG] [o.u.i.items.ItemUIRegistryImpl] - Checking visiblity for widget 'It's Night'.
+2016-04-18 07:49:42.740 [DEBUG] [o.u.i.items.ItemUIRegistryImpl] - Widget It's Night is not visible.
+2016-04-18 07:49:42.740 [DEBUG] [o.u.i.items.ItemUIRegistryImpl] - Checking visiblity for widget 'It's Evening'.
+2016-04-18 07:49:42.740 [DEBUG] [o.u.i.items.ItemUIRegistryImpl] - Widget It's Evening is not visible.
+2016-04-18 07:49:42.742 [DEBUG] [o.u.i.items.ItemUIRegistryImpl] - Checking visiblity for widget 'It's Hot Day'.
+2016-04-18 07:49:42.742 [DEBUG] [o.u.i.items.ItemUIRegistryImpl] - Widget It's Hot Day is not visible.
+2016-04-18 07:49:44.680 [DEBUG] [o.u.w.i.s.WebAutomationServlet] - Servlet request received!
+2016-04-18 07:49:45.011 [WARN ] [.u.w.cloud.CloudFolderObserver] - Directory 'scripts' does not exist in ''. Please check your configuration settings!
+2016-04-18 07:49:45.013 [INFO ] [c.internal.ModelRepositoryImpl] - Loading model 'demo.items'
+2016-04-18 07:49:45.073 [INFO ] [c.internal.ModelRepositoryImpl] - Loading model 'rrd4j.persist'
+2016-04-18 07:49:45.116 [INFO ] [c.internal.ModelRepositoryImpl] - Loading model 'demo.sitemap'
+2016-04-18 07:49:45.223 [WARN ] [.u.w.cloud.CloudFolderObserver] - Directory 'rules' does not exist in ''. Please check your configuration settings!
+2016-04-18 07:49:45.276 [DEBUG] [i.internal.GenericItemProvider] - Read items from model 'demo.items'
+2016-04-18 07:49:45.278 [DEBUG] [o.o.c.i.items.ItemRegistryImpl] - Item provider 'GenericItemProvider' has been added.
+2016-04-18 07:49:45.278 [DEBUG] [i.internal.GenericItemProvider] - Read items from model 'demo.items'
+2016-04-18 07:49:45.283 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Fan (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.283 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Fan' : 0 subscribers, 2 publishers
+2016-04-18 07:49:45.286 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Light (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.286 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Light' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.286 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Dishwasher (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.286 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Dishwasher' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.286 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node01 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.286 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node01' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.288 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node02 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.288 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node02' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.288 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node03 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.288 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node03' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.288 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node04 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.288 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node04' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.291 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S0 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.291 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S0' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.291 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S1 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.291 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S1' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.291 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S2 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.291 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S2' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.291 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Node05S33 (Type=SwitchItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.291 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Node05S33' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.293 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Dimmed_Light (Type=DimmerItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.293 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Dimmed_Light' : 1 subscribers, 2 publishers
+2016-04-18 07:49:45.293 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'dayPhase (Type=NumberItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.293 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'dayPhase' : 1 subscribers, 0 publishers
+2016-04-18 07:49:45.293 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'repeaterBattery (Type=NumberItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.293 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'repeaterBattery' : 1 subscribers, 0 publishers
+2016-04-18 07:49:45.293 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Windows_GF_Frontdoor (Type=ContactItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.293 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Windows_GF_Frontdoor' : 1 subscribers, 0 publishers
+2016-04-18 07:49:45.293 [DEBUG] [i.internal.GenericItemProvider] - Start processing binding configuration of Item 'Windows_GF_Kitchen (Type=ContactItem, State=Uninitialized)' with 'MqttGenericBindingProvider' reader.
+2016-04-18 07:49:45.296 [DEBUG] [b.mqtt.internal.MqttItemConfig] - Loaded MQTT config for item 'Windows_GF_Kitchen' : 1 subscribers, 0 publishers
+2016-04-18 07:49:47.314 [DEBUG] [o.u.w.i.s.WebAutomationServlet] -  async true poll true
+2016-04-18 07:49:47.316 [INFO ] [o.u.w.i.s.WebAutomationServlet] -  async info true poll true
+2016-04-18 07:49:47.316 [DEBUG] [o.u.w.i.s.WebAutomationServlet] - reading sitemap rahul
