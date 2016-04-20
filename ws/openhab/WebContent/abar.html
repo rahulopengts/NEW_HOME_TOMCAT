@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="js/jquery-1.12.2.js" ></script>
+        <script src="js/Chart.js"></script>
+        <title>Information Page</title>
+    </head>
+    <body>
+        <h1>Information in Graph!</h1>   
+        <br />
+
+        <br/>
+
+
+        <br/>
+        <canvas id="canvas" height="250" width="350"></canvas>
+
+    </body>
+</html> 
+<script>
+
+            $( document ).ready(function(){
+                GetCountryList();
+            });
+
+
+    function GetCountryList(){
+        var data2 = "";
+        
+        $.ajax({
+            type: "GET",
+            url: "rest/chart/graph?type=temp"
+           ,
+            contentType: "application/json",
+            dataType: "json",
+            success: function(response) {
+        
+                var resultsArray;// =  response;
+                
+                var str = response.x_axis_data;
+                var tempArray = new Array();
+                tempArray = str.split(",");
+                
+                var strTempValue =	 response.y_axis_data;
+                var tempTempValueArray = new Array();
+                tempTempValueArray = strTempValue.split(",");
+
+                
+                    var barChartData = {
+                            labels : tempArray,
+                            datasets : [
+                                    {
+                        				fillColor : "rgba(000,110,120,0.5)",
+                        				strokeColor : "rgba(000,110,120,0)",
+                        				highlightFill: "rgba(010,020,000,0)",
+                        				highlightStroke: "rgba(010,010,010,0)",
+                                        data : tempTempValueArray
+                                    }
+                            ]
+
+                    };
+
+        		var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
+
+            //}//Function
+
+
+        }, //Success
+        error: function (err) {
+            alert("Local error callback.");
+        },
+        complete: function (status) {
+            //alert("Local completion callback.");
+        }
+        
+    });  //Ajax               
+
+    }
+
+</script>

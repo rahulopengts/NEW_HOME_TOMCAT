@@ -1,3 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Loader delegate="true"/>
+<Loader delegate="true"/>
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/testdb" auth="Container"
+        type="javax.sql.DataSource" username="SA" password=""
+        driverClassName="org.hsqldb.jdbc.JDBCDriver"
+        url="jdbc:hsqldb:hsql://localhost/"
+        maxActive="10" maxIdle="4" />
+        <!-- url="jdbc:hsqldb:file:D:/Knowledgebase/hsqldb-2.3.3/hsqldb/data/mybd;shutdown=true"-->
 </Context>
