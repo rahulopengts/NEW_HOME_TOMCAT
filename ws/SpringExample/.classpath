@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/derbyclient.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/org.springframework.jdbc.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/org.springframework.transaction.jar"/>
+	<classpathentry kind="lib" path="config"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/org.springframework.core.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/org.springframework.context-3.0.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/org.springframework.beans_3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/openhab/WebContent/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/org.springframework.expression.jar"/>
+	<classpathentry kind="lib" path="D:/Home_Auto/NEW_HOME_TOMCAT/ws/jdbc/org.springframework.expression-3.1.0.M1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
