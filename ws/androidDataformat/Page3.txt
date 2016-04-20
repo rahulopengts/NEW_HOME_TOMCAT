@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<page>
+    <id>000003</id>
+    <title>Garage</title>
+    <icon>corridor</icon>
+    <link>http://192.168.1.3:8080/rest/sitemaps/demo/000003</link>
+    <parent>
+        <id>0000</id>
+        <title>Rahul's Home</title>
+        <icon>cellar</icon>
+        <link>http://192.168.1.3:8080/rest/sitemaps/demo/0000</link>
+        <leaf>false</leaf>
+    </parent>
+    <leaf>true</leaf>
+    <widget>
+        <widgetId>000003_0</widgetId>
+        <type>Switch</type>
+        <label>Node05 Avishi</label>
+        <icon>switch-off</icon>
+        <item>
+            <type>SwitchItem</type>
+            <name>Node05S0</name>
+            <state>OFF</state>
+            <link>http://192.168.1.3:8080/rest/items/Node05S0</link>
+        </item>
+    </widget>
+    <widget>
+        <widgetId>000003_1</widgetId>
+        <type>Switch</type>
+        <label>Node05S1</label>
+        <icon>switch-off</icon>
+        <item>
+            <type>SwitchItem</type>
+            <name>Node05S1</name>
+            <state>OFF</state>
+            <link>http://192.168.1.3:8080/rest/items/Node05S1</link>
+        </item>
+    </widget>
+    <widget>
+        <widgetId>000003_2</widgetId>
+        <type>Switch</type>
+        <label>Node05S2</label>
+        <icon>switch-off</icon>
+        <item>
+            <type>SwitchItem</type>
+            <name>Node05S2</name>
+            <state>OFF</state>
+            <link>http://192.168.1.3:8080/rest/items/Node05S2</link>
+        </item>
+    </widget>
+    <widget>
+        <widgetId>000003_3</widgetId>
+        <type>Switch</type>
+        <label>Node05S33</label>
+        <icon>switch-off</icon>
+        <item>
+            <type>SwitchItem</type>
+            <name>Node05S33</name>
+            <state>OFF</state>
+            <link>http://192.168.1.3:8080/rest/items/Node05S33</link>
+        </item>
+    </widget>
+    <widget>
+        <widgetId>000003_4</widgetId>
+        <type>Text</type>
+        <label>Phase Of The Day  1</label>
+        <icon>number-uninitialized</icon>
+        <item>
+            <type>NumberItem</type>
+            <name>dayPhase</name>
+            <state>Uninitialized</state>
+            <link>http://192.168.1.3:8080/rest/items/dayPhase</link>
+        </item>
+    </widget>
+</page>

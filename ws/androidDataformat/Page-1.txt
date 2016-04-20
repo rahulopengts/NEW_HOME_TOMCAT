@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<page>
+    <id>rahul</id>
+    <title>Rahul-Avishi's Home
+	</title>
+    <link>http://192.168.1.3:8080/rest/sitemaps/demo/rahul
+	</link>
+    <leaf>false
+	</leaf>
+    <widget>
+        <widgetId>rahul_0</widgetId>
+        <type>Frame</type>
+        <label></label>
+        <icon>frame</icon>
+        <widget>
+            <widgetId>rahul_0_0</widgetId>
+            <type>Group</type>
+            <label>Rahul's Home
+		</label>
+            <icon>cellar
+		</icon>
+            <item>
+                <type>GroupItem</type>
+                <name>rHFF</name>
+                <state>Undefined</state>
+                <link>http://192.168.1.3:8080/rest/items/rHFF</link>
+            </item>
+            <linkedPage>
+                <id>0000</id>
+                <title>Rahul's Home</title>
+                <icon>cellar</icon>
+                <link>http://192.168.1.3:8080/rest/sitemaps/demo/0000</link>
+                <leaf>false</leaf>
+            </linkedPage>
+        </widget>
+    </widget>
+    <widget>
+        <widgetId>rahul_1</widgetId>
+        <type>Frame</type>
+        <label>Today_Date</label>
+        <icon>frame</icon>
+        <widget>
+            <widgetId>rahul_1_0</widgetId>
+            <type>Text</type>
+            <label>Date [-, -.-.-]</label>
+            <icon>calendar-uninitialized</icon>
+            <item>
+                <type>DateTimeItem</type>
+                <name>Date</name>
+                <state>Uninitialized</state>
+                <link>http://192.168.1.3:8080/rest/items/Date</link>
+            </item>
+        </widget>
+    </widget>
+    <widget>
+        <widgetId>rahul_2</widgetId>
+        <type>Frame</type>
+        <label>DayPhase</label>
+        <icon>frame</icon>
+    </widget>
+    <widget>
+        <widgetId>rahul_3</widgetId>
+        <type>Frame</type>
+        <label>Health</label>
+        <icon>frame</icon>
+        <widget>
+            <widgetId>rahul_3_0</widgetId>
+            <type>Group</type>
+            <label>System Health</label>
+            <icon>cellar-uninitialized</icon>
+            <item>
+                <type>GroupItem</type>
+                <name>health</name>
+                <state>Uninitialized</state>
+                <link>http://192.168.1.3:8080/rest/items/health</link>
+            </item>
+            <linkedPage>
+                <id>0300</id>
+                <title>System Health</title>
+                <icon>cellar-uninitialized</icon>
+                <link>http://192.168.1.3:8080/rest/sitemaps/demo/0300</link>
+                <leaf>true</leaf>
+            </linkedPage>
+        </widget>
+    </widget>
+</page>
+

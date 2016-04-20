@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<page>
+    <id>0000</id>
+    <title>Rahul's Home</title>
+    <icon>cellar</icon>
+    <link>http://192.168.1.3:8080/rest/sitemaps/demo/0000</link>
+    <parent>
+        <id>rahul</id>
+        <title>Rahul-Avishi's Home</title>
+        <link>http://192.168.1.3:8080/rest/sitemaps/demo/rahul</link>
+        <leaf>false</leaf>
+    </parent>
+    <leaf>false</leaf>
+    <widget>
+        <widgetId>0000_0</widgetId>
+        <type>Group</type>
+        <label>Avishi Drawing Room</label>
+        <icon>bedroom-off</icon>
+        <item>
+            <type>GroupItem</type>
+            <name>RH_Living</name>
+            <state>OFF</state>
+            <link>http://192.168.1.3:8080/rest/items/RH_Living</link>
+        </item>
+        <linkedPage>
+            <id>000000</id>
+            <title>Avishi Drawing Room</title>
+            <icon>bedroom-off</icon>
+            <link>http://192.168.1.3:8080/rest/sitemaps/demo/000000</link>
+            <leaf>true</leaf>
+        </linkedPage>
+    </widget>
+    <widget>
+        <widgetId>0000_1</widgetId>
+        <type>Group</type>
+        <label>Top Master Room</label>
+        <icon>bedroom-uninitialized</icon>
+        <item>
+            <type>GroupItem</type>
+            <name>RH_Kitchen</name>
+            <state>Uninitialized</state>
+            <link>http://192.168.1.3:8080/rest/items/RH_Kitchen</link>
+        </item>
+        <linkedPage>
+            <id>000001</id>
+            <title>Top Master Room</title>
+            <icon>bedroom-uninitialized</icon>
+            <link>http://192.168.1.3:8080/rest/sitemaps/demo/000001</link>
+            <leaf>false</leaf>
+        </linkedPage>
+    </widget>
+    <widget>
+        <widgetId>0000_2</widgetId>
+        <type>Group</type>
+        <label>Toilet</label>
+        <icon>bath-uninitialized</icon>
+        <item>
+            <type>GroupItem</type>
+            <name>RH_Toilet</name>
+            <state>Uninitialized</state>
+            <link>http://192.168.1.3:8080/rest/items/RH_Toilet</link>
+        </item>
+    </widget>
+    <widget>
+        <widgetId>0000_3</widgetId>
+        <type>Group</type>
+        <label>Garage</label>
+        <icon>corridor</icon>
+        <item>
+            <type>GroupItem</type>
+            <name>RH_Corridor</name>
+            <state>Undefined</state>
+            <link>http://192.168.1.3:8080/rest/items/RH_Corridor</link>
+        </item>
+        <linkedPage>
+            <id>000003</id>
+            <title>Garage</title>
+            <icon>corridor</icon>
+            <link>http://192.168.1.3:8080/rest/sitemaps/demo/000003</link>
+            <leaf>true</leaf>
+        </linkedPage>
+    </widget>
+</page>
