@@ -3,6 +3,7 @@ package com.openhab.core.util;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.openhab.binding.mqtt.MqttBindingProvider;
 import org.openhab.binding.mqtt.internal.MqttGenericBindingProvider;
 import org.openhab.core.drools.internal.DroolsService;
 import org.openhab.core.internal.items.ItemRegistryImpl;
@@ -47,6 +48,9 @@ import org.openhab.ui.webapp.internal.render.VideoRenderer;
 import org.openhab.ui.webapp.internal.render.WebviewRenderer;
 import org.openhab.ui.webapp.render.WidgetRenderer;
 
+import com.homeauto.core.mqtt.CloudMqttMessageProducer;
+import com.homeauto.core.mqtt.CloudMqttMessageConsumer;
+import com.homeauto.core.mqtt.ICloudMqttMessagePubSub;
 import com.openhab.core.cache.AppCacheFactory;
 import com.openhab.core.cache.IAppCache;
 import com.openhab.core.constants.CloudAppConstants;
@@ -156,150 +160,146 @@ public class CloudHelperUtil {
 		PageRenderer cloudRenderer = null;
 		SitemapProvider cloudSitemapProvider = null;
 		try {
-				IAppCache cache = AppCacheFactory.getAppCacheInstance(sitemapName);
-				masterData = (CloudMasterData) cache
-						.getFromCache(sitemapName, null);
-				System.out.println("\n WebAppServlet->handleHttpRequest->getting MasterData for site->"+sitemapName);
-				if (masterData != null) {
-					System.out.println("\n WebAppServlet->handleHttpRequest->Existing Session for site->"+sitemapName);
-					return masterData;
-				}
-				
-				
-				
-				Dictionary dict = new Hashtable();
-				// String[] s = {"10","items"};
-				String s = "10,items";
-				dict.put("items", s);
+			IAppCache cache = AppCacheFactory.getAppCacheInstance(sitemapName);
+			masterData = (CloudMasterData) cache
+					.getFromCache(sitemapName, null);
+			System.out.println("\n WebAppServlet->handleHttpRequest->getting MasterData for site->"+sitemapName);
+			if (masterData != null) {
+				System.out.println("\n WebAppServlet->handleHttpRequest->Existing Session for site->"+sitemapName);
+				return masterData;
+			}
+			Dictionary dict = new Hashtable();
+			// String[] s = {"10","items"};
+			String s = "10,items";
+			dict.put("items", s);
+			String s1 = "10,persist";
+			dict.put("persistence", s1);
+			String s2 = "10,rules";
+			dict.put("rules", s2);
+			String s3 = "10,script";
+			dict.put("scripts", s3);
+			String s4 = ",service.pid";
+			dict.put("service.pid", s4);
+			String s5 = "10,sitemap";
+			dict.put("sitemaps", s5);
+			ModelRepository localModelRepository = null;
+			CloudFolderObserver cloudFolderObserver = null;
+			ItemRegistryImpl cloudItemRegistry = null;// new ItemRegistryImpl();
+			ItemUIRegistryImpl cloudUIItemRegistry = null;
+			ItemUIProvider cloudItemUIProvider = null;
+			if (cloudRenderer == null) {
 
-				String s1 = "10,persist";
-				dict.put("persistence", s1);
+				cloudItemRegistry = new ItemRegistryImpl();
+				cloudUIItemRegistry = new ItemUIRegistryImpl();
+				cloudItemUIProvider = new GenericItemUIProvider();
 
-				String s2 = "10,rules";
-				dict.put("rules", s2);
+				SitemapStandaloneSetup.doSetup();
+				ItemsStandaloneSetup.doSetup();
+				PersistenceStandaloneSetup.doSetup();
+				RulesStandaloneSetup.doSetup();
+				ScriptStandaloneSetup.doSetup();
 
-				String s3 = "10,script";
-				dict.put("scripts", s3);
-
-				String s4 = ",service.pid";
-				dict.put("service.pid", s4);
-
-				String s5 = "10,sitemap";
-				dict.put("sitemaps", s5);
-
-				ModelRepository localModelRepository = null;
-				CloudFolderObserver cloudFolderObserver = null;
-				ItemRegistryImpl cloudItemRegistry = null;// new ItemRegistryImpl();
-				ItemUIRegistryImpl cloudUIItemRegistry = null;
-				ItemUIProvider cloudItemUIProvider = null;
-				if (cloudRenderer == null) {
-
-					cloudItemRegistry = new ItemRegistryImpl();
-					cloudUIItemRegistry = new ItemUIRegistryImpl();
-					cloudItemUIProvider = new GenericItemUIProvider();
-
-					SitemapStandaloneSetup.doSetup();
-					ItemsStandaloneSetup.doSetup();
-					PersistenceStandaloneSetup.doSetup();
-					RulesStandaloneSetup.doSetup();
-					ScriptStandaloneSetup.doSetup();
-
-					masterData = new CloudMasterData();
-					masterData.setItemRegistry(cloudItemRegistry);
-					masterData.setModelRepository(localModelRepository);
-					masterData.setItemUIRegistry(cloudUIItemRegistry);
-					// masterData.setTopicName(topicName);
-					CloudThreadLocalStorage.setCloudMasterData(masterData);
-
-					cloudRenderer = new PageRenderer();
-
-					masterData.setPageRenderer(cloudRenderer);
-
-					cloudFolderObserver = new CloudFolderObserver();
-					cloudFolderObserver.setHomeName(sitemapName);
-
-					cloudFolderObserver.updated(dict);
-					localModelRepository = cloudFolderObserver.getModelRepository();
-					
-					
-				} else {
-					System.out.println("\n WebAppServlet->handleHttpRequest->Existing Session for site->"+sitemapName);
-					return masterData;
-				}
+				masterData = new CloudMasterData();
 				masterData.setItemRegistry(cloudItemRegistry);
 				masterData.setModelRepository(localModelRepository);
+				masterData.setItemUIRegistry(cloudUIItemRegistry);
+				// masterData.setTopicName(topicName);
 				CloudThreadLocalStorage.setCloudMasterData(masterData);
 
-				cloudRenderer.setItemUIRegistry(cloudUIItemRegistry);
-				// ItemRegistryImpl cloudItemRegistry = new ItemRegistryImpl();
-				// ItemUIRegistryImpl depends on ItemRegistryImpl and ItemUIProvider
-				// ItemUIProvider cloudItemUIProvider = new GenericItemUIProvider();
-				cloudUIItemRegistry.setItemRegistry(cloudItemRegistry);
-				((GenericItemUIProvider) cloudItemUIProvider)
-						.setModelRepository(localModelRepository);
-				cloudUIItemRegistry.addItemUIProvider(cloudItemUIProvider);
-				// ItemRegistry Depends on ItemProvider-GenericItemProvider
-				GenericItemProvider cloudGenericItemProvider = new GenericItemProvider();
-				// Depends on ModelRepositoryImpl, ItemFactory,BindingConfigReader
-				// --MOVED-ModelRepository localModelRepository1 =
-				// cloudFolderObserver.getModelRepository();
-				localModelRepository.setName("rahul");
-				System.out.println("\nWebAppServlet->ModelRepositoryImpl->this->"
-						+ localModelRepository);
+				cloudRenderer = new PageRenderer();
 
-				cloudGenericItemProvider.setModelRepository(localModelRepository);
-
-				// cloudGenericItemProvider.addItemFactory(factory)
-				ItemFactory itemFactory = new CoreItemFactory();
-				cloudGenericItemProvider.addItemFactory(itemFactory);
-				cloudItemRegistry.addItemProvider(cloudGenericItemProvider);
-
-				intitializeMQTTBinding(cloudGenericItemProvider,
-						localModelRepository,sitemapName,mqttService);
-
-				cloudSitemapProvider = new SitemapProviderImpl();
-
-				cloudSitemapProvider.setModelRepository(localModelRepository);
-				// sitemapProvider = cloudSitemapProvider;
-				masterData.setSiteMapProvider(cloudSitemapProvider);
-
-				
-				addPageRenderers(cloudRenderer, cloudUIItemRegistry,
-						localModelRepository);
-
-				PersistenceManager persistenceManager = initilizeModelWithStoredData(
-						cloudItemRegistry, localModelRepository,sitemapName);
-
-				DroolsService	drools	=	initializeDroolsService(cloudItemRegistry, localModelRepository,sitemapName);
-
-				//PUT THE OBJECTS INTO CACHE
-				masterData.setItemRegistry(cloudItemRegistry);
-				masterData.setModelRepository(localModelRepository);
 				masterData.setPageRenderer(cloudRenderer);
-				masterData.setSiteMapProvider(cloudSitemapProvider);
-				masterData.setPersistenceManager(persistenceManager);
-				masterData.setDroolsService(drools);
-				cache.putIntoCache(sitemapName, masterData);
-				System.out.println("\n WebAppServlet->Thread:"
-						+ Thread.currentThread().getId());
 
-			} catch (Throwable e) {
-				e.printStackTrace();
-				// throw e;
+				cloudFolderObserver = new CloudFolderObserver();
+				cloudFolderObserver.setHomeName(sitemapName);
+
+				cloudFolderObserver.updated(dict);
+				localModelRepository = cloudFolderObserver.getModelRepository();
+				
+				
+			} else {
+				System.out.println("\n WebAppServlet->handleHttpRequest->Existing Session for site->"+sitemapName);
+				return masterData;
 			}
+			masterData.setItemRegistry(cloudItemRegistry);
+			masterData.setModelRepository(localModelRepository);
+			CloudThreadLocalStorage.setCloudMasterData(masterData);
 
-			return masterData;
+			cloudRenderer.setItemUIRegistry(cloudUIItemRegistry);
+			// ItemRegistryImpl cloudItemRegistry = new ItemRegistryImpl();
+			// ItemUIRegistryImpl depends on ItemRegistryImpl and ItemUIProvider
+			// ItemUIProvider cloudItemUIProvider = new GenericItemUIProvider();
+			cloudUIItemRegistry.setItemRegistry(cloudItemRegistry);
+			((GenericItemUIProvider) cloudItemUIProvider)
+					.setModelRepository(localModelRepository);
+			cloudUIItemRegistry.addItemUIProvider(cloudItemUIProvider);
+			// ItemRegistry Depends on ItemProvider-GenericItemProvider
+			GenericItemProvider cloudGenericItemProvider = new GenericItemProvider();
+			// Depends on ModelRepositoryImpl, ItemFactory,BindingConfigReader
+			// --MOVED-ModelRepository localModelRepository1 =
+			// cloudFolderObserver.getModelRepository();
+			localModelRepository.setName("rahul");
+			System.out.println("\nWebAppServlet->ModelRepositoryImpl->this->"
+					+ localModelRepository);
+
+			cloudGenericItemProvider.setModelRepository(localModelRepository);
+
+			// cloudGenericItemProvider.addItemFactory(factory)
+			ItemFactory itemFactory = new CoreItemFactory();
+			cloudGenericItemProvider.addItemFactory(itemFactory);
+			cloudItemRegistry.addItemProvider(cloudGenericItemProvider);
+
+			intitializeMQTTBinding(cloudGenericItemProvider,
+					localModelRepository,sitemapName,mqttService,masterData);
+
+			cloudSitemapProvider = new SitemapProviderImpl();
+
+			cloudSitemapProvider.setModelRepository(localModelRepository);
+			// sitemapProvider = cloudSitemapProvider;
+			masterData.setSiteMapProvider(cloudSitemapProvider);
+
+			
+			addPageRenderers(cloudRenderer, cloudUIItemRegistry,
+					localModelRepository);
+
+			PersistenceManager persistenceManager = initilizeModelWithStoredData(
+					cloudItemRegistry, localModelRepository,sitemapName);
+
+			DroolsService	drools	=	initializeDroolsService(cloudItemRegistry, localModelRepository,sitemapName);
+
+			//PUT THE OBJECTS INTO CACHE
+			masterData.setItemRegistry(cloudItemRegistry);
+			masterData.setModelRepository(localModelRepository);
+			masterData.setPageRenderer(cloudRenderer);
+			masterData.setSiteMapProvider(cloudSitemapProvider);
+			masterData.setPersistenceManager(persistenceManager);
+			masterData.setDroolsService(drools);
+			cache.putIntoCache(sitemapName, masterData);
+			System.out.println("\n WebAppServlet->Thread:"
+					+ Thread.currentThread().getId());
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+			// throw e;
+		}
+
+		return masterData;
 	}
 
 
-	private static void intitializeMQTTBinding(GenericItemProvider genericItemProvider,ModelRepository modelRepo,String homeName,MqttService mqttService) {
+	private static void intitializeMQTTBinding(GenericItemProvider genericItemProvider,ModelRepository modelRepo,String homeName,MqttService mqttService,CloudMasterData masterData) {
+		
+		
 		BindingConfigReader bindingConfigReader = new MqttGenericBindingProvider();
+		initializeNewMqtt(genericItemProvider,modelRepo,homeName,((MqttGenericBindingProvider)bindingConfigReader),masterData);
 		// System.out.println("\nWebAppServlet->initialzeMqttBinding->"+bindingConfigReader);
 		((MqttGenericBindingProvider) bindingConfigReader)
 				.setMqttService(mqttService);
 		((MqttGenericBindingProvider) bindingConfigReader)
 		.setHomeName(homeName);
 		genericItemProvider.addBindingConfigReader(bindingConfigReader);
+		
+		
 	}
 
 
@@ -395,4 +395,24 @@ public class CloudHelperUtil {
 			return drools;
 	}
 
+	private static void initializeNewMqtt(GenericItemProvider genericItemProvider,ModelRepository modelRepo,String homeName,MqttGenericBindingProvider bindingConfigReader,CloudMasterData masterData){
+		if(CloudAppConstants.IS_NEW_MQTT_MODE){
+			ICloudMqttMessagePubSub	subConnection	=	new CloudMqttMessageConsumer();
+			ICloudMqttMessagePubSub	pubConnection	=	new CloudMqttMessageProducer();
+			
+//			genericItemProvider.setCloudMqttSubConnection(subConnection);
+//			genericItemProvider.setCloudMqttPubConnection(pubConnection);
+			
+			bindingConfigReader.setCloudMqttMessagePublisher(pubConnection);
+			bindingConfigReader.setCloudMqttMessageSubscriber(subConnection);
+
+//			bindingConfigReader.set (subConnection);
+//			bindingConfigReader.setCloudMqttPubConnection(pubConnection);
+//			masterData.setPublisher(pubConnection);
+//			masterData.setSubscriber(subConnection);
+			masterData.setMqttGenericBindingProvider(bindingConfigReader);
+			System.out.println("\nCloudHelperUtil->initializeNewMqtt->bindingConfigReader->"+bindingConfigReader);
+			System.out.println("\nCloudHelperUtil->initializeNewMqtt->subConnection->"+subConnection);
+		}
+	}
 }

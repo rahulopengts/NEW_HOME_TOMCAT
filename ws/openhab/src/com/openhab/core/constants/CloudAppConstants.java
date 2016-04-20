@@ -21,5 +21,8 @@ public interface CloudAppConstants {
 	public final static String TIMER_TYPE	=	"TIMER";
 	
 	
-	public final static boolean IS_SQL_MODE	=	false;	
+	public final static boolean IS_SQL_MODE	=	true;	
+	
+	public final static boolean IS_NEW_MQTT_MODE	=	false;
+	
 }

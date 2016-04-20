@@ -25,7 +25,17 @@ public class AbstractDatabaseDAO implements IDataBaseDAO{
 	@Override
 	public Connection getNewConnection(String dbType) throws CloudException{
 		// TODO Auto-generated method stub
-		connection	=	DatabaseAccessManager.getDatabaseAccessManager().getConnection();;
+		try{
+			System.out.println("\n HSQLDB getNewConnection->1");
+			connection	=	DatabaseAccessManager.getDatabaseAccessManager().getConnection();
+			System.out.println("\n HSQLDB getNewConnection->2");
+		} catch (CloudException e){
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} catch (Throwable e){
+			e.printStackTrace();
+		}
 		isConnectionOpen	=	true;
 		return connection;
 		

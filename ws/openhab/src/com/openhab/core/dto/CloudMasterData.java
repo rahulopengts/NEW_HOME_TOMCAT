@@ -1,5 +1,6 @@
 package com.openhab.core.dto;
 
+import org.openhab.binding.mqtt.internal.MqttGenericBindingProvider;
 import org.openhab.core.drools.internal.DroolsService;
 import org.openhab.core.items.ItemRegistry;
 import org.openhab.core.persistence.internal.PersistenceManager;
@@ -10,9 +11,35 @@ import org.openhab.model.sitemap.SitemapProvider;
 import org.openhab.ui.items.ItemUIRegistry;
 import org.openhab.ui.webapp.internal.render.PageRenderer;
 
+import com.homeauto.core.mqtt.ICloudMqttMessagePubSub;
 import com.openhab.core.event.dto.EventObject;
 
 public class CloudMasterData implements ICloudMasterData{
+
+	private MqttGenericBindingProvider	mqttGenericBindingProvider	=	null;
+	
+	public MqttGenericBindingProvider getMqttGenericBindingProvider() {
+		return mqttGenericBindingProvider;
+	}
+	public void setMqttGenericBindingProvider(
+			MqttGenericBindingProvider mqttGenericBindingProvider) {
+		this.mqttGenericBindingProvider = mqttGenericBindingProvider;
+	}
+	private ICloudMqttMessagePubSub	subscriber	=	null;
+	public ICloudMqttMessagePubSub getSubscriber() {
+		return subscriber;
+	}
+	public void setSubscriber(ICloudMqttMessagePubSub subscriber) {
+		this.subscriber = subscriber;
+	}
+	public ICloudMqttMessagePubSub getPublisher() {
+		return publisher;
+	}
+	public void setPublisher(ICloudMqttMessagePubSub publisher) {
+		this.publisher = publisher;
+	}
+	private ICloudMqttMessagePubSub	publisher	=	null;
+	
 	private SitemapProvider	siteMapProvider	=	null;
 	private PageRenderer	pageRenderer	=	null;
 	private ItemRegistry	itemRegistry	=	null;

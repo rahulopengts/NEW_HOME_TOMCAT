@@ -64,6 +64,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.homeauto.db.core.dbprocessors.SiteDataDAO;
+import com.homeauto.db.core.dbprocessors.hist.ItemInfoHistDAO;
 import com.openhab.core.constants.CloudAppConstants;
 import com.openhab.core.db.vo.SiteInfoVO;
 
@@ -287,6 +288,8 @@ public class PersistenceManager extends AbstractEventSubscriber implements Model
 			try{
 				SiteDataDAO	siteInfo	=	new SiteDataDAO();
 				siteInfo.updateItemInfo(userSiteId, siteId, item);
+				ItemInfoHistDAO	itemInfoHistDAO	=	new ItemInfoHistDAO();
+				itemInfoHistDAO.addItemInfoHistory(userSiteId, siteId, item);
 			} catch (CloudException e){
 				e.printStackTrace();
 			}

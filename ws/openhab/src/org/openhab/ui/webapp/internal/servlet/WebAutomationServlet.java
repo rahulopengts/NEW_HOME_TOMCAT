@@ -1,6 +1,5 @@
 package org.openhab.ui.webapp.internal.servlet;
 
-//Testing This
 import java.io.IOException;
 import java.util.Date;
 import java.util.Dictionary;
@@ -80,6 +79,7 @@ public class WebAutomationServlet extends BaseServlet {
 		try {
 			if (FolderObserver.CLOUD_MODE) {
 				initializeApp();
+				//testDB();
 				System.out.println("\nWebAppServler->Init");
 			}
 		} catch (Throwable e) {
@@ -116,7 +116,7 @@ public class WebAutomationServlet extends BaseServlet {
 		logger.debug("Servlet request received!");
 		// System.out.println("Servlet request received!");
 		// read request parameters
-		testDB();
+		
 		
 		PageRenderer renderer = null;
 		CloudMasterData masterData = null;
@@ -450,16 +450,9 @@ public class WebAutomationServlet extends BaseServlet {
 		try{
 			System.out.print("\n Derby DB Calling");
 			SiteDataDAO siteInfo	=	new SiteDataDAO();
-			//siteInfo.fetchSiteInfo("");
-			
-//			TestDB t	=	new TestDB();
-//			DataSource	data	=	t.init();
-//			t.doGet(data);
-		} catch (Exception e){
+			siteInfo.storeSiteConfig("1","demo","");
+		} catch (CloudException e){
 			e.printStackTrace();
 		}
-//		} catch (CloudException e){
-//			e.printStackTrace();
-//		}
 	}
 }

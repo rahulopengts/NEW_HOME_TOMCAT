@@ -1,5 +1,9 @@
 package com.openhab.core.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.sql.Blob;
+
 public class DataConverterUtil {
 
 	/**
@@ -21,5 +25,31 @@ public class DataConverterUtil {
 		} 
 		
 		return retValue;
+	}
+	
+	public static String getStringfromBlob(Blob blob){
+		String blobString = null;
+		try{
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buf = new byte[1024];
+	
+			InputStream in = blob.getBinaryStream();
+	
+			int n = 0;
+			while ((n=in.read(buf))>=0)
+			{
+			   baos.write(buf, 0, n);
+			}
+	
+			in.close();
+			byte[] bytes = baos.toByteArray();
+			blobString = new String(bytes);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return blobString;
+		
 	}
 }

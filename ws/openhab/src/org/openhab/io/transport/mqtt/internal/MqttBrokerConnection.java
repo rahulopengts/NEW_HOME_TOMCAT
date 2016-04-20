@@ -36,6 +36,8 @@ import org.openhab.io.transport.mqtt.MqttWillAndTestament;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openhab.core.constants.CloudAppConstants;
+
 /**
  * An MQTTBrokerConnection represents a single client connection to a MQTT
  * broker. The connection is configured by the MQTTService with properties from
@@ -570,10 +572,17 @@ public class MqttBrokerConnection implements MqttCallback {
 		//System.out.println("\nMqttBrokerConnection->messageArrived->"+topic+":->message:->"+new String(message.getPayload()));
 		logger.trace("Received message on topic '{}' : {}", topic, new String(
 				message.getPayload()));
-		for (MqttMessageConsumer consumer : consumers) {
-			if (isTopicMatch(topic, consumer.getTopic())) {
-				consumer.processMessage(topic, message.getPayload());
+		
+		if(CloudAppConstants.IS_NEW_MQTT_MODE){
+			
+		} else {
+		
+			for (MqttMessageConsumer consumer : consumers) {
+				if (isTopicMatch(topic, consumer.getTopic())) {
+					consumer.processMessage(topic, message.getPayload());
+				}
 			}
+		
 		}
 	}
 

@@ -1,12 +1,32 @@
 package com.openhab.core.db.vo;
 
+import java.io.InputStream;
 import java.sql.Date;
+
+
 
 public class SiteInfoVO extends AbstractVO {
 
+	
+	private InputStream	SITE_MAP_FILE_STREAM	=	null;
+	public InputStream getSITE_MAP_FILE_STREAM() {
+		return SITE_MAP_FILE_STREAM;
+	}
+	public void setSITE_MAP_FILE_STREAM(InputStream sITE_MAP_FILE_STREAM) {
+		SITE_MAP_FILE_STREAM = sITE_MAP_FILE_STREAM;
+	}
+	public InputStream getITEM_MAP_FILE_STREAM() {
+		return ITEM_MAP_FILE_STREAM;
+	}
+	public void setITEM_MAP_FILE_STREAM(InputStream iTEM_MAP_FILE_STREAM) {
+		ITEM_MAP_FILE_STREAM = iTEM_MAP_FILE_STREAM;
+	}
+	private InputStream	ITEM_MAP_FILE_STREAM	=	null;
+	
+	
 	  private int SITE_ID	=	-1;
 	  private String	USER_SITE_ID	=	null;
-		public String getUSER_SITE_ID() {
+	  public String getUSER_SITE_ID() {
 		return USER_SITE_ID;
 	}
 	public void setUSER_SITE_ID(String uSER_SITE_ID) {

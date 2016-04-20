@@ -12,4 +12,7 @@ public interface SiteInfoColumnConstants {
 	public static final String SITE_INFO_PHONE    		=	"PHONE";
 	public static final String SITE_INFO_DESCRIPTION    	=	"DESCRIPTION";
 	public static final String SITE_INFO_INITIALIZED    	=	"INITIALIZED";
+	public static final String SITE_INFO_SITE_MAP_FILE    	=	"SITE_MAP_FILE";
+	public static final String SITE_INFO_ITEM_MAP_FILE    	=	"ITEM_MAP_FILE";
+	
 }

@@ -1,7 +1,9 @@
 package com.homeauto.db.core.dbprocessors;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +13,13 @@ import java.util.Iterator;
 import org.openhab.core.items.Item;
 import org.openhab.core.items.ItemRegistry;
 import org.openhab.ui.webapp.cloud.exception.CloudException;
+import org.openhab.ui.webapp.cloud.exception.CloudExceptionManager;
+import org.openhab.ui.webapp.cloud.exception.CloudMessageConstants;
 
 import com.homeauto.db.core.AbstractDatabaseDAO;
 import com.homeauto.db.core.DatabaseUtil;
-import com.openhab.core.db.vo.IBaseVO;
 import com.openhab.core.db.vo.SiteInfoVO;
+import com.openhab.core.sysprop.SystemPropUtil;
 import com.openhab.core.util.DataConverterUtil;
 
 public class SiteDataDAO extends AbstractDatabaseDAO implements SiteQueryConstants,SiteInfoColumnConstants {
@@ -36,20 +40,28 @@ public class SiteDataDAO extends AbstractDatabaseDAO implements SiteQueryConstan
         HashMap<String, Object> dataMap	=new HashMap();
         SiteInfoVO	siteinfoVO	=	new SiteInfoVO();
         
+        System.out.println("\n HSQLDB Data->1");
 		if(isConnectionOpen){
+			System.out.println("\n HSQLDB Data->1-TRUE");
 			connection		=	getConnection();
 		} else {
+			System.out.println("\n HSQLDB Data->1-FALSE");
 			connection		=	getNewConnection(DB_VENDOR);
 		}
-		
+		System.out.println("\n HSQLDB Data->2");
         try {
+        	
         	siteId	=	DataConverterUtil.covertToInt(primaryKey_siteId, -1);
-            // Get Connection and Statement
+        	System.out.println("\n HSQLDB Data->3-"+siteId);
+        	// Get Connection and Statement
         	String query = FETCH_SITE_INFO;//"select * from USER_INFO";
         	
             statement = connection.prepareStatement(query);
+            System.out.println("\n HSQLDB Data->4");
             statement.setString(1, userSiteId);
+            System.out.println("\n HSQLDB Data->5");
             resultSet = statement.executeQuery();
+            System.out.println("\n HSQLDB Data->6");
             //resultSet = statement.executeQuery(query);
             
             System.out.println("\n HSQLDB Data->");
@@ -65,17 +77,34 @@ public class SiteDataDAO extends AbstractDatabaseDAO implements SiteQueryConstan
             	siteinfoVO.setREGDATE(resultSet.getDate(SITE_INFO_REGDATE));
             	siteinfoVO.setUSER_GRP_ID(resultSet.getString(SITE_INFO_USER_GRP_ID));
             	siteinfoVO.setINITIALIZED(resultSet.getInt(SITE_INFO_INITIALIZED));
+            	Blob blobSiteMapFile	=	resultSet.getBlob(SITE_INFO_SITE_MAP_FILE);
+            	Blob blobItemInfo		=	resultSet.getBlob(SITE_INFO_ITEM_MAP_FILE);
             	
-            	System.out.println("\n HSQLDB Data->Read->");
+            	
+            	
+            	if(blobSiteMapFile!=null){
+            		siteinfoVO.setSITE_MAP_FILE_STREAM(blobSiteMapFile.getBinaryStream());
+            	}
+            	
+
+            	if(blobItemInfo!=null){
+            		siteinfoVO.setITEM_MAP_FILE_STREAM(blobItemInfo.getBinaryStream());
+            	}
+
+            	System.out.println("\n HSQLDB Data->Read->SiteIno");
             	System.out.println(siteinfoVO.getSITE_ID());
             	System.out.println(siteinfoVO.getF_NAME());
             	System.out.println(siteinfoVO.getL_NAME());
             	System.out.println(siteinfoVO.getDESCRIPTION());
             	System.out.println(siteinfoVO.getPHONE());
+            	System.out.println(DataConverterUtil.getStringfromBlob(blobSiteMapFile));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e){
+        	e.printStackTrace();
         }finally {
+        
         	closeDbObjects(statement, resultSet, connection);
         }
 		return siteinfoVO;
@@ -149,12 +178,14 @@ public class SiteDataDAO extends AbstractDatabaseDAO implements SiteQueryConstan
 	public HashMap<String, String> initilizeSiteItemInfo(String userSiteid,String primaryKey_siteId,ItemRegistry itemRegistry) throws CloudException {
 		//INSERT INTO ITEM_INFO (SITE_ID,ITEM_ID,ITEM_VALUE,DATATYPE,LAST_UPDATE
 		int siteId	=	1;
+		PreparedStatement statement	=	null;
+		Connection connection	=	null;
 		try{
 			Iterable<Item> itemRegistryIterable	=	itemRegistry.getItems();
 			Iterator<Item>	itemIterator	=	itemRegistryIterable.iterator();
-			Connection connection	=	getNewConnection(DB_VENDOR);
+			connection	=	getNewConnection(DB_VENDOR);
 			String	query	=	INSERT_SITE_INFO; 
-			PreparedStatement statement	=	connection.prepareStatement(query);
+			statement	=	connection.prepareStatement(query);
 			java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
 			while(itemIterator.hasNext()){
 				Item item	=	itemIterator.next();
@@ -172,7 +203,9 @@ public class SiteDataDAO extends AbstractDatabaseDAO implements SiteQueryConstan
 			commit(connection);
 	} catch (SQLException e){
 		e.printStackTrace();
-	}
+	}finally {
+    	closeDbObjects(statement, null, connection);
+    }
 		
 		return null;
 	}
@@ -214,6 +247,67 @@ public class SiteDataDAO extends AbstractDatabaseDAO implements SiteQueryConstan
 		return true;
 		
 	}
+
+
+	/**
+	 * 
+	 * @param userSiteId
+	 * @param strSiteId
+	 * @param filePath
+	 * @throws CloudException
+	 */
+	
+	public void storeSiteConfig(String userSiteId,String strSiteId,String filePath) throws CloudException {
+	    
+		Connection connection		=	null;
+    	PreparedStatement statement	=	null;
+        ResultSet resultSet = null;
+        int siteId	=	0;
+        FileInputStream fis = null;
+        FileInputStream fisItemInfo = null;
+        File itemInfoFile	=	null;
+        filePath				=	SystemPropUtil.getSystemSiteMapPath(strSiteId)+strSiteId+".sitemap";
+        String itemInfofilePath	=	SystemPropUtil.getSystemItemInfoPath(strSiteId)+ strSiteId +".items";
+        
+        try {
+	        if(isConnectionOpen){
+				connection		=	getConnection();
+			} else {
+				connection		=	getNewConnection(DB_VENDOR);
+			}
+	        statement	=	connection.prepareStatement("UPDATE SITE_INFO SET SITE_MAP_FILE = ? , ITEM_MAP_FILE =? WHERE SITE_ID =	?");
+		    File file = new File(filePath);
+		    if(file!=null){
+		    	fis = new FileInputStream(file);
+			    itemInfoFile	=	new File(itemInfofilePath);
+			    if(itemInfoFile!=null){
+				    fisItemInfo		=	new FileInputStream(itemInfoFile);
+				    statement.setBinaryStream(1, fis, (int) file.length());
+				    statement.setBinaryStream(2, fisItemInfo, (int) itemInfoFile.length());
+				    statement.setInt(3, 1);
+				    statement.execute();
+			    }
+		    }
+		    
+        } catch (SQLException e){
+        	e.printStackTrace();
+        	CloudExceptionManager.throwException(CloudMessageConstants.SQL_CONNECTION_ERROR, e, null);
+        } catch (Exception e){
+        	CloudExceptionManager.throwException(CloudMessageConstants.SQL_CONNECTION_ERROR, e, null);
+        }finally {
+        	closeDbObjects(statement, resultSet, connection);
+        	try{
+        	if(fis!=null)
+        		fis.close();
+        	
+        	if(fisItemInfo!=null)
+        		fisItemInfo.close();
+        	} catch (Exception e){
+        		e.printStackTrace();
+        	}
+        }
+
+	  }
 
 
 }

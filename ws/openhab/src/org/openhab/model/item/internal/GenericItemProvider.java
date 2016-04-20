@@ -41,6 +41,8 @@ import org.openhab.model.items.ModelNormalItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.homeauto.core.mqtt.ICloudMqttMessagePubSub;
+
 
 /**
  * ItemProvider implementation which computes *.items file based item configurations.
@@ -73,6 +75,30 @@ public class GenericItemProvider implements ItemProvider, ModelRepositoryChangeL
 	
 	private Collection<ItemFactory> itemFactorys = new ArrayList<ItemFactory>();
 	
+	
+	private ICloudMqttMessagePubSub cloudMqttSubConnection	=	null;
+	public ICloudMqttMessagePubSub getCloudMqttSubConnection() {
+		return cloudMqttSubConnection;
+	}
+
+
+	public void setCloudMqttSubConnection(
+			ICloudMqttMessagePubSub cloudMqttSubConnection) {
+		this.cloudMqttSubConnection = cloudMqttSubConnection;
+	}
+
+
+	public ICloudMqttMessagePubSub getCloudMqttPubConnection() {
+		return cloudMqttPubConnection;
+	}
+
+
+	public void setCloudMqttPubConnection(
+			ICloudMqttMessagePubSub cloudMqttPubConnection) {
+		this.cloudMqttPubConnection = cloudMqttPubConnection;
+	}
+
+	private ICloudMqttMessagePubSub cloudMqttPubConnection	=	null;
 	
 	public GenericItemProvider() {
 		// make sure that the DSL is correctly registered with EMF before we

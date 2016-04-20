@@ -21,8 +21,13 @@ import org.openhab.core.items.Item;
 import org.openhab.io.transport.mqtt.MqttService;
 import org.openhab.model.item.binding.AbstractGenericBindingProvider;
 import org.openhab.model.item.binding.BindingConfigParseException;
+import org.openhab.ui.webapp.cloud.exception.CloudMessageConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.homeauto.core.mqtt.ICloudMqttMessagePubSub;
+import com.openhab.core.constants.CloudAppConstants;
+import com.openhab.core.util.CloudHelperUtil;
 
 /**
  * MQTT Binding provider implementation. Creates MQTT configuration for OpenHAB
@@ -32,6 +37,28 @@ import org.slf4j.LoggerFactory;
  * @since 1.3.0
  */
 public class MqttGenericBindingProvider extends AbstractGenericBindingProvider implements MqttBindingProvider {
+
+	private ICloudMqttMessagePubSub cloudMqttMessagePublisher	=	null;
+	public ICloudMqttMessagePubSub getCloudMqttMessagePublisher() {
+		return cloudMqttMessagePublisher;
+	}
+
+	public void setCloudMqttMessagePublisher(
+			ICloudMqttMessagePubSub cloudMqttMessagePublisher) {
+		this.cloudMqttMessagePublisher = cloudMqttMessagePublisher;
+	}
+
+	public ICloudMqttMessagePubSub getCloudMqttMessageSubscriber() {
+		return cloudMqttMessageSubscriber;
+	}
+
+	public void setCloudMqttMessageSubscriber(
+			ICloudMqttMessagePubSub cloudMqttMessageSubscriber) {
+		this.cloudMqttMessageSubscriber = cloudMqttMessageSubscriber;
+	}
+
+	private ICloudMqttMessagePubSub cloudMqttMessageSubscriber	=	null;
+	
 
 	private String homeName	=	null;
 	
@@ -75,6 +102,9 @@ public class MqttGenericBindingProvider extends AbstractGenericBindingProvider i
 			String bindingConfig) throws BindingConfigParseException {
 		super.processBindingConfiguration(context, item, bindingConfig);
 		
+		System.out.println("\nMqttGenericBindingProvider->processBindingConfiguration->bindingConfigReader->"+this);
+		System.out.println("\nMqttGenericBindingProvider->processBindingConfiguration->subConnection->"+cloudMqttMessageSubscriber);
+		
 		System.out.println("\n MqttGenericBindingProvider->processBindingConfiguration->homeName "+homeName);
 		final String itemName = item.getName();
 		logger.trace("Starting to load MQTT config for item {}", itemName);
@@ -96,8 +126,16 @@ public class MqttGenericBindingProvider extends AbstractGenericBindingProvider i
 
 		// register all message consumers
 		for (MqttMessageSubscriber subscriber : itemConfig.getMessageSubscribers()) {
-			subscriber.setItemName(item.getName());
-			mqttService.registerMessageConsumer(subscriber.getBroker(), subscriber);
+			if(CloudAppConstants.IS_NEW_MQTT_MODE){
+				//cloudMqttSubConnection.addSubscriber(subscriber);
+//				item.getName();
+				cloudMqttMessageSubscriber.addConsumer(item.getName(), subscriber);
+				
+			} else {
+				subscriber.setItemName(item.getName());
+				
+				mqttService.registerMessageConsumer(subscriber.getBroker(), subscriber);
+			}
 			System.out.println("\n MqttGenericBindingProvider->processBindingConfiguration->context: "+context+":->item:->"+item.getName()+":->bindingConfig:"+bindingConfig+":->broker->:"+subscriber.getBroker());		
 		}
 
@@ -129,8 +167,14 @@ public class MqttGenericBindingProvider extends AbstractGenericBindingProvider i
 
 		// register all message producers
 		for (MqttMessagePublisher publisher : itemConfig.getMessagePublishers()) {
-			publisher.setItemName(item.getName());
-			mqttService.registerMessageProducer(publisher.getBroker(), publisher);
+			
+			if(CloudAppConstants.IS_NEW_MQTT_MODE){
+				//cloudMqttSubConnection.addPublisher(publisher);
+				cloudMqttMessagePublisher.addProducer(item.getName(), publisher);
+			} else {
+				publisher.setItemName(item.getName());
+				mqttService.registerMessageProducer(publisher.getBroker(), publisher);
+			}
 		}
 
 		

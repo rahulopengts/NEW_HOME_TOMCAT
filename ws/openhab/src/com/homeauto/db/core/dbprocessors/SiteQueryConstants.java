@@ -16,4 +16,14 @@ public interface SiteQueryConstants {
 	public static final String FETCH_ITEM_INFO	=	"SELECT * FROM ITEM_INFO WHERE SITE_ID = ?";
 
 	public static final String UPDATE_ITEM_INFO	=	"UPDATE ITEM_INFO set ITEM_VALUE=? WHERE SITE_ID=? AND ITEM_ID=?";
+	
+	
+	public static final String UPDATE_SITE_MAP	=	"UPDATE SITE_INFO SET SITE_MAP_FILE = ? WHERE SITE_ID =	?";
+
+
+	//ITEM_INFO_HIST
+	
+	public static final String INSERT_ITEM_INFO_HIST	=	"INSERT INTO ITEM_INFO_HIST (SITE_ID,ITEM_ID,ITEM_VALUE,DATATYPE,LAST_UPDATE)  VALUES (?,?,?,?,?)";
+
+
 }
