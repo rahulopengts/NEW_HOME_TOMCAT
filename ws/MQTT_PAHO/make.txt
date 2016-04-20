@@ -1,0 +1,2 @@
+main:
+g++ -I raspberry_osio_client/ -o /home/pi/intellizones/automation/pahoc/raspberry-pi-mqtt/sample/test  sample/main.cpp raspberry_osio_client/raspberry_osio_client.cpp -lmosquitto
