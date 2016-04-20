@@ -1,0 +1,17 @@
+/*
+ * subasync.h
+ *
+ *  Created on: Apr 15, 2016
+ *      Author: RPODDAR
+ */
+
+#ifndef SUBASYNC_H_
+#define SUBASYNC_H_
+
+class subasync {
+public:
+	subasync();
+	virtual ~subasync();
+};
+
+#endif /* SUBASYNC_H_ */

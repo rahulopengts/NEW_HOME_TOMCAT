@@ -1,0 +1,19 @@
+/*
+ * ReadProp.c
+ *
+ *  Created on: Apr 14, 2016
+ *      Author: RPODDAR
+ */
+
+#include "ReadProp.h"
+
+ReadProp::ReadProp()
+{
+	// TODO Auto-generated constructor stub
+
+}
+
+ReadProp::~ReadProp()
+{
+	// TODO Auto-generated destructor stub
+}

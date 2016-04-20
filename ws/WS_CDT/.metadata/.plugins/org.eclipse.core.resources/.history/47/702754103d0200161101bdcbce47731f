@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	fp = fopen(file,"r");
+	if (fp == NULL){
+	  fprintf(stderr, "Can't open file %s!\n", file);
+	  exit(1);
+	}
+int count;
+	for (count = 0; count < 3; count++){
+	   if (fgets(line,sizeof(line),fp)==NULL)
+	      break;
+	   else {
+
+	      //do things with line variable
+
+	      name = strtok(line, '=');
+	      value = strtok(NULL, '=');
+
+
+
+	  }
+	}
+
+	fclose(fp);
+	return 0;
+}

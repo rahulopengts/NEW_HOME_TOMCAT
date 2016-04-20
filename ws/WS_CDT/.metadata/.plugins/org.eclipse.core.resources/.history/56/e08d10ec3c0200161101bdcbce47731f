@@ -1,0 +1,17 @@
+/*
+ * ReadProp.h
+ *
+ *  Created on: Apr 14, 2016
+ *      Author: RPODDAR
+ */
+
+#ifndef READPROP_H_
+#define READPROP_H_
+
+class ReadProp {
+public:
+	ReadProp();
+	virtual ~ReadProp();
+};
+
+#endif /* READPROP_H_ */

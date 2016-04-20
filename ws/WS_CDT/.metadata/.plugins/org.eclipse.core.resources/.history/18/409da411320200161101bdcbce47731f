@@ -1,0 +1,17 @@
+/*
+ * pubasync.h
+ *
+ *  Created on: Apr 14, 2016
+ *      Author: RPODDAR
+ */
+
+#ifndef PUBASYNC_H_
+#define PUBASYNC_H_
+
+class pubasync {
+public:
+	pubasync();
+	virtual ~pubasync();
+};
+
+#endif /* PUBASYNC_H_ */

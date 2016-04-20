@@ -1,0 +1,11 @@
+11:46:51 **** Rebuild of configuration Debug for project test2 ****
+Info: Internal Builder is used for build
+cl /c /EHs /MD /Zi "/ID:\\mingw\\include" "/ID:\\mingw\\mingw32\\include" "/ID:\\mingw\\msys\\1.0\\include" "/ID:\\mingw\\lib\\gcc\\mingw32\\4.9.3\\include" /nologo "/Fosrc\\MQTTAsync_subscribe.obj" "..\\src\\MQTTAsync_subscribe.c" 
+Cannot run program "cl": Launching failed
+
+Error: Program "cl" not found in PATH
+PATH=[C:/Program Files/Java/jre1.7.0_95/bin/server;C:/Program Files/Java/jre1.7.0_95/bin;C:/Program Files/Java/jre1.7.0_95/lib/amd64;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;D:\TortoiseSVN\binD:\mingw\bin;D:\mingw\mingw32\bin;;D:\Eclipse_All\eclipse_cpp\eclipse;]
+
+
+11:46:51 Build Finished (took 70ms)
+

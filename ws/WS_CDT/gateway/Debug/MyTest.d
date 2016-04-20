@@ -1,0 +1,1 @@
+MyTest.o: ../MyTest.c

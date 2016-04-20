@@ -1,0 +1,519 @@
+12:37:35 **** Build of configuration Debug for project TestPro ****
+make all 
+Building file: ../src/TestPro.c
+Invoking: Cygwin C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/TestPro.d" -MT"src/TestPro.o" -o "src/TestPro.o" "../src/TestPro.c"
+../src/TestPro.c: In function 'main':
+../src/TestPro.c:16:2: warning: implicit declaration of function 'testConstantchar' [-Wimplicit-function-declaration]
+  testConstantchar();
+  ^
+../src/TestPro.c: At top level:
+../src/TestPro.c:20:6: warning: conflicting types for 'testConstantchar'
+ void testConstantchar(){
+      ^
+../src/TestPro.c:16:2: note: previous implicit declaration of 'testConstantchar' was here
+  testConstantchar();
+  ^
+../src/TestPro.c: In function 'testConstantchar':
+../src/TestPro.c:21:21: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+  const char* host = 't';
+                     ^
+../src/TestPro.c:23:9: warning: format '%c' expects a matching 'int' argument [-Wformat=]
+  printf("\n character is %c \n");
+         ^
+../src/TestPro.c:23:9: warning: format '%c' expects a matching 'int' argument [-Wformat=]
+../src/TestPro.c:21:14: warning: unused variable 'host' [-Wunused-variable]
+  const char* host = 't';
+              ^
+Finished building: ../src/TestPro.c
+ 
+Building target: TestPro.exe
+Invoking: Cygwin C Linker
+gcc  -o "TestPro.exe"  ./src/TestPro.o   
+Finished building target: TestPro.exe
+ 
+12:37:42 **** Incremental Build of configuration Debug for project TestPro ****
+make all 
+make: Nothing to be done for 'all'.
+12:37:52 **** Incremental Build of configuration Debug for project TestPro ****
+make all 
+make: Nothing to be done for 'all'.
+12:37:59 **** Incremental Build of configuration Debug for project TestPro ****
+make all 
+make: Nothing to be done for 'all'.
+13:41:06 **** Incremental Build of configuration Debug for project gateway ****
+make all 
+Building file: ../MyTest.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\usr\include" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\gateway" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"MyTest.d" -MT"MyTest.o" -o "MyTest.o" "../MyTest.c"
+../MyTest.c: In function 'mainT':
+../MyTest.c:13:2: warning: implicit declaration of function 'testConstantchar' [-Wimplicit-function-declaration]
+  testConstantchar();
+  ^
+../MyTest.c: In function 'testPointer':
+../MyTest.c:29:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'int *' [-Wformat=]
+     printf("Address of var variable: %x\n", &var  );
+            ^
+../MyTest.c:29:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'int *' [-Wformat=]
+../MyTest.c:32:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'int *' [-Wformat=]
+     printf("Address stored in ip variable: %x\n", ip );
+            ^
+../MyTest.c:32:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'int *' [-Wformat=]
+../MyTest.c: In function 'testArray':
+../MyTest.c:42:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+     printf("Memory Location Greeting message: %x \n", &greeting[0] );
+            ^
+../MyTest.c:42:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c:43:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+     printf("Memory Location Greeting message: %x \n", &greeting[1] );
+            ^
+../MyTest.c:43:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c: In function 'testArrayPointers':
+../MyTest.c:50:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+     printf("Memory Location Greeting message: %x \n", &greeting[0] );
+            ^
+../MyTest.c:50:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c:51:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+     printf("Memory Location Greeting message: %x \n", &greeting[1] );
+            ^
+../MyTest.c:51:12: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c: In function 'testStringFormatter':
+../MyTest.c:56:2: warning: implicit declaration of function 'strcpy' [-Wimplicit-function-declaration]
+  strcpy(inboundMessage,inboundMessageTemplate);
+  ^
+../MyTest.c:56:2: warning: incompatible implicit declaration of built-in function 'strcpy'
+../MyTest.c:56:2: note: include '<string.h>' or provide a declaration of 'strcpy'
+../MyTest.c:62:9: warning: format '%i' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+  printf("\n MyHub Memory Location for inboundMessageTemplate %i ",inboundMessageTemplate);
+         ^
+../MyTest.c:62:9: warning: format '%i' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c:63:9: warning: format '%i' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+  printf("\n MyHub Memory Location for inboundMessage %i ",inboundMessage);
+         ^
+../MyTest.c:63:9: warning: format '%i' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c:65:30: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
+  sprintf(charSensorDataValue,"%ld", intSensorDataValue);
+                              ^
+../MyTest.c:65:30: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
+../MyTest.c:66:25: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  int sensorDataLength = strlen(charSensorDataValue);
+                         ^
+../MyTest.c:66:25: warning: incompatible implicit declaration of built-in function 'strlen'
+../MyTest.c:66:25: note: include '<string.h>' or provide a declaration of 'strlen'
+../MyTest.c:70:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+  printf("\n Value in character is %d \n",inboundMessage);
+         ^
+../MyTest.c:70:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c:76:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+  printf("\n Value in character after increasing to START_INDEX is %d \n",inboundMessage);
+         ^
+../MyTest.c:76:9: warning: format '%d' expects argument of type 'int', but argument 2 has type 'char *' [-Wformat=]
+../MyTest.c: At top level:
+../MyTest.c:90:6: warning: conflicting types for 'testConstantchar'
+ void testConstantchar(){
+      ^
+../MyTest.c:13:2: note: previous implicit declaration of 'testConstantchar' was here
+  testConstantchar();
+  ^
+../MyTest.c: In function 'testConstantchar':
+../MyTest.c:93:9: warning: format '%c' expects a matching 'int' argument [-Wformat=]
+  printf("\n character is %c \n");
+         ^
+../MyTest.c:93:9: warning: format '%c' expects a matching 'int' argument [-Wformat=]
+../MyTest.c:91:14: warning: unused variable 'host' [-Wunused-variable]
+  const char* host;
+              ^
+Finished building: ../MyTest.c
+ 
+Building file: ../gw.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\usr\include" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\gateway" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"gw.d" -MT"gw.o" -o "gw.o" "../gw.c"
+../gw.c: In function 'UC_FU_buildSendImagePage':
+../gw.c:651:28: warning: unused variable 'segOff' [-Wunused-variable]
+       unsigned int u16Idx, segOff;
+                            ^
+../gw.c:676:13: warning: implicit declaration of function 'GW_buildSendHdr' [-Wimplicit-function-declaration]
+        rc = GW_buildSendHdr(LPWMN_GW_MSG_TYPE_RELAY_TO_NODE, 
+             ^
+../gw.c:681:13: warning: implicit declaration of function 'GW_readSerIntf' [-Wimplicit-function-declaration]
+        rc = GW_readSerIntf(UART_MSG_TYPE_ACK, 0);
+             ^
+../gw.c: In function 'GW_startUcProc':
+../gw.c:1327:18: warning: unused variable 'evt' [-Wunused-variable]
+    unsigned char evt;
+                  ^
+../gw.c: In function 'GW_procFwHexFile':
+../gw.c:1408:31: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
+        if (buff_p[idx] >= '0' && buff_p[idx] <= '9'
+                               ^
+../gw.c:1410:34: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
+            || buff_p[idx] >= 'A' && buff_p[idx] <= 'F')
+                                  ^
+../gw.c:1456:27: warning: format '%x' expects a matching 'unsigned int' argument [-Wformat=]
+                    printf("Segment address <0x%x> is invalid !! \n");
+                           ^
+../gw.c:1456:27: warning: format '%x' expects a matching 'unsigned int' argument [-Wformat=]
+../gw.c:1476:42: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
+                while (buff_p[idx] >= '0' && buff_p[idx] <= '9'
+                                          ^
+../gw.c:1554:8: warning: 'return' with no value, in function returning non-void
+        return;
+        ^
+../gw.c:1375:22: warning: variable 'segStart' set but not used [-Wunused-but-set-variable]
+    int segStartAddr, segStart = 0;
+                      ^
+../gw.c: In function 'GW_processRcvdMsg':
+../gw.c:2350:69: warning: too many arguments for format [-Wformat-extra-args]
+                                                              printf("Port<%u>  ", *(buff3_p) + 1, *(buff4_p));
+                                                                     ^
+../gw.c:2350:69: warning: too many arguments for format [-Wformat-extra-args]
+../gw.c:2473:23: warning: suggest parentheses around '&&' within '||' [-Wparentheses]
+                       && ((capFlags & NODE_CAP_DEV_TYPE_BIT_SHIFT_MSK) == 0)
+                       ^
+../gw.c: In function 'GW_startChannMon':
+../gw.c:3291:15: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+        printf("<%s> writePort(%d) failed !! \n", __FUNCTION__, sizeof(pyld));
+               ^
+../gw.c:3291:15: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+../gw.c: In function 'GW_getBlackListReqHndlr':
+../gw.c:3602:42: warning: variable 'calcCrc16' set but not used [-Wunused-but-set-variable]
+    int nodeCnt = 0, rc = 0, nodeIdx = 0, calcCrc16, pyldLen = 2;
+                                          ^
+../gw.c: In function 'GW_getWhiteListReqHndlr':
+../gw.c:3669:42: warning: variable 'calcCrc16' set but not used [-Wunused-but-set-variable]
+    int nodeCnt = 0, rc = 0, nodeIdx = 0, calcCrc16, pyldLen = 2;
+                                          ^
+../gw.c: In function 'GW_getNodeListReqHndlr':
+../gw.c:3736:42: warning: unused variable 'calcCrc16' [-Wunused-variable]
+    int nodeCnt = 0, rc = 0, nodeIdx = 0, calcCrc16, pyldLen = 2;
+                                          ^
+../gw.c: In function 'GW_getRtNextHopOnCoord':
+../gw.c:4100:21: warning: unused variable 'off' [-Wunused-variable]
+    int rc, pyldLen, off = 0;
+                     ^
+../gw.c: In function 'GW_setCoordAttrVal':
+../gw.c:4287:25: warning: unused variable 'off' [-Wunused-variable]
+    int rc = 1, pyldLen, off = 0;
+                         ^
+../gw.c: In function 'GW_getCoordListAttrVal':
+../gw.c:4651:19: warning: unused variable 'pyld_p' [-Wunused-variable]
+    unsigned char *pyld_p;
+                   ^
+../gw.c:4650:25: warning: unused variable 'off' [-Wunused-variable]
+    int rc = 0, pyldLen, off = 0;
+                         ^
+../gw.c:4650:16: warning: unused variable 'pyldLen' [-Wunused-variable]
+    int rc = 0, pyldLen, off = 0;
+                ^
+../gw.c: In function 'GW_getCoordAttrVal':
+../gw.c:4669:21: warning: unused variable 'off' [-Wunused-variable]
+    int rc, pyldLen, off = 0;
+                     ^
+../gw.c: In function 'GW_getNodeLastFEId':
+../gw.c:5120:21: warning: variable 'off' set but not used [-Wunused-but-set-variable]
+    int rc, pyldLen, off = 0;
+                     ^
+../gw.c: In function 'GW_getPOS':
+../gw.c:5422:28: warning: unused variable 'portId' [-Wunused-variable]
+    unsigned int shortAddr, portId;
+                            ^
+../gw.c: In function 'GW_processEvt':
+../gw.c:6074:36: warning: unused variable 'idx' [-Wunused-variable]
+                       unsigned int idx, tgtAddr = __ntohs(buff_p);
+                                    ^
+../gw.c: In function 'GW_processNodeMsg':
+../gw.c:6450:4: warning: implicit declaration of function 'getNodeMACInChar' [-Wimplicit-function-declaration]
+    getNodeMACInChar(buff_p,off,MAC_ADDRESS);
+    ^
+../gw.c:7263:20: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'unsigned char *' [-Wformat=]
+             printf("\n MyHub Sensor Id    snsrId <%x>", MAC_ADDRESS);
+                    ^
+../gw.c:7263:20: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'unsigned char *' [-Wformat=]
+../gw.c:6383:27: warning: unused variable 'node_p' [-Wunused-variable]
+    LPWMN_nodeListEntry_s *node_p;
+                           ^
+../gw.c: In function 'mainT':
+../gw.c:8013:33: warning: unused variable 'attrId' [-Wunused-variable]
+         unsigned int shortAddr, attrId;
+                                 ^
+../gw.c:8044:33: warning: unused variable 'attrId' [-Wunused-variable]
+         unsigned int shortAddr, attrId;
+                                 ^
+../gw.c:8075:33: warning: unused variable 'attrId' [-Wunused-variable]
+         unsigned int shortAddr, attrId;
+                                 ^
+../gw.c:8174:24: warning: format '%u' expects argument of type 'unsigned int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+                 printf("File length <%u bytes> \n", statBuff.st_size);
+                        ^
+../gw.c:8174:24: warning: format '%u' expects argument of type 'unsigned int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+../gw.c:8179:28: warning: format '%d' expects argument of type 'int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+                     printf("malloc(%d) failed !! \n", statBuff.st_size);
+                            ^
+../gw.c:8179:28: warning: format '%d' expects argument of type 'int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+../gw.c:8183:24: warning: format '%d' expects argument of type 'int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+                 printf("Allocated buffer of size <%d bytes> \n", statBuff.st_size);
+                        ^
+../gw.c:8183:24: warning: format '%d' expects argument of type 'int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+../gw.c:8194:34: warning: format '%d' expects argument of type 'int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+                           printf("read(%d) failed !! - rc<%d> / errno<%d> \n",
+                                  ^
+../gw.c:8194:34: warning: format '%d' expects a matching 'int' argument [-Wformat=]
+../gw.c:8194:34: warning: format '%d' expects argument of type 'int', but argument 2 has type 'off_t {aka long int}' [-Wformat=]
+../gw.c:8194:34: warning: format '%d' expects a matching 'int' argument [-Wformat=]
+../gw.c:7439:9: warning: unused variable 'currMsgType' [-Wunused-variable]
+     int currMsgType = 0xffff;
+         ^
+../gw.c: At top level:
+../gw.c:8569:6: warning: conflicting types for 'getNodeMACInChar'
+ void getNodeMACInChar(unsigned char *buff_p,int off, unsigned char MAC_ADDRESS1){
+      ^
+../gw.c:6450:4: note: previous implicit declaration of 'getNodeMACInChar' was here
+    getNodeMACInChar(buff_p,off,MAC_ADDRESS);
+    ^
+../gw.c: In function 'GW_startUcProc':
+../gw.c:1361:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../gw.c: In function 'GW_getCoordRtTblValidEntryCnt':
+../gw.c:3865:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../gw.c: In function 'GW_clrBlackList':
+../gw.c:4948:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../gw.c: In function 'GW_clrWhiteList':
+../gw.c:5036:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Finished building: ../gw.c
+ 
+Building target: gateway.exe
+Invoking: Cygwin C Linker
+gcc -shared -o "gateway.exe"  ./MyTest.o ./cmc.o ./gw.o   
+./gw.o: In function `mainT':
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/WS_CDT/gateway/Debug/../gw.c:7437: multiple definition of `mainT'
+./MyTest.o:/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/WS_CDT/gateway/Debug/../MyTest.c:7: first defined here
+collect2: error: ld returned 1 exit status
+make: *** [gateway.exe] Error 1
+makefile:29: recipe for target 'gateway.exe' failed
+13:41:08 **** Build of configuration Debug for project myhub ****
+make all 
+Building file: ../src/Clients.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Clients.d" -MT"src/Clients.o" -o "src/Clients.o" "../src/Clients.c"
+Finished building: ../src/Clients.c
+ 
+Building file: ../src/Heap.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Heap.d" -MT"src/Heap.o" -o "src/Heap.o" "../src/Heap.c"
+Finished building: ../src/Heap.c
+ 
+Building file: ../src/LinkedList.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/LinkedList.d" -MT"src/LinkedList.o" -o "src/LinkedList.o" "../src/LinkedList.c"
+Finished building: ../src/LinkedList.c
+ 
+Building file: ../src/Log.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Log.d" -MT"src/Log.o" -o "src/Log.o" "../src/Log.c"
+Finished building: ../src/Log.c
+ 
+Building file: ../src/MQTTClient.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTClient.d" -MT"src/MQTTClient.o" -o "src/MQTTClient.o" "../src/MQTTClient.c"
+Finished building: ../src/MQTTClient.c
+ 
+Building file: ../src/MQTTPacket.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTPacket.d" -MT"src/MQTTPacket.o" -o "src/MQTTPacket.o" "../src/MQTTPacket.c"
+Finished building: ../src/MQTTPacket.c
+ 
+Building file: ../src/MQTTPacketOut.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTPacketOut.d" -MT"src/MQTTPacketOut.o" -o "src/MQTTPacketOut.o" "../src/MQTTPacketOut.c"
+Finished building: ../src/MQTTPacketOut.c
+ 
+Building file: ../src/MQTTPersistence.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTPersistence.d" -MT"src/MQTTPersistence.o" -o "src/MQTTPersistence.o" "../src/MQTTPersistence.c"
+Finished building: ../src/MQTTPersistence.c
+ 
+Building file: ../src/MQTTPersistenceDefault.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTPersistenceDefault.d" -MT"src/MQTTPersistenceDefault.o" -o "src/MQTTPersistenceDefault.o" "../src/MQTTPersistenceDefault.c"
+Finished building: ../src/MQTTPersistenceDefault.c
+ 
+Building file: ../src/MQTTProtocolClient.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTProtocolClient.d" -MT"src/MQTTProtocolClient.o" -o "src/MQTTProtocolClient.o" "../src/MQTTProtocolClient.c"
+Finished building: ../src/MQTTProtocolClient.c
+ 
+Building file: ../src/MQTTProtocolOut.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTProtocolOut.d" -MT"src/MQTTProtocolOut.o" -o "src/MQTTProtocolOut.o" "../src/MQTTProtocolOut.c"
+Finished building: ../src/MQTTProtocolOut.c
+ 
+Building file: ../src/MQTTVersion.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/MQTTVersion.d" -MT"src/MQTTVersion.o" -o "src/MQTTVersion.o" "../src/MQTTVersion.c"
+Finished building: ../src/MQTTVersion.c
+ 
+Building file: ../src/Messages.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Messages.d" -MT"src/Messages.o" -o "src/Messages.o" "../src/Messages.c"
+Finished building: ../src/Messages.c
+ 
+Building file: ../src/SSLSocket.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/SSLSocket.d" -MT"src/SSLSocket.o" -o "src/SSLSocket.o" "../src/SSLSocket.c"
+Finished building: ../src/SSLSocket.c
+ 
+Building file: ../src/Socket.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Socket.d" -MT"src/Socket.o" -o "src/Socket.o" "../src/Socket.c"
+Finished building: ../src/Socket.c
+ 
+Building file: ../src/SocketBuffer.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/SocketBuffer.d" -MT"src/SocketBuffer.o" -o "src/SocketBuffer.o" "../src/SocketBuffer.c"
+Finished building: ../src/SocketBuffer.c
+ 
+Building file: ../src/StackTrace.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/StackTrace.d" -MT"src/StackTrace.o" -o "src/StackTrace.o" "../src/StackTrace.c"
+../src/StackTrace.c: In function 'StackTrace_entry':
+../src/StackTrace.c:107:34: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+   Log_stackTrace(trace_level, 9, (int)cur_thread->id, cur_thread->current_depth, name, line, NULL);
+                                  ^
+../src/StackTrace.c: In function 'StackTrace_exit':
+../src/StackTrace.c:131:36: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    Log_stackTrace(trace_level, 10, (int)cur_thread->id, cur_thread->current_depth, name, line, NULL);
+                                    ^
+../src/StackTrace.c:133:36: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    Log_stackTrace(trace_level, 11, (int)cur_thread->id, cur_thread->current_depth, name, line, (int*)rc);
+                                    ^
+Finished building: ../src/StackTrace.c
+ 
+Building file: ../src/Thread.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Thread.d" -MT"src/Thread.o" -o "src/Thread.o" "../src/Thread.c"
+Finished building: ../src/Thread.c
+ 
+Building file: ../src/Tree.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Tree.d" -MT"src/Tree.o" -o "src/Tree.o" "../src/Tree.c"
+Finished building: ../src/Tree.c
+ 
+Building file: ../src/myhub.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/myhub.d" -MT"src/myhub.o" -o "src/myhub.o" "../src/myhub.c"
+Finished building: ../src/myhub.c
+ 
+Building file: ../src/pubasync.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/pubasync.d" -MT"src/pubasync.o" -o "src/pubasync.o" "../src/pubasync.c"
+../src/pubasync.c: In function 'mainFunction':
+../src/pubasync.c:54:2: warning: implicit declaration of function 'initiliazeMQTT' [-Wimplicit-function-declaration]
+  initiliazeMQTT(argc,argv);
+  ^
+../src/pubasync.c:62:5: warning: implicit declaration of function 'publishMessage' [-Wimplicit-function-declaration]
+     publishMessage();
+     ^
+../src/pubasync.c:66:2: warning: implicit declaration of function 'disconnectMQTT' [-Wimplicit-function-declaration]
+  disconnectMQTT();
+  ^
+../src/pubasync.c: At top level:
+../src/pubasync.c:68:6: warning: conflicting types for 'initiliazeMQTT'
+ void initiliazeMQTT(int argc, char* argv[])
+      ^
+../src/pubasync.c:54:2: note: previous implicit declaration of 'initiliazeMQTT' was here
+  initiliazeMQTT(argc,argv);
+  ^
+../src/pubasync.c:111:7: warning: conflicting types for 'disconnectMQTT'
+ void  disconnectMQTT(){
+       ^
+../src/pubasync.c:66:2: note: previous implicit declaration of 'disconnectMQTT' was here
+  disconnectMQTT();
+  ^
+../src/pubasync.c: In function 'mainFunction':
+../src/pubasync.c:67:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Finished building: ../src/pubasync.c
+ 
+Building file: ../src/subasync.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/subasync.d" -MT"src/subasync.o" -o "src/subasync.o" "../src/subasync.c"
+../src/subasync.c: In function 'main':
+../src/subasync.c:53:2: warning: implicit declaration of function 'initiliazeMQTT' [-Wimplicit-function-declaration]
+  initiliazeMQTT(argc,argv);
+  ^
+../src/subasync.c:87:7: warning: statement with no effect [-Wunused-value]
+       ch=='0';
+       ^
+../src/subasync.c:89:8: warning: implicit declaration of function 'publishMessage' [-Wimplicit-function-declaration]
+        publishMessage();
+        ^
+Finished building: ../src/subasync.c
+ 
+Building file: ../src/utf-8.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/utf-8.d" -MT"src/utf-8.o" -o "src/utf-8.o" "../src/utf-8.c"
+Finished building: ../src/utf-8.c
+ 
+Building target: myhub
+Invoking: Cygwin C Linker
+gcc  -o "myhub"  ./src/Clients.o ./src/Heap.o ./src/LinkedList.o ./src/Log.o ./src/MQTTClient.o ./src/MQTTPacket.o ./src/MQTTPacketOut.o ./src/MQTTPersistence.o ./src/MQTTPersistenceDefault.o ./src/MQTTProtocolClient.o ./src/MQTTProtocolOut.o ./src/MQTTVersion.o ./src/Messages.o ./src/SSLSocket.o ./src/Socket.o ./src/SocketBuffer.o ./src/StackTrace.o ./src/Thread.o ./src/Tree.o ./src/myhub.o ./src/pubasync.o ./src/subasync.o ./src/utf-8.o   
+Finished building target: myhub
+ 
+13:43:49 **** Incremental Build of configuration Debug for project gateway ****
+make all 
+Building target: gateway.exe
+Invoking: Cygwin C Linker
+gcc -shared -o "gateway.exe"  ./MyTest.o ./cmc.o ./gw.o   
+./gw.o: In function `mainT':
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/WS_CDT/gateway/Debug/../gw.c:7437: multiple definition of `mainT'
+./MyTest.o:/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/WS_CDT/gateway/Debug/../MyTest.c:7: first defined here
+collect2: error: ld returned 1 exit status
+makefile:29: recipe for target 'gateway.exe' failed
+make: *** [gateway.exe] Error 1
+13:43:50 **** Incremental Build of configuration Debug for project myhub ****
+make all 
+Building file: ../src/pubasync.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/pubasync.d" -MT"src/pubasync.o" -o "src/pubasync.o" "../src/pubasync.c"
+../src/pubasync.c: In function 'mainFunction':
+../src/pubasync.c:56:2: warning: implicit declaration of function 'initiliazeMQTT' [-Wimplicit-function-declaration]
+  initiliazeMQTT(argc,argv);
+  ^
+../src/pubasync.c:64:5: warning: implicit declaration of function 'publishMessage' [-Wimplicit-function-declaration]
+     publishMessage();
+     ^
+../src/pubasync.c:68:2: warning: implicit declaration of function 'disconnectMQTT' [-Wimplicit-function-declaration]
+  disconnectMQTT();
+  ^
+../src/pubasync.c: At top level:
+../src/pubasync.c:70:6: warning: conflicting types for 'initiliazeMQTT'
+ void initiliazeMQTT(int argc, char* argv[])
+      ^
+../src/pubasync.c:56:2: note: previous implicit declaration of 'initiliazeMQTT' was here
+  initiliazeMQTT(argc,argv);
+  ^
+../src/pubasync.c:113:7: warning: conflicting types for 'disconnectMQTT'
+ void  disconnectMQTT(){
+       ^
+../src/pubasync.c:68:2: note: previous implicit declaration of 'disconnectMQTT' was here
+  disconnectMQTT();
+  ^
+../src/pubasync.c: In function 'mainFunction':
+../src/pubasync.c:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Finished building: ../src/pubasync.c
+ 
+Building target: myhub
+Invoking: Cygwin C Linker
+gcc  -o "myhub"  ./src/Clients.o ./src/Heap.o ./src/LinkedList.o ./src/Log.o ./src/MQTTClient.o ./src/MQTTPacket.o ./src/MQTTPacketOut.o ./src/MQTTPersistence.o ./src/MQTTPersistenceDefault.o ./src/MQTTProtocolClient.o ./src/MQTTProtocolOut.o ./src/MQTTVersion.o ./src/Messages.o ./src/SSLSocket.o ./src/Socket.o ./src/SocketBuffer.o ./src/StackTrace.o ./src/Thread.o ./src/Tree.o ./src/myhub.o ./src/pubasync.o ./src/subasync.o ./src/utf-8.o   
+Finished building target: myhub
+ 

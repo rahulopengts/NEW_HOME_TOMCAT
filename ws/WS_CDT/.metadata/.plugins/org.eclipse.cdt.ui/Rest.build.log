@@ -1,0 +1,5 @@
+16:09:50 **** Clean-only build of configuration Debug for project Rest ****
+rm -rf src/Rest.o Rest.exe src/Rest.d 
+
+16:09:50 Build Finished (took 80ms)
+

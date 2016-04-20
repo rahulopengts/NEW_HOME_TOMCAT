@@ -1,0 +1,17 @@
+/*
+ * MyTest.h
+ *
+ *  Created on: Apr 16, 2016
+ *      Author: RPODDAR
+ */
+
+#ifndef MYTEST_H_
+#define MYTEST_H_
+
+class MyTest {
+public:
+	MyTest();
+	virtual ~MyTest();
+};
+
+#endif /* MYTEST_H_ */

@@ -1,0 +1,3 @@
+username=rahul
+password=pwd1234
+brokerurl=tcp://hostname:1883

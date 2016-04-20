@@ -1,0 +1,14 @@
+13:43:49 **** Incremental Build of configuration Debug for project gateway ****
+make all 
+Building target: gateway.exe
+Invoking: Cygwin C Linker
+gcc -shared -o "gateway.exe"  ./MyTest.o ./cmc.o ./gw.o   
+./gw.o: In function `mainT':
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/WS_CDT/gateway/Debug/../gw.c:7437: multiple definition of `mainT'
+./MyTest.o:/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/WS_CDT/gateway/Debug/../MyTest.c:7: first defined here
+collect2: error: ld returned 1 exit status
+makefile:29: recipe for target 'gateway.exe' failed
+make: *** [gateway.exe] Error 1
+
+13:43:50 Build Finished (took 606ms)
+

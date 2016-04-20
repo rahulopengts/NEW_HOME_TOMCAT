@@ -1,0 +1,1 @@
+ gcc -I. -o MyTest.exe MyTest.c

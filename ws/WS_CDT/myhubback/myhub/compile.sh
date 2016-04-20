@@ -1,0 +1,1 @@
+gcc -I ./src/include ./src/*.c -o testing1.exe

@@ -1,0 +1,29 @@
+15:06:02 **** Incremental Build of configuration Debug for project hub ****
+make all 
+Building target: hub.exe
+Invoking: Cygwin C++ Linker
+g++ -L"D:\Home_Auto\NEW_HOME_TOMCAT\ws\hubwindows\lib" -o "hub.exe"  ./src/MQTTAsync_publish.o   
+./src/MQTTAsync_publish.o: In function `connlost':
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:49: undefined reference to `MQTTAsync_connect'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:49:(.text+0x151): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `MQTTAsync_connect'
+./src/MQTTAsync_publish.o: In function `onSend':
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:75: undefined reference to `MQTTAsync_disconnect'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:75:(.text+0x1ef): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `MQTTAsync_disconnect'
+./src/MQTTAsync_publish.o: In function `onConnect':
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:108: undefined reference to `MQTTAsync_sendMessage'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:108:(.text+0x314): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `MQTTAsync_sendMessage'
+./src/MQTTAsync_publish.o: In function `main':
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:124: undefined reference to `MQTTAsync_create'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:124:(.text.startup+0xe1): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `MQTTAsync_create'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:126: undefined reference to `MQTTAsync_setCallbacks'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:126:(.text.startup+0x100): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `MQTTAsync_setCallbacks'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:133: undefined reference to `MQTTAsync_connect'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:133:(.text.startup+0x145): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `MQTTAsync_connect'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:149: undefined reference to `MQTTAsync_destroy'
+/cygdrive/d/Home_Auto/NEW_HOME_TOMCAT/ws/hubwindows/Debug/../src/MQTTAsync_publish.c:149:(.text.startup+0x198): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `MQTTAsync_destroy'
+collect2: error: ld returned 1 exit status
+makefile:45: recipe for target 'hub.exe' failed
+make: *** [hub.exe] Error 1
+
+15:06:03 Build Finished (took 770ms)
+

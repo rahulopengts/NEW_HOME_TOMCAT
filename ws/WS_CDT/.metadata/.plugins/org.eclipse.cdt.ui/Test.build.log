@@ -1,0 +1,9 @@
+15:04:08 **** Build of configuration Debug for project Test ****
+make all 
+Cannot run program "make": Launching failed
+
+Error: Program "make" not found in PATH
+PATH=[D:\mingw\bin;C:/Program Files/Java/jre1.7.0_95/bin/server;C:/Program Files/Java/jre1.7.0_95/bin;C:/Program Files/Java/jre1.7.0_95/lib/amd64;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;D:\TortoiseSVN\bin;D:\mingw;;;D:\mingw;D:\mingw\mingw32\bin;;D:\Eclipse_All\eclipse_cpp\eclipse]
+
+15:04:08 Build Finished (took 44ms)
+

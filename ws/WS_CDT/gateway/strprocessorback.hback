@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
+//char* userid;
+//char* passwordValue;
+//char* brokerUrl;
+
+
+extern int readFile();
+
+extern void initializeObjects();
+
+extern void processString(char* months);
+
+extern char** str_split(char* a_str, const char a_delim);

@@ -1,0 +1,6 @@
+15:13:30 **** Clean-only build of configuration Default for project linuxhub ****
+make clean 
+make: *** No rule to make target 'clean'.  Stop.
+
+15:13:30 Build Finished (took 98ms)
+

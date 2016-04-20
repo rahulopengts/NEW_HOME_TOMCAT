@@ -1,0 +1,42 @@
+13:43:50 **** Incremental Build of configuration Debug for project myhub ****
+make all 
+Building file: ../src/pubasync.c
+Invoking: Cygwin C Compiler
+gcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\cygwin64\usr\include\w32api" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\myhub\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/pubasync.d" -MT"src/pubasync.o" -o "src/pubasync.o" "../src/pubasync.c"
+../src/pubasync.c: In function 'mainFunction':
+../src/pubasync.c:56:2: warning: implicit declaration of function 'initiliazeMQTT' [-Wimplicit-function-declaration]
+  initiliazeMQTT(argc,argv);
+  ^
+../src/pubasync.c:64:5: warning: implicit declaration of function 'publishMessage' [-Wimplicit-function-declaration]
+     publishMessage();
+     ^
+../src/pubasync.c:68:2: warning: implicit declaration of function 'disconnectMQTT' [-Wimplicit-function-declaration]
+  disconnectMQTT();
+  ^
+../src/pubasync.c: At top level:
+../src/pubasync.c:70:6: warning: conflicting types for 'initiliazeMQTT'
+ void initiliazeMQTT(int argc, char* argv[])
+      ^
+../src/pubasync.c:56:2: note: previous implicit declaration of 'initiliazeMQTT' was here
+  initiliazeMQTT(argc,argv);
+  ^
+../src/pubasync.c:113:7: warning: conflicting types for 'disconnectMQTT'
+ void  disconnectMQTT(){
+       ^
+../src/pubasync.c:68:2: note: previous implicit declaration of 'disconnectMQTT' was here
+  disconnectMQTT();
+  ^
+../src/pubasync.c: In function 'mainFunction':
+../src/pubasync.c:69:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Finished building: ../src/pubasync.c
+ 
+Building target: myhub
+Invoking: Cygwin C Linker
+gcc  -o "myhub"  ./src/Clients.o ./src/Heap.o ./src/LinkedList.o ./src/Log.o ./src/MQTTClient.o ./src/MQTTPacket.o ./src/MQTTPacketOut.o ./src/MQTTPersistence.o ./src/MQTTPersistenceDefault.o ./src/MQTTProtocolClient.o ./src/MQTTProtocolOut.o ./src/MQTTVersion.o ./src/Messages.o ./src/SSLSocket.o ./src/Socket.o ./src/SocketBuffer.o ./src/StackTrace.o ./src/Thread.o ./src/Tree.o ./src/myhub.o ./src/pubasync.o ./src/subasync.o ./src/utf-8.o   
+Finished building target: myhub
+ 
+
+13:43:51 Build Finished (took 1s.477ms)
+

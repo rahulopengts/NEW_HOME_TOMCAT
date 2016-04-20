@@ -1,0 +1,148 @@
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+#include "MQTTClient.h"
+
+#define ADDRESS     "tcp://localhost:1883"
+#define CLIENTID    "test"
+#define TOPIC       "g"
+#define PAYLOAD     "Hello World!"
+#define QOS         1
+#define TIMEOUT     10000L
+
+volatile MQTTClient_deliveryToken deliveredtoken;
+
+void delivered(void *context, MQTTClient_deliveryToken dt)
+{
+    printf("Message with token value %d delivery confirmed\n", dt);
+    deliveredtoken = dt;
+}
+
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
+{
+    int i;
+    char* payloadptr;
+
+    printf("Message arrived\n");
+    printf("     topic: %s\n", topicName);
+    printf("   message: ");
+
+    payloadptr = message->payload;
+    for(i=0; i<message->payloadlen; i++)
+    {
+        putchar(*payloadptr++);
+    }
+    putchar('\n');
+    MQTTClient_freeMessage(&message);
+    MQTTClient_free(topicName);
+    return 1;
+}
+
+void connlost(void *context, char *cause)
+{
+    printf("\nConnection lost\n");
+    printf("     cause: %s\n", cause);
+}
+
+MQTTClient client;
+MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+MQTTClient_message pubmsg = MQTTClient_message_initializer;
+MQTTClient_deliveryToken token;
+int rc;
+
+int main(int argc, char* argv[]){
+	initiliazeMQTT(argc,argv);
+	readFile();
+	while (1) {
+			int c = getchar();
+			if (c == 'e'){
+				break; /* end of file */
+			} else if(c=='s'){
+				printf("\n Sending again \n");
+				publishMessage();
+			}
+	 }
+
+	disconnect();
+}
+void initiliazeMQTT(int argc, char* argv[])
+{
+
+
+    MQTTClient_create(&client, ADDRESS, CLIENTID,
+        MQTTCLIENT_PERSISTENCE_NONE, NULL);
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+
+    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
+
+    if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
+    {
+        printf("Failed to connect, return code %d\n", rc);
+        exit(-1);
+    }
+}
+
+void int publishMessage(){
+    pubmsg.payload = PAYLOAD;
+    pubmsg.payloadlen = strlen(PAYLOAD);
+    pubmsg.qos = QOS;
+    pubmsg.retained = 0;
+    deliveredtoken = 0;
+    MQTTClient_publishMessage(client, TOPIC, &pubmsg, &token);
+    printf("Waiting for publication of %s\n"
+            "on topic %s for client with ClientID: %s\n",
+            PAYLOAD, TOPIC, CLIENTID);
+
+    //while(deliveredtoken != token);
+	while (1) { /* skip leading whitespace */
+			int c = getchar();
+			if (c == 'e'){
+				break; /* end of file */
+			} else if(c=='s'){
+				printf("\n Sending again \n");
+				MQTTClient_publishMessage(client, TOPIC, &pubmsg, &token);
+			}
+	 }
+
+    return rc;
+}
+
+void  disconnect(){
+    MQTTClient_disconnect(client, 10000);
+    MQTTClient_destroy(&client);
+
+}
+
+int readFile()
+{
+	char file[]="Loc.c";
+
+	FILE fp = fopen(file,"r");
+	char line[3];
+char name[10];
+char value[10];
+
+	if (fp == NULL){
+	  fprintf(stderr, "Can't open file %s!\n", file);
+	  exit(1);
+	}
+	int count;
+	for (count = 0; count < 3; count++){
+	   if (fgets(line,sizeof(line),fp)==NULL)
+	      break;
+	   else {
+
+	      //do things with line variable
+
+	      name = strtok(line, '=');
+	      value = strtok(NULL, '=');
+
+
+
+	  }
+	}
+
+	fclose(fp);
+	return 0;
+}

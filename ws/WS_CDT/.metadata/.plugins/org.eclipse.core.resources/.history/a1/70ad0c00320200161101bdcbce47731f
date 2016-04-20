@@ -1,0 +1,21 @@
+/*
+ * pubasync.cpp
+ *
+ *  Created on: Apr 14, 2016
+ *      Author: RPODDAR
+ */
+
+#include "pubasync.h"
+
+namespace pubasync {
+
+pubasync::pubasync() {
+	// TODO Auto-generated constructor stub
+
+}
+
+pubasync::~pubasync() {
+	// TODO Auto-generated destructor stub
+}
+
+} /* namespace pubasync */
