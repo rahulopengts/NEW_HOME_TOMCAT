@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.2083306898">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.2083306898" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.debug.2083306898" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug">
+					<folderInfo id="cdt.managedbuild.config.gnu.exe.debug.2083306898." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.766753932" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.debug.234910695" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
+							<builder buildPath="${workspace_loc:/wslpwmn}/Debug" id="cdt.managedbuild.target.gnu.builder.exe.debug.1899533669" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1799784606" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1524130143" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
+								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.720990865" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1988861796" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+							</tool>
+							<tool command="msp430-gcc" id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.534772666" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.757881195" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" value="gnu.c.optimization.level.size" valueType="enumerated"/>
+								<option id="gnu.c.compiler.exe.debug.option.debugging.level.862751964" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.paths.391375969" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/msp430/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/mesh/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/node_mgr/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/pltfrm/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/system/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/udp/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/util/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/mesh/routing/aodvl/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/802_15_4e/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/adp/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/app/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/dis/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/gw/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/4lpwmn/ipv4/inc}&quot;"/>
+								</option>
+								<option id="gnu.c.compiler.option.misc.other.782688009" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -mmcu=msp430g2553" valueType="string"/>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1855161220" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__MSP430G2553__"/>
+									<listOptionValue builtIn="false" value="ADP_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="AODVL_PATH_DISC_DISABLED"/>
+									<listOptionValue builtIn="false" value="AODVL_RT_TBL_IN_MRU_ORDER"/>
+									<listOptionValue builtIn="false" value="APP_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="BOARD_TEST_XXX"/>
+									<listOptionValue builtIn="false" value="CC2520_DFLT_LPM_MODE_LPM2"/>
+									<listOptionValue builtIn="false" value="CC2520_INTR_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="CC2520_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="CHAN_HOP_TEST_XXX"/>
+									<listOptionValue builtIn="false" value="CPU_ACTIVE_CLOCK_IN_MHZ=8"/>
+									<listOptionValue builtIn="false" value="DEV_PWR_SRC_MAINS"/>
+									<listOptionValue builtIn="false" value="DEV_TYPE_FFD_XXX"/>
+									<listOptionValue builtIn="false" value="DEV_TYPE_FFD_NO_MESH_XXX"/>
+									<listOptionValue builtIn="false" value="DEV_TYPE_RFD_XXX"/>
+									<listOptionValue builtIn="false" value="ECLIPSE_IDE"/>
+									<listOptionValue builtIn="false" value="EXT_EEPROM_EN_XXX"/>
+									<listOptionValue builtIn="false" value="IPV4_SUPPORT_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="GPIO_MGMT_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="GW_ENA"/>
+									<listOptionValue builtIn="false" value="MAC_DEBUG_XXX"/>
+									<listOptionValue builtIn="false" value="MAC_IFS_DELAY_DISABLED_XXX"/>
+									<listOptionValue builtIn="false" value="MAC_SEC_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="MAC_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="NC_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="NM_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="PAN_COORD"/>
+									<listOptionValue builtIn="false" value="PAN_COORD_NO_MESH"/>
+									<listOptionValue builtIn="false" value="PLTFRM_EKMC160111X_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="PLTFRM_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="PLTFRM_AT24C01C_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="PLTFRM_LM75B_TEMP_SENSOR_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="PLTFRM_ON_CHIP_TEMP_SENSOR_ENA"/>
+									<listOptionValue builtIn="false" value="PLTFRM_ON_CHIP_VCC_SENSE_ENA"/>
+									<listOptionValue builtIn="false" value="PLTFRM_SFH_7773_SENSOR_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="PLTFRM_TEMP_SENSOR_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="PLTFRM_UART_ENA"/>
+									<listOptionValue builtIn="false" value="PLTFRM_VCC_SENSE_ENA"/>
+									<listOptionValue builtIn="false" value="RADIO_CC2520"/>
+									<listOptionValue builtIn="false" value="TIMER_CLK_ACLK"/>
+									<listOptionValue builtIn="false" value="TXONCCADBG_XXX"/>
+									<listOptionValue builtIn="false" value="UART_STATS_ENA_XXX"/>
+									<listOptionValue builtIn="false" value="UART_TX_INT_ENA"/>
+									<listOptionValue builtIn="false" value="WISENSE_HW_REV_4"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1234298103" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool command="msp430-gcc" id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.762112250" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">
+								<option id="gnu.c.link.option.paths.1487296289" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/msp430/lib"/>
+								</option>
+								<option id="gnu.c.link.option.ldflags.607988590" name="Linker flags" superClass="gnu.c.link.option.ldflags" value="-mmcu=msp430g2553" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1491963048" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.285066994" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug"/>
+							<tool command="msp430-as" id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1504276443" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
+								<option id="gnu.both.asm.option.flags.1309121810" name="Assembler flags" superClass="gnu.both.asm.option.flags" value="-mmcu=msp430g2553" valueType="string"/>
+								<option id="gnu.both.asm.option.include.paths.423226091" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/msp430/include"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.779257371" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.config.gnu.exe.release.202794099">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.release.202794099" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.release.202794099" name="Release" parent="cdt.managedbuild.config.gnu.exe.release">
+					<folderInfo id="cdt.managedbuild.config.gnu.exe.release.202794099." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.1375189763" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.release.1381338311" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
+							<builder buildPath="${workspace_loc:/wslpwmn}/Release" id="cdt.managedbuild.target.gnu.builder.exe.release.833089205" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.release"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.991933764" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1553393500" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
+								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.2068160839" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1928892439" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1678195133" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.exe.release.option.optimization.level.87887098" name="Optimization Level" superClass="gnu.c.compiler.exe.release.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.exe.release.option.debugging.level.890850613" name="Debug Level" superClass="gnu.c.compiler.exe.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.140306576" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.5797773" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release">
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1663424450" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.2000408457" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.254995998" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1880018686" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="wslpwmn.cdt.managedbuild.target.gnu.exe.662771350" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.2083306898;cdt.managedbuild.config.gnu.exe.debug.2083306898.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.534772666;cdt.managedbuild.tool.gnu.c.compiler.input.1234298103">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.202794099;cdt.managedbuild.config.gnu.exe.release.202794099.;cdt.managedbuild.tool.gnu.c.compiler.exe.release.1678195133;cdt.managedbuild.tool.gnu.c.compiler.input.140306576">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
+</cproject>

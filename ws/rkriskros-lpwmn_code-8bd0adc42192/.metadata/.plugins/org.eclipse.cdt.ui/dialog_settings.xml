@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="" key="LastUsedSourceTemplate"/>
+	<section name="completion_proposal_size">
+		<item value="355" key="size.x"/>
+		<item value="430" key="size.y"/>
+	</section>
+	<section name="PDOMSearchPage">
+		<item value="227191" key="searchFlags"/>
+		<item value="false" key="caseSensitive"/>
+		<list key="previousPatterns">
+			<item value="startTimerA1"/>
+			<item value="PLTFRM_startTimerA0"/>
+			<item value="CC2520_setLocalShortAddr"/>
+			<item value="RADIO_enterLPM"/>
+			<item value="CC1200_transferPktToTxFifo"/>
+			<item value="rtPendFwdPktTrscnQ"/>
+			<item value="SYS_GLOBAL_EVT_GW_RELAY_REQUEST"/>
+			<item value="AODVL_CTRL_PKT_TX_REQUEST"/>
+			<item value="SYS_GLOBAL_EVT_ADP_FWD_PKT_TX_REQ"/>
+			<item value="PAN"/>
+			<item value="scanDuration"/>
+			<item value="MLME_SCAN_REQ_MAX_SCAN_DURATION"/>
+			<item value="LM75B_startSingleConv"/>
+			<item value="NM_freeNodeTblEntry"/>
+			<item value="RADIO_cfgExtAddrFilter"/>
+			<item value="cc2520_memWrite"/>
+			<item value="MLME_assocRequest"/>
+			<item value="RFD_APP_DFLT_WAKE_UP_INTERVAL_SECS"/>
+			<item value="PAN_COORD_NO_MESH"/>
+			<item value="SYS_GLOBAL_EVT_MAC_ASSOC_CONFIRM"/>
+			<item value="IE2"/>
+			<item value="RADIO_setTxPower"/>
+			<item value="I2C_SW_init"/>
+			<item value="assocReqRcvdCnt"/>
+			<item value="cc2520_exitLPM"/>
+			<item value="APP_procGetSnsrDataCmd"/>
+			<item value="UART_checkRcvdFrameHdr"/>
+			<item value="DEV_TYPE_FFD_NO_MESH"/>
+			<item value="MCPS_dataReq"/>
+		</list>
+	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration.internal">
+		<item value="384" key="size.width"/>
+		<item value="389" key="size.height"/>
+	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">
+	</section>
+</section>

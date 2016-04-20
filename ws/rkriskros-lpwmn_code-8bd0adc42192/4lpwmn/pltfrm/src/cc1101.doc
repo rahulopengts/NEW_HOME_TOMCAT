@@ -1,0 +1,355 @@
+>>> CC1101 AGC
+The main purpose of the AGC module is to adjust the gain of the analogue LNAs and the 
+digital VGA, so that the IF-ADC and DVGA are not saturated and the demodulator is able to 
+perform demodulation. The module also reports the received signal level (RSSI), and 
+indicates if a carrier is present (carrier sense). 
+The AGC module is basically part of a control loop, which aims to keep the in-band signal 
+level in the demodulator constant, regardless of the signal level at the antenna. The AGC 
+module low-pass filters the magnitude signal and compares the value to a programmable 
+target magnitude (AGCCTRL2.MAGN_TARGET). The new gain setting is calculated by adding 
+the deviation from the target magnitude to the previous gain setting. 
+
+
+>>> CC1101 RSSI
+17.3 RSSI
+The RSSI value is an estimate of the signal power level in the chosen channel. This value 
+is based on the current gain setting in the RX chain and the measured signal level in the 
+channel.
+
+>>> CS (in our implementation)
+CS is asserted when the RSSI is above a programmable absolute threshold, and deasserted when 
+RSSI is below the same threshold (with hysteresis).
+
+17.4.1 CS Absolute Threshold
+The absolute threshold related to the RSSI value depends on the following register fields:
+> AGCCTRL2.MAX_LNA_GAIN
+> AGCCTRL2.MAX_DVGA_GAIN
+> AGCCTRL1.CARRIER_SENSE_ABS_THR
+> AGCCTRL2.MAGN_TARGET
+
+For given AGCCTRL2.MAX_LNA_GAIN and AGCCTRL2.MAX_DVGA_GAIN settings, the absolute threshold 
+can be adjusted ±7 dB in steps of 1 dB using CARRIER_SENSE_ABS_THR.
+
+---------------------------------
+AGCCTRL2.MAGN_TARGET[2:0] setting
+---------------------------------
+0   24 dBm
+1   27 dBm
+2   30 dBm
+3   33 dBm
+4   36 dBm
+5   38 dBm
+6   40 dBm
+7   42 dBm
+---------------------------------
+
+
+-------------------------------------------------------
+CARRIER_SENSE_ABS_THR[3:0] setting
+Sets the absolute RSSI threshold for asserting carrier sense. The 2-complement signed 
+threshold is programmed in steps of 1 dB and is relative to the MAGN_TARGET setting.
+-------------------------------------------------------
+-8 (1000) Absolute carrier sense threshold disabled
+-7 (1001) 7 dB below MAGN_TARGET setting
+-6 (1010) 6 dB below MAGN_TARGET setting
+-5 (1011) 5 dB below MAGN_TARGET setting
+-4 (1100) 4 dB below MAGN_TARGET setting
+-3 (1101) 3 dB below MAGN_TARGET setting
+-2 (1110) 2 dB below MAGN_TARGET setting
+-1 (1111) 1 dB below MAGN_TARGET setting
+ 0 (0000)         At MAGN_TARGET setting
++1 (0001) 1 dB above MAGN_TARGET setting
++2 (0001) 2 dB above MAGN_TARGET setting
++3 (0001) 3 dB above MAGN_TARGET setting
++4 (0001) 4 dB above MAGN_TARGET setting
++5 (0001) 5 dB above MAGN_TARGET setting
++6 (0001) 6 dB above MAGN_TARGET setting
++7 (0111) 7 dB above MAGN_TARGET setting
+-------------------------------------------------------
+
+
+Table below shows typical RSSI value at CS threshold when the data rate is 250 kBaud, 
+AGCCTRL2.MAGN_TARGET = 3, and AGCCTRL1.CARRIER_SENSE_ABS_THR = 0. 
+
+
+ -------------------------------------------------
+        |     AGCCTRL2.MAX_DVGA_GAIN[1:0] 
+        |        00      01    10      11 
+ -------------------------------------------------
+        |  000   -96     -90   -84     -78.5
+  MAX   |  001   -94.5   -89   -83     -77.5
+  LNA   |  010   -92.5   -87   -81     -75
+  GAIN  |  011   -91     -85   -78.5   -73
+  [2:0] |  100   -87.5   -82   -76     -70
+        |  101   -85     -79.5 -73.5   -67.5
+        |  110   -83     -76.5 -70.5   -65
+        |  111   -78     -72   -66     -60
+ -------------------------------------------------
+
+
+>>> Crystal terminology
+Crystal tolerance (in ppm)
+The Frequency Tolerance of a crystal or oscillator is defined as the initial deviation of the 
+crystal or oscillator frequency as compared to the absolute at 25°C. 
+
+Crystal stability (in ppm)
+The Frequency Stability over temp is defined as the frequency deviation compared to the measured 
+frequency at 25°C OVER the defined operating temperature range (I.E. 0°C to +70°C).  
+
+Crystal temperature range
+What happens when the crystal is not operating within the temperature range stated in the spec ? 
+The crystal performance will be adversely affected. It can cause the frequency of the crystal to 
+drift. In the worst-case scenario it may cause a malfunction of the designer’s circuit or, at best, 
+unpredictable performance.
+
+Crystal oscillator start-up time depends on crystal ESR and load capacitances. 
+
+>>> Importance of choosing the right capacitors for a crystal
+if you want to get accurate and stable results out of the crystal, you need to match the capacitors 
+to the specific crystal you chose, and it varies from model to model even with the same manufacturer.   
+If you buy a stable crystal (more expensive) but you don’t use the right capacitors along with the 
+crystal your signal will never be anything remotely close to the tolerance specified in the datasheet 
+and you may as well buy a much cheaper crystal.
+[ http://www.adafruit.com/blog/2012/01/24/choosing-the-right-crystal-and-caps-for-your-design/ ]
+
+
+>>> CC1101 frequency synthesis
+A phase locked loop (PLL) is used to generate the RF frequency in the CC1100/CC1101/CC1100E 
+transceiver and CC1110/CC1111/CC430 SoC. The PLL reference frequency is derived from an 
+external crystal. If the crystal frequency is incorrect, the transmitter carrier frequency 
+and the receiver LO frequency will also be incorrect. The crystal frequency error is due to 
+initial tolerance, capacitive loading errors, ageing, and temperature drift.
+
+Example: If the crystal frequency has an error of +/- X ppm (parts per million) the RF frequency 
+also has an error of +/- X ppm. As an example, if the crystal error is +10 ppm and the CC11xx is 
+programmed for a carrier frequency of 868 MHz, there will be an error in the carrier frequency 
+of 868 MHz*10/1E6
+ = 8.68 kHz. 
+
+
+>>> Carson's rule
+If frequency modulation is used (FSK or GFSK) Carson's bandwidth rule can be applied to define 
+the approximate bandwidth requirements.
+The transmitted signal will have a certain signal bandwidth (signal_BW), which depends on the 
+data rate and modulation format. This bandwidth can be approximated by Carson's rule:
+
+signal_BW = 2*fm + 2*fdev (= (data rate + frequency separation))
+
+where
+
+- fm is the highest modulating frequency. 2*fm = data rate
+- fdev is the frequency deviation. 2*fdev = frequency separation
+
+signal_BW for 4.8 kbps and +/-25.4 kHz deviation is then approximated as 55.2 kHz
+signal_BW for 10 kbps and +/-19 kHz deviation is then approximated as 48 kHz
+
+
+Example >>>
+If both the transmitter and receiver crystal accuracy is ±10 ppm and the CC11xx is 
+programmed for a carrier frequency of 868 MHz with an IF frequency of 300 kHz, BWchannel
+must be larger than BWsignal + 4· XTALppm· fRF = BWsignal + 4*10*868 Hz 
+
+>>> Rx filter bandwidth
+Required RX filter bandwidth can be approximated as -
+(Signal BW) + 4x(ppm xtal)x(Frequency of operation)
+where Signal_BW  = Data rate + 2 x frequency deviation.
+
+The default values give 203 kHz channel filter bandwidth, assuming a 26.0 MHz crystal.
+The default values give a data rate of 115.051 kBaud (closest setting to 115.2 kBaud), assuming 
+a 26.0 MHz crystal.
+The default values give ±47.607 kHz deviation assuming 26.0 MHz crystal frequency.
+
+Assume cystal tolerance is +/- 10 ppm
+
+RX filter bw = 115051 + 2x47607 + 4 x 10x10^-6 x 868x10^6 = 244985
+
+>>> Modulations supported by the CC1101
+- 2-fsk  (Data rate from 0.6 kBaud to 500 kBaud)
+- 4-fsk  (Data rate from 0.6 kBaud to 300 kBaud)
+- gfsk   (Data rate from 0.6 kBaud to 250 kBaud)
+- ook
+- ask
+- msk
+
+>>> Reducing channel usage by using GFSK
+
+In ‘true’ 2-FSK systems with abrupt frequency shifting, the spectrum is inherently broad. By 
+making the frequency shift ‘softer’, the spectrum can be made significantly narrower. Thus, 
+higher data rates can be transmitted in the same bandwidth using GFSK.
+
+
+>>>
+Channel filtering and frequency offset compensation is performed digitally.
+
+On the receiver side there is a channel filter, which is centered on the down-converted 
+received RF frequency, i.e. the intermediate frequency (IF). The channel filter has a 
+programmable bandwidth BWchannel. The signal bandwidth has to be less than the receiver 
+channel filter bandwidth, but we also have to take the frequency error of the transmitter 
+and receiver into account.
+
+If there is an error in the transmitter carrier frequency and the receiver LO frequency, 
+there will also be an error in the IF frequency. For simplicity assume the frequency error 
+in the transmitter and receiver is equal (same type of crystal). If the receiver has an 
+error of –X ppm and the transmitter has an error of +X ppm the IF frequency will have an 
+error of +2*X ppm (CC11xx uses low side LO injection). Conversely, if the receiver has an 
+error of +X ppm and the transmitter an error of -X ppm the IF frequency will have an error 
+of -2*X ppm.
+
+BWchannel has to be larger than the maximum signal bandwidth BWsignal plus the maximum 
+frequency error due to crystal inaccuracies. Worst case scenario will be for the crystal 
+errors on Tx and RX side to be of opposite signs
+
+BWchannel > BWsignal + 4* XTALppm* fRF
+
+where
+
+- XTALppm is the total accuracy of the crystal including initial tolerance, temperature drift, 
+  loading, and ageing
+
+- fRF is the RF operating frequency.
+
+
+
+
+
+>> Q: FAQ: Reducing number of false packet detections in CC110x/CC111x/CC2500/CC251x RX mode
+
+The CC110x/CC111x/CC2500/CC251x can inherently trigger packet detection upon noise. The reason 
+is that the internal receiver chain will, by design, continuously demodulate any signal picked 
+up on the antenna, even though there is no "real" active transmitter on the air. The possible 
+methods for reducing number of false packet detections are:
+
+* Enable Carrier Sense (CS) dependent SYNC trigging, by setting [MDMCFG2.SYNC_MODE > 4].
+  This means that a certain RSSI strength (threshold programmable via AGCCTRL1/2) must be present
+  before allowing SYNC detection.
+
+* Increase the Preamble Quality Threshold (PKTCTRL1.PQT) to demand a more persistent PREAMBLE pattern
+  before allowing SYNC detection.
+
+* Extend the required SYNC pattern.
+  This can be done by increasing the number of SYNC bytes (MDMCFG1.SYNC_MODE).
+
+* Use address filtering (PKTCTRL1.ADR_CHK > 0).
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+http://e2e.ti.com/support/wireless_connectivity/w/design_notes/implementation-of-cca-in-an-application-cc1100-cc1101-cc1110-cc1111-cc2500-cc2510-cc2511.aspx
+
+
+
+Summary -
+
+It is important to note that the radio must stay in RX for a little while before the
+RSSI is valid (if STX is strobed before the RSSI is valid, the packet will not be
+sent). DN505 explains how the RSSI Response time (the time it takes before the
+RSSI is valid) can be estimated. Have in mind that this estimation will only be
+valid for weak signals. For stronger signals, the RSSI response time will be longer
+and the application should add some margins. To avoid too much overhead when
+waiting fro the RSSI to be valid, there is an indirect method of checking if the RSSI
+is valid.
+
+Assume a data rate is 10 kBaud (CC2500). From DN505 one can see that for weak
+signals, the RSSI response time is ~250 us. Testing has showed that for stronger
+signals (- 50 dBm), the response time is ~380 us. When adding some margins one
+should wait for example 500 us after RX mode is entered BEFORE trying  to strobe
+STX.
+
+A transmit using CCA can then be implemented as follows:
+
+1) Strobe SRX
+2) Wait for RX mode to be entered (poll MARCSTATE)
+3) Wait 500 us for RSSI to be valid (in this wait function one can check to see if
+    CS or CCA is being asserted. If they are, one can break from this function as it
+    is not necessary to wait any longer)
+4) Strobe STX
+5) Check that the packet is being sent.
+
+    This can be done in 3 different ways:
+    a) Poll MARCSTATE to see if the radio enters TX state
+    b) Wait for the packet sent signal (IOCFGn=0x06) to be asserted. Since this
+        signal also can indicate that a packet has been received (if the channel was
+        not clear and the radio continued in RX state), one should now read the
+        TXBYTE status register to check if the packet is still in the TXFIFO.
+    c) Wait for a PA_PD signal (IOCFGn=0x1B) to be asserted. This should happen
+        about 782/fRef us after the STX strobe has been issued (fRef is the
+        reference frequency for the synthesizer in MHz)
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+Difference between CC1101 and CC1200
+
+
+1>>>>>
+CC1120 has far better blocking performance that CC1101. For CC1120+CC1190 it is possible to reach up to 27dBm 
+output power and better sensitivity than a CC1101 based design.
+
+For which frequency band are you developing for? Which interferer frequencies are a problem with the existing 
+design? Does the CC1101+CC1190 contain a SAW filter? 
+
+If a SAW filter is used in the existing design the SAW filter will attenuate signals outside the passband with 
+>50dB dependent on the filter and the frequency offset. This makes a difference if the interferer frequencies 
+are some MHz away and you compare CC1101+CC1190 with SAW filter against CC1120.
+
+
+2>>>>>
+CC1101 FIFOs are 64 bytes each (RX and TX) where as CC1200 FIFOs are 128 bytes each.
+
+-----------------------------------------------------------------------------------------------------------
+
+
+
+What is the maximum range can CC1101 give. I need a tranceiver which give me 1km - 3 km distance
+
+You can achieve a range of several km with the CC1101 without any problems (line of sight). The output power 
+can be programmed up to 12dBm and the sensitivity level on the receiver is dependent on the programmed baud
+rate. With a sensitivity of -112dBm and an output power of 12dBm, 915MHz ; the expected range with Friis 
+equation adapted to take into account the height from the ground would be approx 3km.
+
+
+The distance of 3km (LOS) is practical but if this has to be guaranteed then the environment parameters will 
+have to be reviewed thoroughly. Totally agree that the antenna choice and height above ground has a huge part 
+to determine the overall distance. Also, any objects that  are in the LOS between the Rx and Tx unit will have 
+to be compensated for the link budget. Calculating an accurate expected range is very difficult (near impossible) 
+and every application has it's own parameters that have to be taken into account. No one can ever guarantee a 
+specific range with a chipset because of these application specific parameters. Only a rough range guideline can 
+be given.
+
+In order to make a practical link of 3km, then the worst case scenerios must be reviewed and taken into account 
+when calculating the link budget. The maximum output that is possible is limited to the regulation requirements. 
+At 915 MHz, FCC 15.247 states that the maximum carrier power should not exceed 30dBm and for FCC 15.249, 0dBm 
+should not be exceeded.  
+
+A more practical approach would be to obtain the development kits and to test the units in the application 
+environments that you are considering. What's nice with smart RF studio is that the radio parameters can easily 
+be configured and then tested.
+
+This range thing really had me going nuts a while back until I put some other information to the question. The 
+question that needs to be asked is: what distance can I get with some specific error rate, and data rate? Also 
+given that PSK is being used one needs a finite signal to noise gain in order to assue that error rate. The real 
+noise floor happens to be the noise floor in your area along with your height and line of site limitations. It is 
+very easy to lop off 30db+ of theoretical margin to get a practical link when one considers this and adds for 
+fade and multipath. Once these adders are included realistic ranges begin to come from the equations. And data
+rate plays a part in that margin as well.
+
+It would be great to se a paper with all of these things taken into account and show the revised theoretical and 
+the actual results.
+
+With the standard kit antenna (W5017 from Pulse) supplied with the CC1101 EMs, settings of 0dBm output power, 
+250kbps, 1.3m above GND; a range of 250m has been achieved. Yes, this was a pure LOS range test. Very difficult 
+to determine indoor range since the indoor attenuators vary from a couple of dBs to many 10s of dBs.
+
+The ground reflection has quite big effect on the RF performance. The short range you got might be due to your 
+placing the modules quite near the ground. 
+
+Manually holding the board could de-tune the antenna some. If you look at http://www.ti.com/lit/an/swra338/swra338.pdf 
+the report say that the efficiency is 25%. In the equation you have to adjust the Transmit output power accordingly 
+to the real output power from the antenna. The range will also be affected by in which angle the antenna is placed in.
+
+If a trace is about 1/10 of a wavelength or shorter it will not act as a transmission line and hence the width of the 
+trace is of less importance. But you need Z132 and Z133 in your design since this tune the antenna to 50ohm. If you 
+don't have these components in your design the antenna will have fairly poor performance. 
+-----------------------------------------------------------------------------------------------------------

@@ -1,0 +1,135 @@
+
+
+>>>>> INTRODUCTION (Taken from different sources such as st.com, ti.com etc.)
+-----------------------------------------------------------------------------
+
+Source > http://www.st.com/st-web-ui/static/active/en/resource/technical/document/application_note/DM00068254.pdf
+
+The antenna is a very important component of communication systems. By definition, an antenna is a 
+device used to transform an RF signal, travelling on a conductor, into an electromagnetic wave in 
+free space (transmit mode), and to transform an RF electromagnetic wave into an electrical signal 
+(receive mode).  The choice of antenna is very important for a transmitting - receiving communication 
+system. The antenna must be able to radiate or receive efficiently so the power supplied is not wasted.
+
+
+Solid angle
+-----------
+In geometry, a solid angle (symbol: Ω) is the two-dimensional angle in three-dimensional space that an object 
+subtends at a point. The solid angle (in sr) of a sphere measured from its center is 4*PI sr 
+
+   Ω = (4*PI*r*r / (r*r)) = 4*PI
+
+
+Radiation Power density (Pd)
+----------------------------
+The power of a transmitter that is radiated from an isotropic antenna will have a uniform power density (power 
+per unit area) in all directions. The power density at any distance from an isotropic antenna is simply the 
+transmitter power divided by the surface area of a sphere (4BR ) at that distance. The surface area of the
+sphere increases by the square of the radius, therefore the power density, Pd, (watts/square meter) decreases 
+by the square D of the radius.
+
+   Pd = Pt / (4*PI*r*r)
+
+
+Radiation Power intensity (Pins)
+--------------------------------
+Radiation intensity (Pins) in a given direction, instead, is defined as the power radiated from an antenna per 
+unit solid angle. 
+
+For an isotropic antenna -
+
+   Pins = Pt / (4*PI)
+
+The radiation intensity is a far field parameter, and can be obtained multiplying the radiation density by the 
+square of the distance.
+
+   Pins = Pd * r * r
+
+
+Directivity
+-----------
+Directivity of an antenna is defined as the ratio of the radiation intensity in a given direction from the antenna 
+to the radiation intensity averaged over all directions. The average radiation intensity is equal to the total power 
+radiated by the antenna divided by 4*PI. If the direction is not specified, the direction of maximum radiation 
+intensity is implied. For an isotropic source, it is very obvious that the directivity is unity since its power is 
+radiated equally well in all directions. For all other sources, the maximum directivity is always greater than unity. 
+It is a relative “figure of merit” which gives an indication of the directional properties of the antenna as compared 
+with those of an isotropic source.    
+
+
+
+>>>>> POLARIZATION <<<<<<
+-------------------------
+
+
+******** Taken from <http://www.astronwireless.com/topic-archives-antennas-polarization.asp> ********
+
+Antenna polarization is a very important consideration when choosing and installing an antenna. Most 
+communications systems use either vertical, horizontal or circular polarization. Knowing the difference 
+between polarizations and how to maximize their benefit is very important to the antenna user.
+
+A Polarization Review
+An antenna is a transducer that converts radio frequency electric current to electromagnetic waves that are 
+then radiated into space. The electric field or "E" plane determines the polarization or orientation of the 
+radio wave. In general, most antennas radiate either linear or circular polarization.
+
+A linear polarized antenna radiates wholly in one plane containing the direction of propagation. In a circular 
+polarized antenna, the plane of polarization rotates in a circle making one complete revolution during one period 
+of the wave. If the rotation is clockwise looking in the direction of propagation, the sense is called right-hand-
+circular (RHC). If the rotation is counterclockwise, the sense is called left-hand-circular (LHC).
+
+An antenna is said to be vertically polarized (linear) when its electric field is perpendicular to the Earth's 
+surface. An example of a vertical antenna is a broadcast tower for AM radio or the "whip" antenna on an automobile.
+
+Horizontally polarized (linear) antennas have their electric field parallel to the Earth's surface. Television 
+transmissions in the USA use horizontal polarization.
+
+A circular polarized wave radiates energy in both the horizontal and vertical planes and all planes in between. 
+The difference, if any, between the maximum and the minimum peaks as the antenna is rotated through all angles, is 
+called the axial ratio or ellipticity and is usually specified in decibels (dB). If the axial ratio is near 0 dB, 
+the antenna is said to be circular polarized. If the axial ratio is greater than 1-2 dB, the polarization is often 
+referred to as elliptical.
+
+
+Polarization is an important design consideration. The polarization of each antenna in a system should be 
+properly aligned. Maximum signal strength between stations occurs when both stations are using identical 
+polarization.
+
+When choosing an antenna, it is an important consideration as to whether the polarization is linear or 
+elliptical. If the polarization is linear, is it vertical or horizontal? If circular, is it RHC or LHC?
+
+
+On line-of-sight (LOS) paths, it is most important that the polarization of the antennas at both ends of 
+the path use the same polarization. In a linearly polarized system, a misalignment of polarization of 45 
+degrees will degrade the signal up to 3 dB and if misaligned 90 degrees the attenuation can be 20 dB or 
+more. Likewise, in a circular polarized system, both antennas must have the same sense. If not, an additional 
+loss of 20 dB or more will be incurred.
+
+Also note that linearly polarized antennas will work with circularly polarized antennas and vice versa. However, 
+there will be up to a 3 dB loss in signal strength. In weak signal situations, this loss of signal may impair 
+communications.
+
+Cross polarization is another consideration. It happens when unwanted radiation is present from a polarization 
+which is different from the polarization in which the antenna was intended to radiate. For example, a vertical 
+antenna may radiate some horizontal polarization and vice versa. However, this is seldom a problem unless there 
+is noise or strong signals nearby.
+
+Typical Applications
+Vertical polarization is most often used when it is desired to radiate a radio signal in all directions such 
+as widely distributed mobile units. Vertical polarization also works well in the suburbs or out in the country, 
+especially where hills are present. As a result, nowadays most two-way Earth to Earth communications in the 
+frequency range above 30 MHz use vertical polarization.
+
+
+******** Taken from <http://en.wikipedia.org/wiki/Linear_polarization> *********
+External links [edit]
+Animation of Linear Polarization (on YouTube) [http://www.youtube.com/watch?v=oDwqUgDFe94]
+Comparison of Linear Polarization with Circular and Elliptical Polarizations (YouTube Animation) [http://www.youtube.com/watch?v=Q0qrU4nprB0]
+
+
+
+*********
+http://www.digikey.com/en/articles/techzone/2012/nov/selecting-antennas-for-embedded-designs
+
+
+http://www.ti.com/lit/an/swra046a/swra046a.pdf

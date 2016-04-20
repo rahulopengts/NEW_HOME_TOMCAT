@@ -1,0 +1,10 @@
+wget -N -P /serverb/files/ http://www.mywebsite.com/files/file1.jpg
+
+wget -q http://www.whatever.com/filename.txt -O /path/filename.txt
+
+http://wrightrocket.blogspot.in/2012/06/keeping-your-raspberry-pi-fresh.html
+
+1. Update Certificates
+2. Update User and Password
+3. Update Library or shared objects file.
+

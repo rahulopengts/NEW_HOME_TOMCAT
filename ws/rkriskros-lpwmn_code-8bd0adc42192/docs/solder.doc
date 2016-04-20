@@ -1,0 +1,75 @@
+<http://en.wikipedia.org/wiki/Solder>
+
+Flux-core solder
+
+Electrical solder with an integrated rosin core, visible as a dark spot in the cut end of the solder wire.
+Main article: Flux (metallurgy)
+Flux is a reducing agent designed to help reduce (return oxidized metals to their metallic state) metal 
+oxides at the points of contact to improve the electrical connection and mechanical strength. The two 
+principal types of flux are acid flux, used for metal mending and plumbing, and rosin flux, used in 
+electronics, where the corrosiveness of acid flux and vapors released when solder is heated would risk 
+damaging delicate circuitry.
+Due to concerns over atmospheric pollution and hazardous waste disposal, the electronics industry has been 
+gradually shifting from rosin flux to water-soluble flux, which can be removed with deionized water and 
+detergent, instead of hydrocarbon solvents.
+In contrast to using traditional bars or coiled wires of all-metal solder and manually applying flux to 
+the parts being joined, much hand soldering since the mid-20th century has used flux-core solder. This is 
+manufactured as a coiled wire of solder, with one or more continuous bodies of non-acid flux embedded 
+length wise inside it. As the solder melts onto the joint, it frees the flux and releases that on it as well.
+
+
+<http://www.alleycatscratch.com/lotr/makingem/Tips/Metal/Real/SolderBasic.htm>
+Flux
+
+Now, there is more to soldering than just the solder and the metal you wish to join. There is also flux. 
+Flux is a material that is applied to the metal to transfer the heat of the iron to the metal so that the 
+solder will actually chemically bond with it. It is a catalyst in the reaction, so to say.
+
+I'm sure many of you have not heard of flux or have used solder without flux and have had good joints. In 
+reality, you are using flux without knowing it! A lot of the hobby and electronic solders are called "core 
+solders". This means that in the solder is a core of rosin and flux! The rosin is there to keep the solder's 
+integrity until it is melted.
+
+There are also "solid solders" that do not have a core of flux so that flux must be externally applied to 
+the metal joint.
+
+There is another type of core solder you may encounter called "acid core". This is a lot like the rosin core 
+except that the flux contains a certain acid. This type of solder/flux is used to bond metals that need a 
+"little more encouragement" to bond.
+
+The problem with the core solders with the flux inside is that if heat is left too long on the joint, the 
+flux will burn off, and the solder will no longer flow or bond to the metal. This causes having to apply 
+more solder which can cause it to just "lump" on the joint instead of flowing over the joint. It is much 
+more effective to use solid solder and apply the flux to the joint. The solder will flow and bond much 
+better!
+
+If you use an external flux that you must apply yourself, make sure that it is lead free too.  Check the 
+package.
+
+
+"http://www.digikey.com/product-detail/en/14-6337-0062/KE1603-ND/265623" is a solid wire solder.
+
+
+
+WiSense is using "SOLDER RMA FLUX (28 AWG) 63/37 (1 LB)" from Kester.
+Datasheet: http://media.digikey.com/pdf/Data%20Sheets/Kester%20PDFs/285_Global_(15Jun07)[1].pdf
+Important points about this product -
+
+> Industry standard RMA cored wire
+
+> Kester 285 consists of high quality, purified rosin to which a synergistic combination of
+activating agents has been incorporated. The fluxing ability of 285 is much greater than ordinary
+mildly activated rosin fluxes and is comparable to fully activated rosin fluxes. Kester 285 has been
+developed for use in the electronic industry where difficult assemblies are to be soldered, but process
+requirements stipulate use of a mildly activated rosin flux. 
+
+> Cleaning: Kester 285 flux residues are non-corrosive, non-conductive and do not require removal 
+            in most applications. 
+
+> Process Considerations:
+Process Considerations:
+Solder iron tip temperatures are most commonly between 315-371°C (600-700°F) for Sn63Pb37. 
+  - Heat both the land area and component lead to be soldered with the iron prior to adding 
+    Kester 285 cored wire. 
+  - Apply the solder wire to the land area or component lead. 
+  - Do not apply the wire directly to the soldering iron tip. 
