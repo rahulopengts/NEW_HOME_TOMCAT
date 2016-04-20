@@ -1,0 +1,844 @@
+/*
+ * File Name: sys_faults.h
+ * Author: ram krishnan (rkris@wisense.in)
+ * Created: Aug/21/2013
+ *
+ *
+ * Copyright (c) <2013>, <ram krishnan>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice, this
+ *     list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright notice,
+ *     this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *  3. Neither the name of the copyright holder nor the names of its contributors
+ *     may be used to endorse or promote products derived from this software without
+ *     specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+ * OF SUCH DAMAGE.
+ */
+
+#ifndef __SYS_FATAL_ERRORS_H__
+#define __SYS_FATAL_ERRORS_H__
+
+typedef enum
+{
+   SYS_FATAL_ERR_0 = 0,
+   SYS_FATAL_ERR_1,
+   SYS_FATAL_ERR_2,
+   SYS_FATAL_ERR_3,
+   SYS_FATAL_ERR_4,
+   SYS_FATAL_ERR_5,
+   SYS_FATAL_ERR_6,
+   SYS_FATAL_ERR_7,
+   SYS_FATAL_ERR_8,
+   SYS_FATAL_ERR_9,
+   SYS_FATAL_ERR_10,
+   SYS_FATAL_ERR_11,
+   SYS_FATAL_ERR_12,
+   SYS_FATAL_ERR_13,
+   SYS_FATAL_ERR_14,
+   SYS_FATAL_ERR_15,
+   SYS_FATAL_ERR_16,
+   SYS_FATAL_ERR_17,
+   SYS_FATAL_ERR_18,
+   SYS_FATAL_ERR_19,
+   SYS_FATAL_ERR_20,
+   SYS_FATAL_ERR_21,
+   SYS_FATAL_ERR_22,
+   SYS_FATAL_ERR_23,
+   SYS_FATAL_ERR_24,
+   SYS_FATAL_ERR_25,
+   SYS_FATAL_ERR_26,
+   SYS_FATAL_ERR_27,
+   SYS_FATAL_ERR_28,
+   SYS_FATAL_ERR_29,
+   SYS_FATAL_ERR_30,
+   SYS_FATAL_ERR_31,
+   SYS_FATAL_ERR_32,
+   SYS_FATAL_ERR_33,
+   SYS_FATAL_ERR_34,
+   SYS_FATAL_ERR_35,
+   SYS_FATAL_ERR_36,
+   SYS_FATAL_ERR_37,
+   SYS_FATAL_ERR_38,
+   SYS_FATAL_ERR_39,
+   SYS_FATAL_ERR_40,
+   SYS_FATAL_ERR_41,
+   SYS_FATAL_ERR_42,
+   SYS_FATAL_ERR_43,
+   SYS_FATAL_ERR_44,
+   SYS_FATAL_ERR_45,
+   SYS_FATAL_ERR_46,
+   SYS_FATAL_ERR_47,
+   SYS_FATAL_ERR_48,
+   SYS_FATAL_ERR_49,
+   SYS_FATAL_ERR_50,
+   SYS_FATAL_ERR_51,
+   SYS_FATAL_ERR_52,
+   SYS_FATAL_ERR_53,
+   SYS_FATAL_ERR_54,
+   SYS_FATAL_ERR_55,
+   SYS_FATAL_ERR_56,
+   SYS_FATAL_ERR_57,
+   SYS_FATAL_ERR_58,
+   SYS_FATAL_ERR_59,
+   SYS_FATAL_ERR_60,
+   SYS_FATAL_ERR_61,
+   SYS_FATAL_ERR_62,
+   SYS_FATAL_ERR_63,
+   SYS_FATAL_ERR_64,
+   SYS_FATAL_ERR_65,
+   SYS_FATAL_ERR_66,
+   SYS_FATAL_ERR_67,
+   SYS_FATAL_ERR_68,
+   SYS_FATAL_ERR_69,
+   SYS_FATAL_ERR_70,
+   SYS_FATAL_ERR_71,
+   SYS_FATAL_ERR_72,
+   SYS_FATAL_ERR_73,
+   SYS_FATAL_ERR_74,
+   SYS_FATAL_ERR_75,
+   SYS_FATAL_ERR_76,
+   SYS_FATAL_ERR_77,
+   SYS_FATAL_ERR_78,
+   SYS_FATAL_ERR_79,
+   SYS_FATAL_ERR_80,
+   SYS_FATAL_ERR_81,
+   SYS_FATAL_ERR_82,
+   SYS_FATAL_ERR_83,
+   SYS_FATAL_ERR_84,
+   SYS_FATAL_ERR_85,
+   SYS_FATAL_ERR_86,
+   SYS_FATAL_ERR_87,
+   SYS_FATAL_ERR_88,
+   SYS_FATAL_ERR_89,
+   SYS_FATAL_ERR_90,
+   SYS_FATAL_ERR_91,
+   SYS_FATAL_ERR_92,
+   SYS_FATAL_ERR_93,
+   SYS_FATAL_ERR_94,
+   SYS_FATAL_ERR_95,
+   SYS_FATAL_ERR_96,
+   SYS_FATAL_ERR_97,
+   SYS_FATAL_ERR_98,
+   SYS_FATAL_ERR_99,
+   SYS_FATAL_ERR_100,
+   SYS_FATAL_ERR_101,
+   SYS_FATAL_ERR_102,
+   SYS_FATAL_ERR_103,
+   SYS_FATAL_ERR_104,
+   SYS_FATAL_ERR_105,
+   SYS_FATAL_ERR_106,
+   SYS_FATAL_ERR_107,
+   SYS_FATAL_ERR_108,
+   SYS_FATAL_ERR_109,
+   SYS_FATAL_ERR_110,
+   SYS_FATAL_ERR_111,
+   SYS_FATAL_ERR_112,
+   SYS_FATAL_ERR_113,
+   SYS_FATAL_ERR_114,
+   SYS_FATAL_ERR_115,
+   SYS_FATAL_ERR_116,
+   SYS_FATAL_ERR_117,
+   SYS_FATAL_ERR_118,
+   SYS_FATAL_ERR_119,
+   SYS_FATAL_ERR_120,
+   SYS_FATAL_ERR_121,
+   SYS_FATAL_ERR_122,
+   SYS_FATAL_ERR_123,
+   SYS_FATAL_ERR_124,
+   SYS_FATAL_ERR_125,
+   SYS_FATAL_ERR_126,
+   SYS_FATAL_ERR_127,
+   SYS_FATAL_ERR_128,
+   SYS_FATAL_ERR_129,
+   SYS_FATAL_ERR_130,
+   SYS_FATAL_ERR_131,
+   SYS_FATAL_ERR_132,
+   SYS_FATAL_ERR_133,
+   SYS_FATAL_ERR_134,
+   SYS_FATAL_ERR_135,
+   SYS_FATAL_ERR_136,
+   SYS_FATAL_ERR_137,
+   SYS_FATAL_ERR_138,
+   SYS_FATAL_ERR_139,
+   SYS_FATAL_ERR_140,
+   SYS_FATAL_ERR_141,
+   SYS_FATAL_ERR_142,
+   SYS_FATAL_ERR_143,
+   SYS_FATAL_ERR_144,
+   SYS_FATAL_ERR_145,
+   SYS_FATAL_ERR_146,
+   SYS_FATAL_ERR_147,
+   SYS_FATAL_ERR_148,
+   SYS_FATAL_ERR_149,
+   SYS_FATAL_ERR_150,
+   SYS_FATAL_ERR_151,
+   SYS_FATAL_ERR_152,
+   SYS_FATAL_ERR_153,
+   SYS_FATAL_ERR_154,
+   SYS_FATAL_ERR_155,
+   SYS_FATAL_ERR_156,
+   SYS_FATAL_ERR_157,
+   SYS_FATAL_ERR_158,
+   SYS_FATAL_ERR_159,
+   SYS_FATAL_ERR_160,
+   SYS_FATAL_ERR_161,
+   SYS_FATAL_ERR_162,
+   SYS_FATAL_ERR_163,
+   SYS_FATAL_ERR_164,
+   SYS_FATAL_ERR_165,
+   SYS_FATAL_ERR_166,
+   SYS_FATAL_ERR_167,
+   SYS_FATAL_ERR_168,
+   SYS_FATAL_ERR_169,
+   SYS_FATAL_ERR_170,
+   SYS_FATAL_ERR_171,
+   SYS_FATAL_ERR_172,
+   SYS_FATAL_ERR_173,
+   SYS_FATAL_ERR_174,
+   SYS_FATAL_ERR_175,
+   SYS_FATAL_ERR_176,
+   SYS_FATAL_ERR_177,
+   SYS_FATAL_ERR_178,
+   SYS_FATAL_ERR_179,   // cc1101.c
+   SYS_FATAL_ERR_180,   // cc1101.c
+   SYS_FATAL_ERR_181,   // cc1101.c
+   SYS_FATAL_ERR_182,
+   SYS_FATAL_ERR_183,
+   SYS_FATAL_ERR_184,
+   SYS_FATAL_ERR_185,
+   SYS_FATAL_ERR_186,
+   SYS_FATAL_ERR_187,
+   SYS_FATAL_ERR_188,
+   SYS_FATAL_ERR_189,
+   SYS_FATAL_ERR_190,
+   SYS_FATAL_ERR_191,
+   SYS_FATAL_ERR_192,
+   SYS_FATAL_ERR_193,
+   SYS_FATAL_ERR_194,
+   SYS_FATAL_ERR_195,
+   SYS_FATAL_ERR_196,
+   SYS_FATAL_ERR_197,
+   SYS_FATAL_ERR_198,
+   SYS_FATAL_ERR_199,
+   SYS_FATAL_ERR_200,
+   SYS_FATAL_ERR_201,
+   SYS_FATAL_ERR_202,
+   SYS_FATAL_ERR_203,
+   SYS_FATAL_ERR_204,
+   SYS_FATAL_ERR_205,
+   SYS_FATAL_ERR_206,
+   SYS_FATAL_ERR_207,
+   SYS_FATAL_ERR_208,
+   SYS_FATAL_ERR_209,
+   SYS_FATAL_ERR_210,
+   SYS_FATAL_ERR_211,
+   SYS_FATAL_ERR_212,
+   SYS_FATAL_ERR_213,
+   SYS_FATAL_ERR_214,
+   SYS_FATAL_ERR_215,
+   SYS_FATAL_ERR_216,
+   SYS_FATAL_ERR_217,
+   SYS_FATAL_ERR_218,
+   SYS_FATAL_ERR_219,
+   SYS_FATAL_ERR_220,
+   SYS_FATAL_ERR_221,
+   SYS_FATAL_ERR_222,
+   SYS_FATAL_ERR_223,
+   SYS_FATAL_ERR_224,
+   SYS_FATAL_ERR_225,
+   SYS_FATAL_ERR_226,
+   SYS_FATAL_ERR_227,
+   SYS_FATAL_ERR_228,
+   SYS_FATAL_ERR_229,
+   SYS_FATAL_ERR_230,
+   SYS_FATAL_ERR_231,
+   SYS_FATAL_ERR_232,
+   SYS_FATAL_ERR_233,
+   SYS_FATAL_ERR_234,
+   SYS_FATAL_ERR_235,
+   SYS_FATAL_ERR_236,
+   SYS_FATAL_ERR_237,
+   SYS_FATAL_ERR_238,
+   SYS_FATAL_ERR_239,
+   SYS_FATAL_ERR_240,
+   SYS_FATAL_ERR_241,
+   SYS_FATAL_ERR_242,
+   SYS_FATAL_ERR_243,
+   SYS_FATAL_ERR_244,
+   SYS_FATAL_ERR_245,
+   SYS_FATAL_ERR_246,
+   SYS_FATAL_ERR_247,
+   SYS_FATAL_ERR_248,
+   SYS_FATAL_ERR_249,
+   SYS_FATAL_ERR_250,
+   SYS_FATAL_ERR_251,
+   SYS_FATAL_ERR_252,
+   SYS_FATAL_ERR_253,
+   SYS_FATAL_ERR_254,
+   SYS_FATAL_ERR_255,
+   SYS_FATAL_ERR_256,
+   SYS_FATAL_ERR_257,
+   SYS_FATAL_ERR_258,
+   SYS_FATAL_ERR_259,
+   SYS_FATAL_ERR_260,
+   SYS_FATAL_ERR_261,
+   SYS_FATAL_ERR_262,
+   SYS_FATAL_ERR_263,
+   SYS_FATAL_ERR_264,
+   SYS_FATAL_ERR_265,
+   SYS_FATAL_ERR_266,
+   SYS_FATAL_ERR_267,
+   SYS_FATAL_ERR_268,
+   SYS_FATAL_ERR_269,
+   SYS_FATAL_ERR_270,
+   SYS_FATAL_ERR_271,
+   SYS_FATAL_ERR_272,
+   SYS_FATAL_ERR_273,
+   SYS_FATAL_ERR_274,
+   SYS_FATAL_ERR_275,
+   SYS_FATAL_ERR_276,
+   SYS_FATAL_ERR_277,
+   SYS_FATAL_ERR_278,
+   SYS_FATAL_ERR_279,
+   SYS_FATAL_ERR_280,
+   SYS_FATAL_ERR_281,
+   SYS_FATAL_ERR_282,
+   SYS_FATAL_ERR_283,
+   SYS_FATAL_ERR_284,
+   SYS_FATAL_ERR_285,
+   SYS_FATAL_ERR_286,
+   SYS_FATAL_ERR_287,
+   SYS_FATAL_ERR_288,
+   SYS_FATAL_ERR_289,
+   SYS_FATAL_ERR_290,
+   SYS_FATAL_ERR_291,
+   SYS_FATAL_ERR_292,
+   SYS_FATAL_ERR_293,
+   SYS_FATAL_ERR_294,
+   SYS_FATAL_ERR_295,
+   SYS_FATAL_ERR_296,
+   SYS_FATAL_ERR_297,
+   SYS_FATAL_ERR_298,
+   SYS_FATAL_ERR_299,
+   SYS_FATAL_ERR_300,
+   SYS_FATAL_ERR_301,
+   SYS_FATAL_ERR_302,
+   SYS_FATAL_ERR_303,
+   SYS_FATAL_ERR_304,
+   SYS_FATAL_ERR_305,
+   SYS_FATAL_ERR_306,
+   SYS_FATAL_ERR_307,
+   SYS_FATAL_ERR_308,
+   SYS_FATAL_ERR_309,
+   SYS_FATAL_ERR_310,
+   SYS_FATAL_ERR_311,
+   SYS_FATAL_ERR_312,
+   SYS_FATAL_ERR_313,
+   SYS_FATAL_ERR_314,
+   SYS_FATAL_ERR_315,
+   SYS_FATAL_ERR_316,
+   SYS_FATAL_ERR_317,
+   SYS_FATAL_ERR_318,
+   SYS_FATAL_ERR_319,
+   SYS_FATAL_ERR_320,
+   SYS_FATAL_ERR_321,
+   SYS_FATAL_ERR_322,
+   SYS_FATAL_ERR_323,
+   SYS_FATAL_ERR_324,
+   SYS_FATAL_ERR_325,
+   SYS_FATAL_ERR_326,
+   SYS_FATAL_ERR_327,
+   SYS_FATAL_ERR_328,
+   SYS_FATAL_ERR_329,
+   SYS_FATAL_ERR_330,
+   SYS_FATAL_ERR_331,
+   SYS_FATAL_ERR_332,
+   SYS_FATAL_ERR_333,
+   SYS_FATAL_ERR_334,
+   SYS_FATAL_ERR_335,
+   SYS_FATAL_ERR_336,
+   SYS_FATAL_ERR_337,
+   SYS_FATAL_ERR_338,
+   SYS_FATAL_ERR_339,
+   SYS_FATAL_ERR_340,
+   SYS_FATAL_ERR_341,
+   SYS_FATAL_ERR_342,
+   SYS_FATAL_ERR_343,
+   SYS_FATAL_ERR_344,
+   SYS_FATAL_ERR_345,
+   SYS_FATAL_ERR_346,
+   SYS_FATAL_ERR_347,
+   SYS_FATAL_ERR_348,
+   SYS_FATAL_ERR_349,
+   SYS_FATAL_ERR_350,
+   SYS_FATAL_ERR_351,
+   SYS_FATAL_ERR_352,
+   SYS_FATAL_ERR_353,
+   SYS_FATAL_ERR_354,
+   SYS_FATAL_ERR_355,
+   SYS_FATAL_ERR_356,
+   SYS_FATAL_ERR_357,
+   SYS_FATAL_ERR_358,
+   SYS_FATAL_ERR_359,
+   SYS_FATAL_ERR_360,
+   SYS_FATAL_ERR_361,
+   SYS_FATAL_ERR_362,
+   SYS_FATAL_ERR_363,
+   SYS_FATAL_ERR_364,
+   SYS_FATAL_ERR_365,
+   SYS_FATAL_ERR_366,
+   SYS_FATAL_ERR_367,
+   SYS_FATAL_ERR_368,
+   SYS_FATAL_ERR_369,
+   SYS_FATAL_ERR_370,
+   SYS_FATAL_ERR_371,
+   SYS_FATAL_ERR_372,
+   SYS_FATAL_ERR_373,
+   SYS_FATAL_ERR_374,
+   SYS_FATAL_ERR_375,
+   SYS_FATAL_ERR_376,
+   SYS_FATAL_ERR_377,
+   SYS_FATAL_ERR_378,
+   SYS_FATAL_ERR_379,
+   SYS_FATAL_ERR_380,
+   SYS_FATAL_ERR_381,
+   SYS_FATAL_ERR_382,
+   SYS_FATAL_ERR_383,
+   SYS_FATAL_ERR_384,
+   SYS_FATAL_ERR_385,
+   SYS_FATAL_ERR_386,
+   SYS_FATAL_ERR_387,
+   SYS_FATAL_ERR_388,
+   SYS_FATAL_ERR_389,
+   SYS_FATAL_ERR_390,
+   SYS_FATAL_ERR_391,
+   SYS_FATAL_ERR_392,
+   SYS_FATAL_ERR_393,
+   SYS_FATAL_ERR_394,
+   SYS_FATAL_ERR_395,
+   SYS_FATAL_ERR_396,
+   SYS_FATAL_ERR_397,
+   SYS_FATAL_ERR_398,
+   SYS_FATAL_ERR_399,
+   SYS_FATAL_ERR_400,
+   SYS_FATAL_ERR_401,
+   SYS_FATAL_ERR_402,
+   SYS_FATAL_ERR_403,
+   SYS_FATAL_ERR_404,
+   SYS_FATAL_ERR_405,
+   SYS_FATAL_ERR_406,
+   SYS_FATAL_ERR_407,
+   SYS_FATAL_ERR_408,
+   SYS_FATAL_ERR_409,
+   SYS_FATAL_ERR_410,
+   SYS_FATAL_ERR_411,
+   SYS_FATAL_ERR_412,
+   SYS_FATAL_ERR_413,
+   SYS_FATAL_ERR_414,
+   SYS_FATAL_ERR_415,
+   SYS_FATAL_ERR_416,
+   SYS_FATAL_ERR_417,
+   SYS_FATAL_ERR_418,
+   SYS_FATAL_ERR_419,
+   SYS_FATAL_ERR_420,
+   SYS_FATAL_ERR_421,
+   SYS_FATAL_ERR_422,
+   SYS_FATAL_ERR_423,
+   SYS_FATAL_ERR_424,
+   SYS_FATAL_ERR_425,
+   SYS_FATAL_ERR_426,
+   SYS_FATAL_ERR_427,
+   SYS_FATAL_ERR_428,
+   SYS_FATAL_ERR_429,
+   SYS_FATAL_ERR_430,
+   SYS_FATAL_ERR_431,
+   SYS_FATAL_ERR_432,
+   SYS_FATAL_ERR_433,
+   SYS_FATAL_ERR_434,
+   SYS_FATAL_ERR_435,
+   SYS_FATAL_ERR_436,
+   SYS_FATAL_ERR_437,
+   SYS_FATAL_ERR_438,
+   SYS_FATAL_ERR_439,
+   SYS_FATAL_ERR_440,
+   SYS_FATAL_ERR_441,
+   SYS_FATAL_ERR_442,
+   SYS_FATAL_ERR_443,
+   SYS_FATAL_ERR_444,
+   SYS_FATAL_ERR_445,
+   SYS_FATAL_ERR_446,
+   SYS_FATAL_ERR_447,
+   SYS_FATAL_ERR_448,
+   SYS_FATAL_ERR_449,
+   SYS_FATAL_ERR_450,
+   SYS_FATAL_ERR_451,
+   SYS_FATAL_ERR_452,
+   SYS_FATAL_ERR_453,
+   SYS_FATAL_ERR_454,
+   SYS_FATAL_ERR_455,
+   SYS_FATAL_ERR_456,
+   SYS_FATAL_ERR_457,
+   SYS_FATAL_ERR_458,
+   SYS_FATAL_ERR_459,
+   SYS_FATAL_ERR_460,
+   SYS_FATAL_ERR_461,
+   SYS_FATAL_ERR_462,
+   SYS_FATAL_ERR_463,
+   SYS_FATAL_ERR_464,
+   SYS_FATAL_ERR_465,
+   SYS_FATAL_ERR_466,
+   SYS_FATAL_ERR_467,
+   SYS_FATAL_ERR_468,
+   SYS_FATAL_ERR_469,
+   SYS_FATAL_ERR_470,
+   SYS_FATAL_ERR_471,
+   SYS_FATAL_ERR_472,
+   SYS_FATAL_ERR_473,
+   SYS_FATAL_ERR_474,
+   SYS_FATAL_ERR_475,
+   SYS_FATAL_ERR_476,
+   SYS_FATAL_ERR_477,
+   SYS_FATAL_ERR_478,
+   SYS_FATAL_ERR_479,
+   SYS_FATAL_ERR_480,
+   SYS_FATAL_ERR_481,
+   SYS_FATAL_ERR_482,
+   SYS_FATAL_ERR_483,
+   SYS_FATAL_ERR_484,
+   SYS_FATAL_ERR_485,
+   SYS_FATAL_ERR_486,
+   SYS_FATAL_ERR_487,
+   SYS_FATAL_ERR_488,
+   SYS_FATAL_ERR_489,
+   SYS_FATAL_ERR_490,
+   SYS_FATAL_ERR_491,
+   SYS_FATAL_ERR_492,
+   SYS_FATAL_ERR_493,
+   SYS_FATAL_ERR_494,
+   SYS_FATAL_ERR_495,
+   SYS_FATAL_ERR_496,
+   SYS_FATAL_ERR_497,
+   SYS_FATAL_ERR_498,
+   SYS_FATAL_ERR_499,
+   SYS_FATAL_ERR_500,
+
+
+   SYS_FATAL_ERR_505 = 505,  // MAC_buildSendNwkRestartCmd
+   SYS_FATAL_ERR_506,  // MAC_buildSendNwkRestartCmd
+   SYS_FATAL_ERR_507,  // MAC_buildSendNwkRestartCmd
+   SYS_FATAL_ERR_508,  // MAC_buildSendNwkRestartCmd
+   SYS_FATAL_ERR_509,  // MAC_buildSendNwkRestartCmd
+   SYS_FATAL_ERR_510,  // MAC_buildSendNwkRestartCmd
+   SYS_FATAL_ERR_511,  // MAC_buildSendNwkRestartCmd
+
+   SYS_FATAL_ERR_520 = 520,  // UART_init() in uart.c
+   SYS_FATAL_ERR_521,  // UART_init() in uart.c
+
+   SYS_FATAL_ERR_530 = 530,  // ffd_app_1.c
+   SYS_FATAL_ERR_531,  // lm75b.c
+   SYS_FATAL_ERR_532,  // tsl45315.c
+   SYS_FATAL_ERR_533,  // at24mac602.c
+   SYS_FATAL_ERR_534,  // pltfrm.c
+
+   SYS_FATAL_ERR_535 = 535,  // pltfrm.c
+   SYS_FATAL_ERR_536,  // pltfrm.c
+   SYS_FATAL_ERR_537,  // pltfrm.c
+   SYS_FATAL_ERR_538,  // pltfrm.c
+   SYS_FATAL_ERR_539,  // pltfrm.c
+   SYS_FATAL_ERR_540,  // pltfrm.c
+
+   SYS_FATAL_ERR_541,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_542,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_543,  // s_mac_cc1101.c
+
+   SYS_FATAL_ERR_544,  // pltfrm.c
+   SYS_FATAL_ERR_545,  // ffd_app_1.c
+   SYS_FATAL_ERR_546,  // chirp_pwla.c
+   SYS_FATAL_ERR_547,  // pltfrm.c
+   SYS_FATAL_ERR_548,  // rfd_app_wl.c
+   SYS_FATAL_ERR_549,  // max_sonar.c
+   SYS_FATAL_ERR_550,  // max_sonar.c
+   SYS_FATAL_ERR_551,  // max_sonar.c
+   SYS_FATAL_ERR_552,  // pltfrm.c
+   SYS_FATAL_ERR_553,  // max_sonar.c
+   SYS_FATAL_ERR_554,  // ffd_app_wl.c
+   SYS_FATAL_ERR_555,  // ffd_app_wl.c
+   SYS_FATAL_ERR_556,  // ffd_app_wl.c
+   SYS_FATAL_ERR_557,  // ffd_app_wl.c
+
+   SYS_FATAL_ERR_600 = 600,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_601,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_602,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_603,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_604,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_605,  // s_mac_cc1101.c
+
+   SYS_FATAL_ERR_606,  // cc1101.c
+   SYS_FATAL_ERR_607,  // cc1101.c
+   SYS_FATAL_ERR_608,  // cc1101.c
+
+   SYS_FATAL_ERR_609,  // m24m01.c
+   SYS_FATAL_ERR_610,  // s_mac_cc1101.c
+
+   SYS_FATAL_ERR_611,  // mo_load_cell_mon_app.c
+   SYS_FATAL_ERR_612,  // mo_load_cell_mon_app.c
+   SYS_FATAL_ERR_613,  // mo_load_cell_mon_app.c
+   SYS_FATAL_ERR_614,  // mo_load_cell_mon_app.c
+   SYS_FATAL_ERR_615,  // mo_load_cell_mon_app.c
+   SYS_FATAL_ERR_616,  // mo_load_cell_mon_app.c
+   SYS_FATAL_ERR_617,  // mo_load_cell_mon_app.c
+
+
+   SYS_FATAL_ERR_618,  // ad7797.c
+   SYS_FATAL_ERR_619,  // ad7797.c
+
+   SYS_FATAL_ERR_700 = 700,  // rfd_app_load_cell_mon.c
+   SYS_FATAL_ERR_701,  // rfd_app_load_cell_mon.c
+
+   SYS_FATAL_ERR_702,  // ad7797.c
+   SYS_FATAL_ERR_703,  // ad7797.c
+   SYS_FATAL_ERR_704,  // ad7797.c
+
+   SYS_FATAL_ERR_800 = 800,  // s_mac_cc1101_wor.c
+   SYS_FATAL_ERR_801,  // node_mgr.c
+   SYS_FATAL_ERR_802,  // node_mgr.c
+   SYS_FATAL_ERR_803,  // s_mac_cc1101_wor.c
+   SYS_FATAL_ERR_804,  // s_mac_cc1101_wor.c
+   SYS_FATAL_ERR_805,  // s_mac_cc1101_wor.c
+   SYS_FATAL_ERR_806,  // s_mac_cc1101_wor.c
+   SYS_FATAL_ERR_807,  // cc1101.c
+   SYS_FATAL_ERR_808,  // cc1101.c
+   SYS_FATAL_ERR_809,  // pltfrm.c
+   SYS_FATAL_ERR_810,  // ffd_app_1.c
+   SYS_FATAL_ERR_811,  // pltfrm.c
+   SYS_FATAL_ERR_812,  // ntc_thermistor.c
+   SYS_FATAL_ERR_813,  // rfd_app_10.c
+   SYS_FATAL_ERR_814,  // ntc_thermistor.c
+   SYS_FATAL_ERR_815,  // ntc_thermistor.c
+   SYS_FATAL_ERR_816,  // ffd_app_common.h
+   SYS_FATAL_ERR_817,  // pltfrm.c
+   SYS_FATAL_ERR_818,  // pltfrm.c
+   SYS_FATAL_ERR_819,  // rfd_app_10.c
+   SYS_FATAL_ERR_820,  // rfd_app_10.c
+   SYS_FATAL_ERR_821,  // ekmc160111x.c
+   SYS_FATAL_ERR_822,  // rfd_app_pir_ms.c
+   SYS_FATAL_ERR_823,  // node_mgr.c
+   SYS_FATAL_ERR_824,  // node_mgr.c
+   SYS_FATAL_ERR_825,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_826,  // pltfrm.c
+   SYS_FATAL_ERR_827,  // mp3v5050gp.c
+   SYS_FATAL_ERR_828,  // mp3v5050gp.c
+   SYS_FATAL_ERR_829,  // mp3v5050gp.c
+   SYS_FATAL_ERR_830,  // pltfrm.c
+   SYS_FATAL_ERR_831,  // pltfrm.c
+   SYS_FATAL_ERR_832,  // pltfrm.c
+   SYS_FATAL_ERR_833,  // pltfrm.c
+   SYS_FATAL_ERR_834,  // pltfrm.c
+   SYS_FATAL_ERR_835,  // rfd_app_10.c
+   SYS_FATAL_ERR_836,  // mp3v5004gp.c
+   SYS_FATAL_ERR_837,  // mp3v5004gp.c
+   SYS_FATAL_ERR_838,  // uart.c
+   SYS_FATAL_ERR_839,  // acs712.c
+   SYS_FATAL_ERR_840,  // pltfrm.c
+   SYS_FATAL_ERR_841,  // pltfrm.c
+   SYS_FATAL_ERR_842,  // pltfrm.c
+   SYS_FATAL_ERR_843,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_844,  // cc1101.c
+   SYS_FATAL_ERR_845,  // cc1101.c
+   SYS_FATAL_ERR_846,  // cc1101.c
+   SYS_FATAL_ERR_847,  // cc1101.c
+   SYS_FATAL_ERR_848,  // cc1101.c
+   SYS_FATAL_ERR_849,  // lls.c
+   SYS_FATAL_ERR_850,  // lls.c
+   SYS_FATAL_ERR_851,  // lls.c
+   SYS_FATAL_ERR_852,  // lls.c
+   SYS_FATAL_ERR_853,  // lls.c
+   SYS_FATAL_ERR_854,  // pltfrm.c
+   SYS_FATAL_ERR_855,  // cc1101.c
+   SYS_FATAL_ERR_856,  // cc1101.c
+   SYS_FATAL_ERR_857,  // adp.c
+   SYS_FATAL_ERR_858,  // adp.c
+   SYS_FATAL_ERR_859,  // adp.c
+   SYS_FATAL_ERR_860,  // adp.c
+   SYS_FATAL_ERR_861,  // adp.c
+   SYS_FATAL_ERR_862,  // adp.c
+   SYS_FATAL_ERR_863,  // adp.c
+   SYS_FATAL_ERR_864,  // adp.c
+   SYS_FATAL_ERR_865,  // adp.c
+   SYS_FATAL_ERR_866,  // pltfrm.c
+   SYS_FATAL_ERR_867,  // pltfrm.c
+   SYS_FATAL_ERR_868,  // pltfrm.c
+   SYS_FATAL_ERR_869,  // pltfrm.c
+   SYS_FATAL_ERR_870,  // pltfrm.c
+   SYS_FATAL_ERR_871,  // pltfrm.c
+   SYS_FATAL_ERR_872,  // rfd_app_common.c
+   SYS_FATAL_ERR_873,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_874,  // node_mgr.c
+   SYS_FATAL_ERR_875,  // node_mgr.c
+   SYS_FATAL_ERR_876,  // pltfrm.c
+   SYS_FATAL_ERR_877,  // pltfrm.c
+   SYS_FATAL_ERR_878,  // ntc_thermistor.c
+   SYS_FATAL_ERR_879,  // pltfrm.c
+   SYS_FATAL_ERR_880,  // mq5.c
+   SYS_FATAL_ERR_881,  // mq5.c
+   SYS_FATAL_ERR_882,  // pltfrm.c
+   SYS_FATAL_ERR_883,  // rfd_app_common.c
+   SYS_FATAL_ERR_884,  // rfd_app_common.c
+   SYS_FATAL_ERR_885,  // rfd_app_common.c
+   SYS_FATAL_ERR_886,  // rfd_app_common.c
+   SYS_FATAL_ERR_887,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_888,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_889,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_890,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_891,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_892,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_893,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_894,  // phy_pib.c
+   SYS_FATAL_ERR_895,  // phy_pib.c
+   SYS_FATAL_ERR_896,  // phy_pib.c
+   SYS_FATAL_ERR_897,  // phy_pib.c
+   SYS_FATAL_ERR_898,  // ffd_app_common.c
+   SYS_FATAL_ERR_899,  // ffd_app_common.c
+   SYS_FATAL_ERR_900,  // ffd_app_common.c
+   SYS_FATAL_ERR_901,  // ffd_app_common.c
+   SYS_FATAL_ERR_902,  // ffd_app_1.c
+   SYS_FATAL_ERR_903,  // ffd_app_1.c
+   SYS_FATAL_ERR_904,  // ffd_app_1.c
+   SYS_FATAL_ERR_905,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_906,  // node_mgr.c
+   SYS_FATAL_ERR_907,  // node_mgr.c
+   SYS_FATAL_ERR_908,  // node_mgr.c
+   SYS_FATAL_ERR_909,  // node_mgr.c
+
+   SYS_FATAL_ERR_NWK_RESTART = 1000,  // Reset in response to nwk restart command
+   SYS_FATAL_ERR_REBOOT_ON_REQ = 2000,
+
+   SYS_FATAL_ERR_3000 = 3000,  // fu.c
+   SYS_FATAL_ERR_3001,  // fu.c
+   SYS_FATAL_ERR_3002,  // fu.c
+   SYS_FATAL_ERR_3003,  // fu.c
+   SYS_FATAL_ERR_3004,  // fu.c
+   SYS_FATAL_ERR_3005,  // fu.c
+   SYS_FATAL_ERR_3006,  // fu.c
+   SYS_FATAL_ERR_3007,  // fu.c
+   SYS_FATAL_ERR_3008,  // fu.c
+   SYS_FATAL_ERR_3009,  // fu.c
+   SYS_FATAL_ERR_3010,  // fu.c
+   SYS_FATAL_ERR_3011,  // fu.c
+   SYS_FATAL_ERR_3012,  // fu.c
+   SYS_FATAL_ERR_3013,  // fu.c
+   SYS_FATAL_ERR_3014,  // fu.c
+   SYS_FATAL_ERR_3015,  // fu.c
+   SYS_FATAL_ERR_3016,  // fu.c
+   SYS_FATAL_ERR_3017,  // fu.c
+   SYS_FATAL_ERR_3018,  // fu.c
+   SYS_FATAL_ERR_3019,  // fu.c
+   SYS_FATAL_ERR_3020 = 3020,  // flash.c
+   SYS_FATAL_ERR_3021,  // fu.c
+   SYS_FATAL_ERR_3022,  // fu.c
+   SYS_FATAL_ERR_3023,  // fu.c
+   SYS_FATAL_ERR_3024,  // s_mac_cc1101.c
+   SYS_FATAL_ERR_3025,  // s_mac_cc1101.c
+
+   SYS_FATAL_ERR_3026,  // battv.c
+   SYS_FATAL_ERR_3027,  // mpx5010g.c
+
+   SYS_FATAL_ERR_3028,  // mds.c
+   SYS_FATAL_ERR_3029,  // mds.c
+
+   SYS_FATAL_ERR_3030,  // pltfrm.c
+   SYS_FATAL_ERR_3031,  // rfd_app_10.c
+
+   SYS_FATAL_ERR_3032,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3033,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3034,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3035,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3036,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3037,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3038,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3039,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3040,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3041,  // rfd_vibration_sensor_app.c
+   SYS_FATAL_ERR_3042,  // rfd_vibration_sensor_app.c
+
+   SYS_FATAL_ERR_3100 = 3100,  // adp.c
+   SYS_FATAL_ERR_3101 = 3101,  // adp.c
+
+   SYS_FATAL_ERR_3200 = 3200,  // node_mgr.c
+   SYS_FATAL_ERR_3201 = 3201,  // node_mgr.c
+   SYS_FATAL_ERR_3202 = 3202,  // node_mgr.c
+   SYS_FATAL_ERR_3203 = 3203,  // node_mgr.c
+   SYS_FATAL_ERR_3204 = 3204,  // node_mgr.c
+   SYS_FATAL_ERR_3205 = 3205,  // node_mgr.c
+
+   SYS_FATAL_ERR_3206 = 3206,  // node_mgr.c
+
+   SYS_FATAL_ERR_3300 = 3300,  // mag3110.c
+   SYS_FATAL_ERR_3301 = 3301,  // mag3110.c
+   SYS_FATAL_ERR_3302 = 3302,  // mag3110.c
+
+   SYS_FATAL_ERR_3303 = 3303,  // pltfrm.c
+
+   SYS_FATAL_ERR_4001 = 4001,  // mp3v5010.c
+   SYS_FATAL_ERR_4002 = 4002,  // mp3v5010.c
+   SYS_FATAL_ERR_4003 = 4003,  // mp3v5010.c
+   SYS_FATAL_ERR_4004 = 4004,  // mp3v5010.c
+   SYS_FATAL_ERR_4005 = 4005,  // mp3v5010.c
+   SYS_FATAL_ERR_4010 = 4010,  // pltfrm.c
+
+   SYS_FATAL_ERR_4011 = 4011,  // mpl115a2.c
+   SYS_FATAL_ERR_4012 = 4012,  // mpl115a2.c
+   SYS_FATAL_ERR_4013 = 4013,  // mpl115a2.c
+
+   SYS_FATAL_ERR_4014 = 4014,  // ekmc160111x.c
+   SYS_FATAL_ERR_4015 = 4015,  // ekmc160111x.c
+
+   SYS_FATAL_ERR_4016 = 4016,  // mds.c
+
+   SYS_FATAL_ERR_4020 = 4020,  // rfd_app_10.c
+   SYS_FATAL_ERR_4021 = 4021,  // rfd_app_10.c
+   SYS_FATAL_ERR_4022 = 4022,  // rfd_app_10.c
+
+   SYS_FATAL_ERR_5000 = 5000,  // system.c
+
+   SYS_FATAL_ERR_6000 = 6000,  // rfd_app_vd.c
+   SYS_FATAL_ERR_6001 = 6001,  // rfd_app_vd.c
+   SYS_FATAL_ERR_6002 = 6002,  // rfd_app_vd.c
+   SYS_FATAL_ERR_6003 = 6003,  // ffd_app_1.c
+
+   SYS_FATAL_ERR_6010 = 6010,  // rfd_app_vd.c
+
+   SYS_FATAL_ERR_6004 = 6004,  //  rfd_app_4.c
+   SYS_FATAL_ERR_6005 = 6005,  //  rfd_app_4.c
+   SYS_FATAL_ERR_6006 = 6006,  //  rfd_app_4.c
+   SYS_FATAL_ERR_6007 = 6007,  //  rfd_app_4.c
+   SYS_FATAL_ERR_6008 = 6008,  //  rfd_app_4.c
+   SYS_FATAL_ERR_6009 = 6009,  //  rfd_app_4.c
+
+   SYS_FATAL_ERR_6050 = 6050,  //  rfd_app_vd.c
+   SYS_FATAL_ERR_6051 = 6051,  //  rfd_app_vd.c
+   SYS_FATAL_ERR_6052 = 6052,  //  rfd_app_vd.c
+
+   SYS_RESEVED_EEPROM_ERR_1 = 0xfffd,
+   SYS_RESEVED_EEPROM_ERR_2 = 0xfffe,
+   SYS_RESEVED_FATAL_ERR = 0xffff
+} SYS_fatalErr_t;
+
+#endif
+

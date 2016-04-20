@@ -1,0 +1,119 @@
+/*
+ * File Name : mtk3339.h
+ * Author :ram krishnan (rkris@wisense.in)
+ * Created : Nov/15/2015
+ *
+ *
+ * Copyright (c) <2015>, <ram krishnan>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice, this
+ *     list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright notice,
+ *     this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *  3. Neither the name of the copyright holder nor the names of its contributors
+ *     may be used to endorse or promote products derived from this software without
+ *     specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+ * OF SUCH DAMAGE.
+ */
+
+#ifndef __MTK3339_H__
+#define __MTK3339_H__
+
+#include <typedefs.h>
+#include <pltfrm.h>
+
+#define MTK3339_DEFAULT_BAUD_RATE  9600
+
+#define MTK_NMEA_ACK_PKT_ID  1
+#define MTK_NMEA_SYS_MSG_PKT_ID  10
+#define MTK_NMEA_TXT_MSG_PKT_ID  11
+#define MTK_NMEA_HOT_START_CMD_PKT_ID  101
+#define MTK_NMEA_WARM_START_CMD_PKT_ID  102
+#define MTK_NMEA_COLD_START_CMD_PKT_ID  103
+#define MTK_NMEA_FULL_COLD_START_CMD_PKT_ID  104
+#define MTK_NMEA_SET_NMEA_UPDATE_RATE_PKT_ID 220
+#define MTK_NMEA_SET_NMWA_BAUD_RATE_PKT_ID  251
+#define MTK_NMEA_API_SET_DGPS_MODE_PKT_ID  301
+#define MTK_NMEA_API_Q_DGPS_MODE_PKT_ID  401
+#define MTK_NMEA_API_DT_DGPS_MODE_PKT_ID  501
+#define MTK_NMEA_API_SET_SBAS_ENABLED_PKT_ID  313
+#define MTK_NMEA_API_Q_SBAS_ENABLED_PKT_ID  413
+#define MTK_NMEA_API_DT_SBAS_ENABLED_PKT_ID  513
+#define MTK_NMEA_API_SET_NMEA_OUTPUT_PKT_ID  314
+#define MTK_NMEA_API_Q_NMEA_OUTPUT_PKT_ID  414
+#define MTK_NMEA_API_DT_NMEA_OUTPUT_PKT_ID  514
+#define MTK_NMEA_API_SET_SBAS_MODE_PKT_ID  319
+#define MTK_NMEA_API_Q_SBAS_MODE_PKT_ID  419
+#define MTK_NMEA_API_DT_SBAS_MODE_PKT_ID  519
+#define MTK_NMEA_Q_RELEASE_PKT_ID  605
+#define MTK_NMEA_DT_RELEASE_PKT_ID  705
+#define MTK_NMEA_Q_EPO_INFO  607
+#define MTK_NMEA_DT_EPO_INFO  707
+#define MTK_NMEA_CLEAR_EPO_CMD_PKT_ID  127
+#define MTK_NMEA_SET_NAV_SPEED_THRESHOLD_PKT_ID  397 // 386
+#define MTK_NMEA_Q_NAV_THRESHOLD_PKT_ID  447
+#define MTK_NMEA_DT_NAV_THRESHOLD_PKT_ID  527
+#define MTK_NMEA_STANDBY_MODE_CMD_PKT_ID  161
+#define MTK_NMEA_SET_AL_DEE_CFG_PKT_ID  223
+#define MTK_NMEA_PERIODIC_MODE_CMD_PKT_ID  225
+#define MTK_NMEA_AIC_MODE_CMD_PKT_ID  286
+#define MTK_NMEA_EASY_ENABLE_CMD_PKT_ID  869
+#define MTK_NMEA_LOCUS_CONFIG_PKT_ID  187
+#define MTK_NMEA_API_SET_DATUM_PKT_ID  330
+#define MTK_NMEA_API_Q_DATUM_PKT_ID  430
+#define MTK_NMEA_API_DT_DATUM_PKT_ID  530
+#define MTK_NMEA_API_SET_SUPPORT_QZSS_NMEA_PKT_ID  351
+#define MTK_NMEA_API_SET_STOP_QZSS_PKT_ID  352
+
+
+#define MKT_NMEA_PKT_PREAMBLE_FIELD_OFF  0
+#define MKT_NMEA_PKT_PREAMBLE_FIELD_LEN  1
+
+#define MKT_NMEA_PKT_TALKER_ID_FIELD_OFF  1
+#define MKT_NMEA_PKT_TALKER_ID_FIELD_LEN  4
+
+#define MKT_NMEA_PKT_TYPE_FIELD_OFF   5
+#define MKT_NMEA_PKT_TYPE_FIELD_LEN   3
+
+#define MKT_NMEA_PKT_CHECKSUM_FIELD_LEN  2
+#define MKT_NMEA_PKT_EOP_FIEDL_LEN  2    // CR, LF
+
+#define MKT_NMEA_DATA_SUB_FIELD_DELIMITER_FIELD_LEN  1  // ","
+#define MKT_NMEA_PKT_END_OF_DATA_FIELD_LEN  1  // "*"
+
+
+#define MKT_NMEA_MAX_PKT_LENGTH_BYTES  255
+
+#define MKT_NMEA_ACK_FLAG_INVALID_CMD_OR_PKT_ACK  0x0
+#define MKT_NMEA_ACK_FLAG_UNSUPPORTED_CMD_OR_PKT  0x1
+#define MKT_NMEA_ACK_FLAG_ACTION_FAILED   0x2
+#define MKT_NMEA_ACK_FLAG_ACTION_SUCCEEDED  0x3
+
+
+typedef struct
+{
+   UINT8_t devState;
+   UINT8_t devId;
+   UINT8_t pwrSwitchPortId;
+   UINT8_t pwrSwitchPinId;
+} MTK3339_cntxt_s;
+
+extern PLTFRM_sts_t MTK3339_init(UINT8_t devId);
+
+
+#endif
