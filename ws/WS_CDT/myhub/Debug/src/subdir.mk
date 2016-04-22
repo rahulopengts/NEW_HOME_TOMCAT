@@ -25,6 +25,7 @@ C_SRCS += \
 ../src/Tree.c \
 ../src/myhub.c \
 ../src/pubasync.c \
+../src/strprocessor.c \
 ../src/subasync.c \
 ../src/utf-8.c 
 
@@ -50,6 +51,7 @@ OBJS += \
 ./src/Tree.o \
 ./src/myhub.o \
 ./src/pubasync.o \
+./src/strprocessor.o \
 ./src/subasync.o \
 ./src/utf-8.o 
 
@@ -75,6 +77,7 @@ C_DEPS += \
 ./src/Tree.d \
 ./src/myhub.d \
 ./src/pubasync.d \
+./src/strprocessor.d \
 ./src/subasync.d \
 ./src/utf-8.d 
 

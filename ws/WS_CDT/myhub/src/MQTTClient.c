@@ -1492,9 +1492,10 @@ exit:
 
 
 
-int MQTTClient_publishMessage(MQTTClient handle, const char* topicName, MQTTClient_message* message,
+int MQTTClient_publishMessage(MQTTClient handle, char* topicName, MQTTClient_message* message,
 															 MQTTClient_deliveryToken* deliveryToken)
 {
+	printf("\n MQTTClient_publishMessage newTopicName is as %s",topicName);
 	int rc = MQTTCLIENT_SUCCESS;
 
 	FUNC_ENTRY;

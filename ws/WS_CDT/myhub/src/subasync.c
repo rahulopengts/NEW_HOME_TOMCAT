@@ -2,11 +2,12 @@
 #include "stdlib.h"
 #include "string.h"
 #include "MQTTClient.h"
+#include "strprocessor.h"
 
 #define ADDRESS     "tcp://localhost:1883"
 #define CLIENTID    "test"
 #define TOPIC       "g"
-#define TOPIC_PUBLISH       "r"
+//#define TOPIC_PUBLISH       "r"
 #define PAYLOAD     "Hello World!"
 #define QOS         1
 #define TIMEOUT     10000L
@@ -51,7 +52,9 @@ void connlost(void *context, char *cause)
 int main(int argc, char* argv[])
 {
 
-
+	initializeObjects();
+	readFile();
+	printf("\n Broker URL is := %s \n",brokerUrl);
 
 	initiliazeMQTT(argc,argv);
 
@@ -89,7 +92,7 @@ int main(int argc, char* argv[])
     		if(ch != '\n'){
     		ch=='0';
     		printf("\n Sending Message to publish \n");
-    			publishMessage();
+    			publishMessage(userid);
     		}
     	}
     }

@@ -6,17 +6,20 @@
 C_SRCS += \
 ../MyTest.c \
 ../cmc.c \
-../gw.c 
+../gw.c \
+../strprocessor.c 
 
 OBJS += \
 ./MyTest.o \
 ./cmc.o \
-./gw.o 
+./gw.o \
+./strprocessor.o 
 
 C_DEPS += \
 ./MyTest.d \
 ./cmc.d \
-./gw.d 
+./gw.d \
+./strprocessor.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

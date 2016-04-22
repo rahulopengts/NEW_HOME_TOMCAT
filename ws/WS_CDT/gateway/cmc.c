@@ -2,7 +2,7 @@
 
 
 
-int main(int argc, char **argv)
+int mainCMC(int argc, char **argv)
 {
    int w1, w2;
    int adcW1, adcW2;

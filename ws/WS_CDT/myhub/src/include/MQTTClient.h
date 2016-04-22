@@ -803,7 +803,7 @@ DLLExport int MQTTClient_publish(MQTTClient handle, const char* topicName, int p
   * @return ::MQTTCLIENT_SUCCESS if the message is accepted for publication. 
   * An error code is returned if there was a problem accepting the message.
   */
-DLLExport int MQTTClient_publishMessage(MQTTClient handle, const char* topicName, MQTTClient_message* msg, MQTTClient_deliveryToken* dt);
+DLLExport int MQTTClient_publishMessage(MQTTClient handle, char* topicName, MQTTClient_message* msg, MQTTClient_deliveryToken* dt);
 
 
 /**

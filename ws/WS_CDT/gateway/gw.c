@@ -7433,7 +7433,7 @@ void GW_handleNwkDataTraffic(int expShortAddr)
  *
  ********************************************************************
  */
-int mainT(int argc, const char* argv[] )
+int mainGW(int argc, const char* argv[] )
 {
     int rc = 0;
     int currMsgType = 0xffff;

@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "MQTTClient.h"
+#include "strprocessor.h"
 
 //#define ADDRESS     "tcp://localhost:1883"
 #define CLIENTID    "test1"
@@ -61,7 +62,7 @@ int mainFunction(int argc, char* argv[]){
 				break; /* end of file */
 			} else if(c=='s'){
 				printf("\n Sending again \n");
-				publishMessage();
+				publishMessage(userid);
 			}
 	 }
 
@@ -70,7 +71,9 @@ int mainFunction(int argc, char* argv[]){
 void initiliazeMQTT(int argc, char* argv[])
 {
 
-	ADDRESS =	"tcp://localhost:1883";
+	//ADDRESS =	"tcp://localhost:1883";
+	ADDRESS =	brokerUrl;
+
     MQTTClient_create(&client, ADDRESS, CLIENTID,
         MQTTCLIENT_PERSISTENCE_NONE, NULL);
     conn_opts.keepAliveInterval = 20;
@@ -85,12 +88,26 @@ void initiliazeMQTT(int argc, char* argv[])
     }
 }
 
-int publishMessage(){
+int publishMessage(char *newTopicName){
     pubmsg.payload = PAYLOAD;
     pubmsg.payloadlen = strlen(PAYLOAD);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
     deliveredtoken = 0;
+    printf("\n Topic for publish TOPIC %s ",TOPIC);
+
+
+
+    char topicName[]	=	"rahulpcc";
+    printf("\n newTopicName is as %s",newTopicName);
+
+//    snprintf(topicName,9 + 1,"%s",userid);
+//
+//    printf("\n topicName is %i",strlen(topicName));
+//    char* newTopicName	=	malloc(25);
+//    strcpy(newTopicName,userid);
+    //strncpy(topicName, userid, sizeof topicName - 1);
+    //topicName[9] = '\0';
     MQTTClient_publishMessage(client, TOPIC, &pubmsg, &token);
     printf("Waiting for publication of %s\n"
             "on topic %s for client with ClientID: %s\n",
