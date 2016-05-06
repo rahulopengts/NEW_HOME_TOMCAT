@@ -7,6 +7,8 @@
 char* userid;
 char* passwordValue;
 char* brokerUrl;
+char* inboundtopic;
+char* outboundtopic;
 
 char** str_split(char* a_str, const char a_delim)
 {
@@ -56,7 +58,8 @@ char** str_split(char* a_str, const char a_delim)
     return result;
 }
 
-int mainSTR()
+//int mainSTR()
+int main()
 {
     //char months[] = "JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC";
 	char months[] = "username=FEB";
@@ -67,6 +70,9 @@ int mainSTR()
 	printf("\n User ID %s \n",userid);
 	printf("\n Pwd  ID %s \n",passwordValue);
 	printf("\n brokerUrl %s \n",brokerUrl);
+	printf("\n inboundtopic %s \n",inboundtopic);
+	printf("\n outboundtopic %s \n",outboundtopic);
+
 	//userName
     return 0;
 }
@@ -74,6 +80,8 @@ void initializeObjects(){
 	userid	=	 malloc( 20 );
 	passwordValue	=	malloc( 20 );
 	brokerUrl	=	malloc(50);
+	inboundtopic	=	malloc(20);
+	outboundtopic	=	malloc(20);
 }
 
 
@@ -128,6 +136,10 @@ void processString(char* months){
 					strcpy(passwordValue,*(tokens + i));
             	} else if(strcmp(keyName,"brokerurl")==0){
 					strcpy(brokerUrl,*(tokens + i));
+            	} else if(strcmp(keyName,"inboundtopic")==0){
+					strcpy(inboundtopic,*(tokens + i));
+            	} else if(strcmp(keyName,"outboundtopic")==0){
+					strcpy(outboundtopic,*(tokens + i));
             	}
             }
 

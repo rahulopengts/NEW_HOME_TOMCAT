@@ -49,7 +49,7 @@ void connlost(void *context, char *cause)
 }
 
 
-int main(int argc, char* argv[])
+int mainSubASync(int argc, char* argv[])
 {
 
 	initializeObjects();

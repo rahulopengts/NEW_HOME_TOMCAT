@@ -1,3 +1,5 @@
 username=rahul
 password=pwd1234
 brokerurl=tcp://localhost:1883
+inboundtopic=rahul
+outboundtopic=avishi
