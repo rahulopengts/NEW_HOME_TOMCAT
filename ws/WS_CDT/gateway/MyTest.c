@@ -12,7 +12,7 @@ char inboundMessageTemplate[19]	=	{'~','I','N','A','B','C','D','E','F','G','H','
 
 
 //int mainMyTest() {
-int main() {
+int mainMyTest() {
 //	testPointer();
 //	testArray();
 //	testArrayPointers();

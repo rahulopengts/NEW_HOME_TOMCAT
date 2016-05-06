@@ -23,8 +23,10 @@
 unsigned char GW_nodeListReqType = ALL_NODES_LIST;
 int GW_processEvt(unsigned char *buff_p, int msgLen);
 
-int verbose = 0;
-int myhubverbose	=	1;
+int verbose = 1;
+int myhubverbose	=	0;
+
+int finalmyhubverbose	=	1;
 
 #define SER_BUFF_LEN  256
 
@@ -210,7 +212,7 @@ unsigned char TLV_get(unsigned char *buff_p, unsigned char len, unsigned char ty
     while (buffLen >= DIS_TLV_HDR_SZ)
     {
     	if(myhubverbose){
-    	printf("\n MyHub - TLV_get 56 \n");
+    	printf("\n MyHub - TLV_get 56......... \n");
     	}
     	unsigned char tlvPyldLen = *(buff_p + DIS_TLV_TYPE_FIELD_LEN);
 
@@ -7257,7 +7259,7 @@ void GW_processNodeMsg(int expShortAddr, unsigned char *buff_p, int msgLen)
                         }
 
 
-                      if(myhubverbose){
+                      if(finalmyhubverbose){
         				printf("\n MyHub Sensor Value SnsrOp <%d>", snsrOp);
         				printf("\n MyHub Sensor Id    snsrId <%d>", snsrId);
         				printf("\n MyHub Sensor Id    snsrId <%x>", MAC_ADDRESS);
@@ -7433,7 +7435,7 @@ void GW_handleNwkDataTraffic(int expShortAddr)
  *
  ********************************************************************
  */
-int mainGW(int argc, const char* argv[] )
+int main(int argc, const char* argv[] )
 {
     int rc = 0;
     int currMsgType = 0xffff;
