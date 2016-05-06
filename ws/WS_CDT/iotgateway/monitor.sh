@@ -1,0 +1,1 @@
+./testing.exe /dev/ttyS2 mon

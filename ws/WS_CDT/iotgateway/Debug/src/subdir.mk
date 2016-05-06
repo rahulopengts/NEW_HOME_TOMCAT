@@ -1,0 +1,105 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+../src/Clients.c \
+../src/Heap.c \
+../src/LinkedList.c \
+../src/Log.c \
+../src/MQTTClient.c \
+../src/MQTTPacket.c \
+../src/MQTTPacketOut.c \
+../src/MQTTPersistence.c \
+../src/MQTTPersistenceDefault.c \
+../src/MQTTProtocolClient.c \
+../src/MQTTProtocolOut.c \
+../src/MQTTVersion.c \
+../src/Messages.c \
+../src/MyTest.c \
+../src/SSLSocket.c \
+../src/Socket.c \
+../src/SocketBuffer.c \
+../src/StackTrace.c \
+../src/Thread.c \
+../src/Tree.c \
+../src/cmc.c \
+../src/gw.c \
+../src/iotgateway.c \
+../src/myhub.c \
+../src/pubasync.c \
+../src/strprocessor.c \
+../src/subasync.c \
+../src/utf-8.c 
+
+OBJS += \
+./src/Clients.o \
+./src/Heap.o \
+./src/LinkedList.o \
+./src/Log.o \
+./src/MQTTClient.o \
+./src/MQTTPacket.o \
+./src/MQTTPacketOut.o \
+./src/MQTTPersistence.o \
+./src/MQTTPersistenceDefault.o \
+./src/MQTTProtocolClient.o \
+./src/MQTTProtocolOut.o \
+./src/MQTTVersion.o \
+./src/Messages.o \
+./src/MyTest.o \
+./src/SSLSocket.o \
+./src/Socket.o \
+./src/SocketBuffer.o \
+./src/StackTrace.o \
+./src/Thread.o \
+./src/Tree.o \
+./src/cmc.o \
+./src/gw.o \
+./src/iotgateway.o \
+./src/myhub.o \
+./src/pubasync.o \
+./src/strprocessor.o \
+./src/subasync.o \
+./src/utf-8.o 
+
+C_DEPS += \
+./src/Clients.d \
+./src/Heap.d \
+./src/LinkedList.d \
+./src/Log.d \
+./src/MQTTClient.d \
+./src/MQTTPacket.d \
+./src/MQTTPacketOut.d \
+./src/MQTTPersistence.d \
+./src/MQTTPersistenceDefault.d \
+./src/MQTTProtocolClient.d \
+./src/MQTTProtocolOut.d \
+./src/MQTTVersion.d \
+./src/Messages.d \
+./src/MyTest.d \
+./src/SSLSocket.d \
+./src/Socket.d \
+./src/SocketBuffer.d \
+./src/StackTrace.d \
+./src/Thread.d \
+./src/Tree.d \
+./src/cmc.d \
+./src/gw.d \
+./src/iotgateway.d \
+./src/myhub.d \
+./src/pubasync.d \
+./src/strprocessor.d \
+./src/subasync.d \
+./src/utf-8.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+src/%.o: ../src/%.c
+	@echo 'Building file: $<'
+	@echo 'Invoking: Cross GCC Compiler'
+	mingwgcc -I"D:\cygwin64\lib\gcc\x86_64-pc-cygwin\5.3.0\include" -I"D:\cygwin64\usr\include" -I"D:\Home_Auto\NEW_HOME_TOMCAT\ws\WS_CDT\iotgateway\src\include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+
