@@ -1,0 +1,6 @@
+username=rahul
+password=pwd1234
+brokerurl=test.mosquitto.org
+inboundtopic=rahul
+outboundtopic=google
+serialPort=/dev/ttyUSB0
