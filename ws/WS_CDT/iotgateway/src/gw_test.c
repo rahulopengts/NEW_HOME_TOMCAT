@@ -34,18 +34,37 @@ void setEventIdMyHub(int eventIdMyHubValue){
 	printf("\n Value being set to %i \n ",eventIdMyHub);
 }
 
+int tempCounterTest	=	0;
+
 void GW_handleNwkDataTrafficMyHub(int expShortAddr)
 {
     while (1)
     {
 
+    	//temp code for testing only
+    	eventIdMyHub	=	1;
+
     	if(eventIdMyHub==1){
+
+
     		printf("\n Going to read the port now \n");
     		char *topic	=	"r";
     		int sensorOp	=	56;
     		int sensorId	=	12;
     		int sensorNodeId	=	12;
     		handleInboundMessage_1(sensorOp,sensorNodeId,'M');
+
+    		tempCounterTest++;
+			if(tempCounterTest>=10 && tempCounterTest<13){
+				printf("\n tempCounter is ..........................%i ", tempCounterTest);
+
+				handleInboundMessage_1(sensorOp,sensorNodeId,'M');
+				printf("\n tempCounter is ................DONE..........%i ", tempCounterTest);
+			}
+			if(tempCounterTest==63){
+				tempCounterTest	=	0;
+			}
+sleep(1);
 //    		printf("\n MyHub Sensor Value SnsrOp <%d>", snsrOp);
 //			printf("\n MyHub Sensor Id    snsrId <%d>", snsrId);
 //			printf("\n MyHub Sensor Id    snsrId <%x>", MAC_ADDRESS);

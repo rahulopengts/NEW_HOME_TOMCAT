@@ -12,13 +12,23 @@
 #define QOS         1
 #define TIMEOUT     10000L
 
+int PUBASYNCLOGGER	=	1;
 char* ADDRESS  =   "tcp://localhost:1884";
 
 volatile MQTTClient_deliveryToken deliveredtoken;
 
+MQTTClient client;
+MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+MQTTClient_message pubmsg = MQTTClient_message_initializer;
+MQTTClient_deliveryToken token;
+
+int rc;
+
 void deliveredpub(void *context, MQTTClient_deliveryToken dt)
 {
-    printf("Message with token value %d delivery confirmed\n", dt);
+    if(PUBASYNCLOGGER){
+    	printf("Message with token value %d delivery confirmed\n", dt);
+    }
     deliveredtoken = dt;
 }
 
@@ -27,10 +37,10 @@ int msgarrvdpub(void *context, char *topicName, int topicLen, MQTTClient_message
     int i;
     char* payloadptr;
 
-    printf("Message arrived\n");
-    printf("     topic: %s\n", topicName);
-    printf("   message: ");
-
+    if(PUBASYNCLOGGER){
+		printf("Message arrived\n");
+		printf("on topic: %s\n", topicName);
+    }
     payloadptr = message->payload;
     for(i=0; i<message->payloadlen; i++)
     {
@@ -44,17 +54,38 @@ int msgarrvdpub(void *context, char *topicName, int topicLen, MQTTClient_message
 
 void connlostpub(void *context, char *cause)
 {
-    printf("\nConnection lost\n");
-    printf("     cause: %s\n", cause);
+	if(PUBASYNCLOGGER){
+		printf("\n .......pubasync...Connectionpub lost...................\n ...............\n");
+		printf("     cause: %s\n", cause);
+	}
+
+	ADDRESS =	brokerUrl;
+	if(PUBASYNCLOGGER){
+		printf("\n pubasync Re-initliazeMQTT - Broker URL is %s ",brokerUrl);
+		printf("\n pubasync Re-initliazeMQTT - InboundTopic is %s ",inboundtopic);
+		printf("\n pubasync Re-initliazeMQTT - OutTopic is %s ",outboundtopic);
+	}
+    MQTTClient_create(&client, ADDRESS, CLIENTID,
+        MQTTCLIENT_PERSISTENCE_NONE, NULL);
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+
+    MQTTClient_setCallbacks(client, NULL, connlostpub, msgarrvdpub, deliveredpub);
+    rc = MQTTClient_connect(client, &conn_opts);
+
+    while(rc!=MQTTCLIENT_SUCCESS){
+    	rc = MQTTClient_connect(client, &conn_opts);
+    }
+
 }
 
-MQTTClient client;
-MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-MQTTClient_message pubmsg = MQTTClient_message_initializer;
-MQTTClient_deliveryToken token;
-int rc;
+
 
 //int main(int argc, char* argv[]){
+//int main(int argc, char* argv[]){
+//
+//}
+
 int mainFunction(int argc, char* argv[]){
 	initiliazeMQTT(argc,argv);
 
@@ -63,7 +94,9 @@ int mainFunction(int argc, char* argv[]){
 			if (c == 'e'){
 				break; /* end of file */
 			} else if(c=='s'){
-				printf("\n Sending again \n");
+				if(PUBASYNCLOGGER){
+					printf("\n Sending again \n");
+				}
 				//publishMessage(userid);
 
 				char *inboundMessage	=	"~I123456789ABCDEFG#";
@@ -77,8 +110,9 @@ int mainFunction(int argc, char* argv[]){
 			//		printf("\n Replacing Values buffer at %i with %c ",indexCount,inboundMessage[indexCount]);
 					charSensorDataValue[indexCount]	=	inboundMessage[indexCount];
 				}
-				printf("\n data to be published is %s ",charSensorDataValue);
-
+				if(PUBASYNCLOGGER){
+					printf("\n data to be published is %s ",charSensorDataValue);
+				}
 				publishMQTTMessage(userid,charSensorDataValue);
 			}
 	 }
@@ -88,13 +122,13 @@ int mainFunction(int argc, char* argv[]){
 void initiliazeMQTT(int argc, char* argv[])
 {
 
-	ADDRESS =	"tcp://localhost:1883";
+	//ADDRESS =	"tcp://localhost:1883";
 	ADDRESS =	brokerUrl;
-
-	printf("\n pubasync initliazeMQTT - Broker URL is %s ",brokerUrl);
-	printf("\n pubasync initliazeMQTT - InboundTopic is %s ",inboundtopic);
-	printf("\n pubasync initliazeMQTT - OutTopic is %s ",outboundtopic);
-
+//	if(PUBASYNCLOGGER){
+//		printf("\n pubasync initliazeMQTT - Broker URL is %s ",brokerUrl);
+//		printf("\n pubasync initliazeMQTT - InboundTopic is %s ",inboundtopic);
+//		printf("\n pubasync initliazeMQTT - OutTopic is %s ",outboundtopic);
+//	}
     MQTTClient_create(&client, ADDRESS, CLIENTID,
         MQTTCLIENT_PERSISTENCE_NONE, NULL);
     conn_opts.keepAliveInterval = 20;
@@ -104,7 +138,9 @@ void initiliazeMQTT(int argc, char* argv[])
 
     if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
     {
-        printf("Failed to connect, return code %d\n", rc);
+    	if(PUBASYNCLOGGER){
+    		printf("Failed to connect, return code %d\n", rc);
+    	}
         exit(-1);
     }
 }
@@ -130,10 +166,11 @@ int publishMessage(char *newTopicName){
     //strncpy(topicName, userid, sizeof topicName - 1);
     //topicName[9] = '\0';
     MQTTClient_publishMessage(client, TOPIC, &pubmsg, &token);
-    printf("Waiting for publication of %s\n"
-            "on topic %s for client with ClientID: %s\n",
-            PAYLOAD, TOPIC, CLIENTID);
-
+    if(PUBASYNCLOGGER){
+		printf("Waiting for publication of %s\n"
+				"on topic %s for client with ClientID: %s\n",
+				PAYLOAD, TOPIC, CLIENTID);
+    }
     //while(deliveredtoken != token);
 //	while (1) {
 //			int c = getchar();
@@ -156,27 +193,23 @@ int publishMQTTMessage(char *newTopicName,char charSensorDataValue1[]){
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
     deliveredtoken = 0;
-    printf("\n Topic for publish TOPIC %s ",TOPIC);
-    //printf("\n newTopicName is as %s",newTopicName);
+    if(PUBASYNCLOGGER){
+    	printf("\n publishMQTTMessage - Topic for publish TOPIC %s ",inboundtopic);
+    }
 
-    printf("\n Topic Name from config file as %i",strlen(inboundtopic));
-
-
+    if(PUBASYNCLOGGER){
+		if(&client==NULL){
+			printf("\n client is null \n");
+		} else {
+			printf("\n client is Not NULL \n");
+		}
+    }
     MQTTClient_publishMessage(client, inboundtopic, &pubmsg, &token);
-    printf("Waiting for publication of %s\n"
-            "on topic %s for client with ClientID: %s\n",
-            PAYLOAD, inboundtopic, CLIENTID);
-
-    //while(deliveredtoken != token);
-//	while (1) {
-//			int c = getchar();
-//			if (c == 'e'){
-//				break;
-//			} else if(c=='s'){
-//				printf("\n Sending again \n");
-//				MQTTClient_publishMessage(client, TOPIC, &pubmsg, &token);
-//			}
-//	 }
+    if(PUBASYNCLOGGER){
+		printf("Waiting for publication of %s\n"
+				"on topic %s for client with ClientID: %s\n",
+				PAYLOAD, inboundtopic, CLIENTID);
+    }
 
     return rc;
 }

@@ -7,6 +7,7 @@ char* passwordValue;
 char* brokerUrl;
 char* inboundtopic;
 char* outboundtopic;
+char* serialPort;
 
 int readFile();
 char** str_split(char* a_str, const char a_delim);

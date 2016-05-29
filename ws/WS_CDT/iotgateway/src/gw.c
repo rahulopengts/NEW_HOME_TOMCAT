@@ -23,13 +23,15 @@
 unsigned char GW_nodeListReqType = ALL_NODES_LIST;
 int GW_processEvt(unsigned char *buff_p, int msgLen);
 
-int verbose = 1;
+int verbose = 0;
 //----MyHUB-----------
-int myhubverbose	=	1;
+int myhubverbose	=	0;
 
 int finalmyhubverbose	=	1;
 int eventId	=	0;
 extern char INBOUND_MESSAGE_TEMPLATE[19]	=	{'~','I','N','A','B','C','D','E','F','G','H','I','J','K','L','M','N','#','\0'};
+
+int tempCounter	=	0;
 
 
 
@@ -7302,10 +7304,20 @@ void GW_processNodeMsg(int expShortAddr, unsigned char *buff_p, int msgLen)
 
 
                       if(finalmyhubverbose){
-        				printf("\n MyHub Sensor Value SnsrOp <%d>", snsrOp);
-        				printf("\n MyHub Sensor Id    snsrId <%d>", snsrId);
-        				printf("\n MyHub Sensor Id    snsrId <%x>", MAC_ADDRESS);
+//        				printf("\n MyHub Sensor Value SnsrOp <%d>", snsrOp);
+//        				printf("\n MyHub Sensor Id    snsrId <%d>", snsrId);
+//        				printf("\n MyHub Sensor Id    snsrId <%x>", MAC_ADDRESS);
+        				tempCounter++;
+        				if(tempCounter>=60 && tempCounter<63){
+        					printf("\n tempCounter is ..........................%i ", tempCounter);
+        					handleInboundMessage(snsrOp,snsrId,'C');
+        					printf("\n tempCounter is ................DONE..........%i ", tempCounter);
+        				}
+        				if(tempCounter==63){
+        					tempCounter	=	0;
+        				}
 
+        				//handleInboundMessage(int sensorOpVal,int sensorNodeIdVal,char macId){
                       }
                   }
               }
@@ -7502,12 +7514,13 @@ int mainGW(int argc, const char* argv[] )
     int rc = 0;
     int currMsgType = 0xffff;
 
-    if (argc < 2)
-    {
-        print_usage();
-        return 1;
-    }
+//    if (argc < 2)
+//    {
+//        print_usage();
+//        return 1;
+//    }
 
+    //printf("\n Params are %s and  %s \n ",argv[0] ,argv[1]);
     if (strstr(argv[0], "gwd") != NULL)
     {
         if (daemon(1, 1) < 0)
@@ -7582,11 +7595,11 @@ int mainGW(int argc, const char* argv[] )
         return 0;
     }
 
-    if (argc < 3)
-    {
-        print_usage();
-        return 1;
-    }
+//    if (argc < 3)
+//    {
+//        print_usage();
+//        return 1;
+//    }
 
     if (cfgPort((char *)argv[1], B38400) < 0)
         return 2;
@@ -8693,3 +8706,4 @@ void getNodeMACInChar(unsigned char *buff_p,int off, unsigned char MAC_ADDRESS1)
 
 
 }
+

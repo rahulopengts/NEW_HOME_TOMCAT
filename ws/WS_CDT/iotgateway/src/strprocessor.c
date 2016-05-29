@@ -4,11 +4,13 @@
 #include <assert.h>
 #include "strprocessor.h"
 
+int STRPROCESSORLOGGER	=	1;
 char* userid;
 char* passwordValue;
 char* brokerUrl;
 char* inboundtopic;
 char* outboundtopic;
+char* serialPort;
 
 char** str_split(char* a_str, const char a_delim)
 {
@@ -66,10 +68,7 @@ int mainSTR()
 	//processString(&months);
 	initializeObjects();
 	readFile();
-	printf("\n User ID %s \n",userid);
-	printf("\n Pwd  ID %s \n",passwordValue);
-	printf("\n brokerUrl %s \n",brokerUrl);
-	//userName
+
     return 0;
 }
 void initializeObjects(){
@@ -78,6 +77,7 @@ void initializeObjects(){
 	brokerUrl	=	malloc(50);
 	inboundtopic	=	malloc(20);
 	outboundtopic	=	malloc(20);
+	serialPort	=	malloc(30);
 }
 
 
@@ -93,8 +93,6 @@ void initializeObjects(){
 
 	while (fgets(buf,1000, ptr_file)!=NULL){
 		int size	=	sizeof(buf);
-		printf("\n Lenght %i ",size);
-		printf("%s",buf);
 		processString(buf);
 	}
 
@@ -125,27 +123,44 @@ void processString(char* months){
             	if(strcmp(keyName,userName)==0){
             		strcpy(tempValues,*(tokens + i));
             		memcpy(userid, tempValues, strlen(tempValues) - 2);
-            		printf("   userId	length =%i and %s \n ",strlen(userid),userid);
+            		if(STRPROCESSORLOGGER){
+            			printf("   Reading - userId	length =%i and %s \n ",strlen(userid),userid);
+            		}
             		free(tempValues);
             	} else if(strcmp(keyName,"password")==0){
             		strcpy(tempValues,*(tokens + i));
             		memcpy(passwordValue, tempValues, strlen(tempValues) - 2);
-            		printf("   password	length =%i and %s \n ",strlen(passwordValue),passwordValue);
+            		if(STRPROCESSORLOGGER){
+            			printf("   Reading - password	length =%i and %s \n ",strlen(passwordValue),passwordValue);
+            		}
             		free(tempValues);
             	} else if(strcmp(keyName,"brokerurl")==0){
             		strcpy(tempValues,*(tokens + i));
             		memcpy(brokerUrl, tempValues, strlen(tempValues) - 2);
-            		printf("   brokerUrl	length =%i and %s \n ",strlen(brokerUrl),brokerUrl);
+            		if(STRPROCESSORLOGGER){
+            			printf("   Readin - brokerUrl	length =%i and %s \n ",strlen(brokerUrl),brokerUrl);
+            		}
             		free(tempValues);
             	} else if(strcmp(keyName,"inboundtopic")==0){
             		strcpy(tempValues,*(tokens + i));
             		memcpy(inboundtopic, tempValues, strlen(tempValues) - 2);
-            		printf("   inboundtopic	length =%i and %s \n ",strlen(inboundtopic),inboundtopic);
+            		if(STRPROCESSORLOGGER){
+            			printf("   Readin - inboundtopic	length =%i and %s \n ",strlen(inboundtopic),inboundtopic);
+            		}
             		free(tempValues);
             	} else if(strcmp(keyName,"outboundtopic")==0){
             		strcpy(tempValues,*(tokens + i));
             		memcpy(outboundtopic, tempValues, strlen(tempValues) - 2);
-            		printf("   outboundtopic	length =%i and %s \n ",strlen(outboundtopic),outboundtopic);
+            		if(STRPROCESSORLOGGER){
+            			printf("   Reading - outboundtopic	length =%i and %s \n ",strlen(outboundtopic),outboundtopic);
+            		}
+            		free(tempValues);
+            	} else if(strcmp(keyName,"serialPort")==0){
+            		strcpy(tempValues,*(tokens + i));
+            		memcpy(serialPort, tempValues, strlen(tempValues) - 2);
+            		if(STRPROCESSORLOGGER){
+            			printf("   Reading - serialPort	length =%i and %s \n ",strlen(serialPort),serialPort);
+            		}
             		free(tempValues);
             	}
             }
@@ -153,7 +168,7 @@ void processString(char* months){
             free(*(tokens + i));
 
         }
-        printf("\n");
+        //printf("\n");
         free(tokens);
         free(keyName);
     }
