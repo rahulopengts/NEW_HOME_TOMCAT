@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html ng-app="gridApp" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/bootcards/dist/css/bootcards-desktop.min.css"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-dynamic-layout/dist/angular-dynamic-layout.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>	
+    <script src="app/app.js"></script>
+
+    <style>
+
+    @media (min-width: 900px) {
+      [dynamic-layout]{
+        width: 900px;
+        margin-top: 20px;
+      }
+      .dynamic-layout-col-4{
+        width : 300px;
+      }
+      .dynamic-layout-col-8{
+        width : 600px;
+      }
+    }
+
+    @media (min-width: 600px) and (max-width: 900px){
+      [dynamic-layout]{
+        width: 600px;
+      }
+      .dynamic-layout-col-4{
+        width : 300px;
+      }
+      .dynamic-layout-col-8{
+        width : 600px;
+      }
+    }
+
+    @media (max-width: 600px){
+      [dynamic-layout]{
+        width: 300px;
+      }
+      .dynamic-layout-col-4{
+        width : 300px;
+      }
+      .dynamic-layout-col-8{
+        width : 300px;
+      }
+    }
+
+    .dynamic-layout-item {
+      padding: 10px;
+    }
+
+    .move-items-animation{
+      transition-property: left, top;
+      transition-duration: .5s;
+      transition-timing-function: ease-in-out;
+    }
+
+    .dynamic-layout-item-parent.ng-enter{
+      transition: .5s ease-in-out;
+      opacity:0;
+    }
+    .dynamic-layout-item-parent.ng-enter.ng-enter-active{
+      opacity:1;
+    }
+
+    .dynamic-layout-item-parent.ng-leave{
+      transition: .5s ease-in-out;
+      opacity:1;
+    }
+    .dynamic-layout-item-parent.ng-leave.ng-leave-active{
+      opacity:0;
+    }
+
+    [dynamic-layout]{
+      float: left;
+      position: relative;
+    }
+
+    .container-fluid{
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%);
+
+    }
+
+    .title{
+      margin-bottom: 50px;
+    }
+
+    </style>
+    <title>angular-dynamic-layout demo</title>
+  </head>
+  <body ng-controller="GridContainer">
+    <div class="container-fluid">
+      <h1 class="text-center title">angular-dynamic-layout
+        <p><small>A lightweight AngularJS dynamic grid layout</small></p>
+      </h1>
+      <div class="features">
+        <div class="row">
+          <div class="col-md-3">
+            <h5>Masonry layout</h5>
+            <p>
+            The items provided are displayed by placing elements in optimal position based on available vertical space.
+          </p>
+          </div>
+          <div class="col-md-3">
+            <h5>Templates</h5>
+            Each item needs to have a template that will be loaded and displayed. You can provide data to fill in the templates.
+          </div>
+          <div class="col-md-3">
+            <h5>Animations</h5>
+            All the animations are controlled from the CSS. You can add an animation when a card enters, leaves or move.
+          </div>
+          <div class="col-md-3">
+            <h5>Responsiveness</h5>
+            The layout can be easily made responsive with media queries, a layout is triggered when the screen changes size, try it!
+          </div>
+        </div>
+        <div class="row">
+          <!--
+          <div class="col-md-3">
+            <h5>Triggering layout</h5>
+            A layout can be triggered at any time, for example when resizing a card. A callback will be fired once the animations have completed.
+          </div>
+        -->
+          <div class="col-md-4">
+            <h5>Filtering</h5>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default" ng-class="{active: isTabActive('home')}" ng-click="filter('home')">Show all</button>
+                <button class="btn btn-default" ng-class="{active: isTabActive('work')}" ng-click="filter('work')">Experience</button>
+                <button class="btn btn-default" ng-class="{active: isTabActive('education')}" ng-click="filter('education')">Education</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h5>Sorting</h5>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default"ng-class="{active: rankers === null}"   ng-click="rankers = null">Original order</button>
+                <button class="btn btn-default" ng-class="{active: isRankerActive('added')}"  ng-click="orderBy('added')">Time created</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h5>Adding and removing items</h5>
+            <div class="btn-group" role="group">
+              <button class="btn btn-default" ng-click="addCard()">
+                <span class="glyphicon glyphicon-plus"></span>
+              </button>          
+              <button class="btn btn-default" ng-click="removeFirstCard()">
+                <span class="glyphicon glyphicon-minus"></span>
+              </button>          
+            </div>
+          </div>
+        </div>
+      </div>
+      <div dynamic-layout items="cards" filters="filters" rankers="rankers"></div>
+    </div>
+    <a href="https://github.com/tristanguigue/angular-dynamic-layout">
+      <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+    </a>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="firebasejava/src/main/java"/>
+	<classpathentry kind="src" path="firebasejava/src/test/java"/>
+	<classpathentry kind="lib" path="firebasejava/target/myfirebasejava-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="firebasejava/target/test-classes"/>
+</classpath>

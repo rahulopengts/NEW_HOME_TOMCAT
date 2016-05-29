@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/additional/google-gson-stream-1.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/firebase-client-jvm-2.5.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/google-api-client-1.21.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/google-api-client-gson-1.21.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/google-http-client-1.21.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/google-http-client-gson-1.21.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/google-http-client-jackson2-1.21.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/google-oauth-client-1.21.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/guava-18.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/guava-jdk5-17.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/jackson-core-2.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Home_Auto/firebase-google/jars/json-20160212.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
